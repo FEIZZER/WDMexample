@@ -9,7 +9,7 @@
 						FIELD_OFFSET(IMAGE_NT_HEADERS32,OptionalHeader) + \
 						((PIMAGE_NT_HEADERS32)(ntheader))->FileHeader.SizeOfOptionalHeader))
 
-__inline static PIMAGE_SECTION_HEADER Rva2Section32(PIMAGE_NT_HEADERS32 pNtHeader, DWORD Rva) {
+PIMAGE_SECTION_HEADER Rva2Section32(PIMAGE_NT_HEADERS32 pNtHeader, DWORD Rva) {
 
     if (NULL == pNtHeader) {
         return NULL;
@@ -20,7 +20,7 @@ __inline static PIMAGE_SECTION_HEADER Rva2Section32(PIMAGE_NT_HEADERS32 pNtHeade
 
     for (INT i = 0; i < pNtHeader->FileHeader.NumberOfSections; i++) {
         if (Rva >= pSectionHeader->VirtualAddress &&
-            Rva < pSectionHeader->VirtualAddress + pSectionHeader->SizeOfRawData) {
+            Rva < pSectionHeader->VirtualAddress + pSectionHeader->Misc.VirtualSize) {
             return pSectionHeader;
         }
         pSectionHeader++;
@@ -29,7 +29,7 @@ __inline static PIMAGE_SECTION_HEADER Rva2Section32(PIMAGE_NT_HEADERS32 pNtHeade
     return NULL;
 }
 
-__inline static PVOID Rva2Va32(PIMAGE_NT_HEADERS32 pNtHeader, DWORD Rva, char* base, PIMAGE_SECTION_HEADER* pSectionHeader) {
+Rva2Va32(PIMAGE_NT_HEADERS32 pNtHeader, DWORD Rva, char* base, PIMAGE_SECTION_HEADER* pSectionHeader) {
 
     if (NULL == pNtHeader || NULL == base) {
         return NULL;

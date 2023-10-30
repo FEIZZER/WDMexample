@@ -4,6 +4,9 @@
 #include "windows.h"
 #include <stdio.h>
 
+#define PNTHEADER(base)  ((PIMAGE_NT_HEADERS)(((PIMAGE_DOS_HEADER)base)->e_lfanew + (ULONG_PTR)base))
+
+
 bool LoadFile(char* filePath, void** pBuf, unsigned long* pSize) {
     HANDLE hFile = NULL;
     bool bRet = false;
@@ -44,11 +47,45 @@ bool LoadFile(char* filePath, void** pBuf, unsigned long* pSize) {
 }
 
 bool IsPE(char* buffer, unsigned long long size){
-    return
-    *(WORD*)buffer == IMAGE_DOS_SIGNATURE        &&
-    size > 64                                    &&
-    size > *(unsigned long*)(buffer + 60) + 4    &&
-    *(DWORD*)(*(DWORD*)(buffer + 60) + buffer) == IMAGE_NT_SIGNATURE;
+
+    if (size <= sizeof(IMAGE_DOS_HEADER) + sizeof(IMAGE_NT_HEADERS32))
+    {
+        return false;
+    }
+
+    if (*(WORD*)buffer != IMAGE_DOS_SIGNATURE)
+    {
+        return false;
+    }
+
+    unsigned long ntHeaderOffset = ((PIMAGE_DOS_HEADER)buffer)->e_lfanew;
+    if (size <= ntHeaderOffset + sizeof(IMAGE_NT_HEADERS32)) 
+    {
+        return false;
+    }
+
+    PIMAGE_NT_HEADERS pNtHeader = PNTHEADER(buffer);
+    unsigned long peHeaderLen = 0;
+
+    if (pNtHeader->OptionalHeader.Magic == IMAGE_NT_OPTIONAL_HDR32_MAGIC)
+    {
+        peHeaderLen = sizeof(IMAGE_NT_HEADERS32);
+    }
+    else if (pNtHeader->OptionalHeader.Magic == IMAGE_NT_OPTIONAL_HDR64_MAGIC)
+    {
+        peHeaderLen = sizeof(IMAGE_NT_HEADERS64);
+    }
+    else if (pNtHeader->OptionalHeader.Magic == IMAGE_ROM_OPTIONAL_HDR_MAGIC)
+    {
+        return false;
+    }
+
+    peHeaderLen = peHeaderLen + pNtHeader->FileHeader.NumberOfSections * sizeof(IMAGE_SECTION_HEADER);
+    if (size <= peHeaderLen)
+    {
+        return false;
+    }
+    return true;
 }
 
 int ClassifyPE(char* buffer, unsigned long long size) {

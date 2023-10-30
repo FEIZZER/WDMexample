@@ -5,9 +5,9 @@
 
 bool LoadFile(char*, void**, unsigned long*);
 
-bool IsPE(void*, unsigned long long);
+bool IsPE(char*, unsigned long long);
 
-int ClassifyPE(void*, unsigned long long);
+int ClassifyPE(char*, unsigned long long);
 
-bool ParseImportTable(void*, unsigned long long);
+bool ParseImportTable(char*, unsigned long long);
 
