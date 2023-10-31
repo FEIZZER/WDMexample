@@ -7,7 +7,7 @@
 int main() {
     char* buf = NULL;
     unsigned long size = 0;
-    if (!LoadFile("E:\\Projects\\drivers\\Release\\UhsFileDll.dll", (void**)&buf, &size)) {
+    if (!LoadFile("E:\\DllDemo.dll", &buf, &size)) {
         printf("load file failed\n");
         return 1;
     }

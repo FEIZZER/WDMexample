@@ -1,8 +1,8 @@
 //
 // Created by DELL on 2023/9/4.
 //
+#include "PE32.h"
 #include "windows.h"
-#include "stdbool.h"
 
 #define IMAGE_FIRST_SECTION32(ntheader) ((PIMAGE_SECTION_HEADER) \
 					    ((ULONG_PTR)ntheader +                    \
@@ -69,25 +69,54 @@ bool ParseExportTable32(char* base, unsigned long long size)
     PIMAGE_EXPORT_DIRECTORY pExportTableDes = RVA2FOA32(pNtHeader, iedRVA, base, &pSection);
     if (pExportTableDes == NULL)
     {
-        printf("null\n");
         return false;
     }
 
     DWORD* funcAdddrs = (DWORD*)RVA2FOA32(pNtHeader, pExportTableDes->AddressOfFunctions, base, NULL);
     DWORD* funcNames = (DWORD*)RVA2FOA32(pNtHeader, pExportTableDes->AddressOfNames, base, NULL);
     WORD* funcNameOrds = (WORD*)RVA2FOA32(pNtHeader, pExportTableDes->AddressOfNameOrdinals, base, NULL);
+    
+    char* dllName = RVA2FOA32(pNtHeader, pExportTableDes->Name, base, NULL);
+    DWORD ordBase = pExportTableDes->Base;
+   
+    DWORD* funcNameFOA = malloc(sizeof(DWORD) * pExportTableDes->NumberOfFunctions);
+    if (funcNameFOA == NULL)
+    {
+        return false;
+    }
+    ZeroMemory(funcNameFOA, sizeof(DWORD) * pExportTableDes->NumberOfFunctions);
+
+    for (DWORD i = 0; i < pExportTableDes->NumberOfNames; i++)
+    {
+        printf("%d: %d\n", i, funcNameOrds[i]);
+        if (funcNameOrds[i] >= pExportTableDes->NumberOfFunctions)
+        {
+            return false;
+        }
+        funcNameFOA[funcNameOrds[i]] = RVA2FOA32(pNtHeader, funcNames[i], base, NULL);
+    }
 
     printf("===addrs of func===\n");
     for (DWORD i = 0; i < pExportTableDes->NumberOfFunctions; i++)
     {
-        printf("%d: %x\n", i, funcAdddrs[i]);
+        if (funcAdddrs[i] == 0)
+        {
+            continue;
+        }
+        /**
+        * ordinal:  ordBase + i    
+        * func addr:funcAddrs[i]
+        * funcName: funcNameFOA[i]
+        */
+
+        /*printf("ord:%d funcAddr:%x ", i + ordBase, funcAdddrs[i]);
+        if (funcNameFOA[i] != 0)
+        {
+            printf("funcName:%s", funcNameFOA[i]);
+        }
+        printf("\n");*/
     }
 
-    printf("===names of func===\n");
-    for (DWORD i = 0; i < pExportTableDes->NumberOfNames; i++)
-    {
-        printf("%d: %s\n", i, RVA2FOA32(pNtHeader, funcNames[i], base, NULL));
-    }
 
     return true;
 }

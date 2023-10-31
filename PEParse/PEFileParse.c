@@ -7,7 +7,7 @@
 #define PNTHEADER(base)  ((PIMAGE_NT_HEADERS)(((PIMAGE_DOS_HEADER)base)->e_lfanew + (ULONG_PTR)base))
 
 
-bool LoadFile(char* filePath, void** pBuf, unsigned long* pSize) {
+bool LoadFile(char* filePath, char** pBuf, unsigned long* pSize) {
 
     HANDLE hFile = NULL;
     bool bRet = false;
@@ -20,7 +20,7 @@ bool LoadFile(char* filePath, void** pBuf, unsigned long* pSize) {
         if (hFile == NULL || hFile == INVALID_HANDLE_VALUE) {
             break;
         }
-
+        
         size = GetFileSize(hFile, NULL);
         buffer = malloc(size);
         if (buffer == NULL) {
@@ -57,12 +57,14 @@ bool IsPE(char* buffer, unsigned long long size){
 
     if (*(WORD*)buffer != IMAGE_DOS_SIGNATURE)
     {
+        printf("2");
         return false;
     }
 
     unsigned long ntHeaderOffset = ((PIMAGE_DOS_HEADER)buffer)->e_lfanew;
     if (size <= ntHeaderOffset + sizeof(IMAGE_NT_HEADERS32)) 
     {
+        printf("3");
         return false;
     }
 
@@ -79,12 +81,14 @@ bool IsPE(char* buffer, unsigned long long size){
     }
     else if (pNtHeader->OptionalHeader.Magic == IMAGE_ROM_OPTIONAL_HDR_MAGIC)
     {
+        printf("4");
         return false;
     }
 
     peHeaderLen = peHeaderLen + pNtHeader->FileHeader.NumberOfSections * sizeof(IMAGE_SECTION_HEADER);
     if (size <= peHeaderLen)
     {
+        printf("5");
         return false;
     }
     return true;
@@ -103,8 +107,21 @@ int ClassifyPE(char* buffer, unsigned long long size) {
     else if (e_magic == IMAGE_NT_OPTIONAL_HDR64_MAGIC){
         return ClassifyPE64(buffer, size);
     }
-
     return 0;
+}
+
+int ParseExportTable(char* base, unsigned long long size)
+{
+    if (!IsPE(base, size)) {
+        return 0;
+    }
+    unsigned short e_magic = *(unsigned short*)(*(unsigned long*)(base + 60) + base + 24);
+    if (e_magic == IMAGE_NT_OPTIONAL_HDR32_MAGIC) {
+        return ParseExportTable32(base, size);
+    }
+    else if (e_magic == IMAGE_NT_OPTIONAL_HDR64_MAGIC) {
+        return 0;
+    }
 }
 
 
