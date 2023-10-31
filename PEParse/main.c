@@ -1,6 +1,7 @@
 //
 // Created by DELL on 2023/9/4.
 //
+
 #include <stdio.h>
 #include "PEFileParse.h"
 
@@ -11,7 +12,7 @@ int main() {
         printf("load file failed\n");
         return 1;
     }
-    printf("%d",  ClassifyPE(buf, size));
-
+    //printf("%d",  ClassifyPE(buf, size));
+    ParseExportTable(buf, size);
     return 0;
 }

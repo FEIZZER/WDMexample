@@ -28,4 +28,7 @@ bool func2(int a) {
 void func3(int a, ...) {
     return;
 }
+void func4() {
+    return;
+}
 

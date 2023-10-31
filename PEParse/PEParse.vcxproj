@@ -25,6 +25,7 @@
     <ClCompile Include="PEFileParse.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="pch.h" />
     <ClInclude Include="PE32.h" />
     <ClInclude Include="PE64.h" />
     <ClInclude Include="PEFileParse.h" />

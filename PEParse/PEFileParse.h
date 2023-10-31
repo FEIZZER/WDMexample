@@ -9,5 +9,7 @@ bool IsPE(char*, unsigned long long);
 
 int ClassifyPE(char*, unsigned long long);
 
-bool ParseImportTable(char*, unsigned long long);
+bool ParseImportTable(char* base, unsigned long long size);
+
+bool ParseExportTable(char* base, unsigned long long size);
 

@@ -1,6 +1,8 @@
 //
 // Created by DELL on 2023/9/4.
 //
+#include "pch.h"
+
 #include "PE32.h"
 #include "windows.h"
 
@@ -29,13 +31,11 @@ PIMAGE_SECTION_HEADER Rva2Section32(PIMAGE_NT_HEADERS32 pNtHeader, DWORD Rva) {
     return NULL;
 }
 
-char* RVA2FOA32(PIMAGE_NT_HEADERS32 pNtHeader, DWORD Rva, char* base, PIMAGE_SECTION_HEADER* ppSectionHeader) {
+ULONG_PTR RVA2FA32(char* base, DWORD Rva, PIMAGE_SECTION_HEADER* ppSectionHeader) {
 
-    if (NULL == pNtHeader || NULL == base) {
-        return NULL;
-    }
-
+    PIMAGE_NT_HEADERS32 pNtHeader = PNTHEADER(base);
     PIMAGE_SECTION_HEADER pSectionHeader = NULL;
+
     if (ppSectionHeader != NULL && *ppSectionHeader != NULL)
     {
         pSectionHeader = *ppSectionHeader;
@@ -53,7 +53,7 @@ char* RVA2FOA32(PIMAGE_NT_HEADERS32 pNtHeader, DWORD Rva, char* base, PIMAGE_SEC
         *ppSectionHeader = pSectionHeader;
     }
 
-    return (PVOID)((ULONG_PTR)base + Rva - pSectionHeader->VirtualAddress +pSectionHeader->PointerToRawData);
+    return (ULONG_PTR)base + Rva - pSectionHeader->VirtualAddress +pSectionHeader->PointerToRawData;
 }
 
 bool ParseExportTable32(char* base, unsigned long long size)
@@ -66,37 +66,35 @@ bool ParseExportTable32(char* base, unsigned long long size)
 
     DWORD iedRVA = pNtHeader->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress;
     PIMAGE_SECTION_HEADER pSection = NULL;
-    PIMAGE_EXPORT_DIRECTORY pExportTableDes = RVA2FOA32(pNtHeader, iedRVA, base, &pSection);
+    PIMAGE_EXPORT_DIRECTORY pExportTableDes = RVA2FA32(base, iedRVA, &pSection);
     if (pExportTableDes == NULL)
     {
         return false;
     }
 
-    DWORD* funcAdddrs = (DWORD*)RVA2FOA32(pNtHeader, pExportTableDes->AddressOfFunctions, base, NULL);
-    DWORD* funcNames = (DWORD*)RVA2FOA32(pNtHeader, pExportTableDes->AddressOfNames, base, NULL);
-    WORD* funcNameOrds = (WORD*)RVA2FOA32(pNtHeader, pExportTableDes->AddressOfNameOrdinals, base, NULL);
+    DWORD* funcAdddrs = (DWORD*)RVA2FA32(base, pExportTableDes->AddressOfFunctions, NULL);
+    DWORD* funcNames = (DWORD*)RVA2FA32(base, pExportTableDes->AddressOfNames, NULL);
+    WORD* funcNameOrds = (WORD*)RVA2FA32(base, pExportTableDes->AddressOfNameOrdinals, NULL);
     
-    char* dllName = RVA2FOA32(pNtHeader, pExportTableDes->Name, base, NULL);
+    char* dllName = RVA2FA32(base, pExportTableDes->Name, NULL);
     DWORD ordBase = pExportTableDes->Base;
    
-    DWORD* funcNameFOA = malloc(sizeof(DWORD) * pExportTableDes->NumberOfFunctions);
+    ULONG_PTR* funcNameFOA = malloc(sizeof(ULONG_PTR) * pExportTableDes->NumberOfFunctions);
     if (funcNameFOA == NULL)
     {
         return false;
     }
-    ZeroMemory(funcNameFOA, sizeof(DWORD) * pExportTableDes->NumberOfFunctions);
+    ZeroMemory(funcNameFOA, sizeof(ULONG_PTR) * pExportTableDes->NumberOfFunctions);
 
     for (DWORD i = 0; i < pExportTableDes->NumberOfNames; i++)
     {
-        printf("%d: %d\n", i, funcNameOrds[i]);
         if (funcNameOrds[i] >= pExportTableDes->NumberOfFunctions)
         {
             return false;
         }
-        funcNameFOA[funcNameOrds[i]] = RVA2FOA32(pNtHeader, funcNames[i], base, NULL);
+        funcNameFOA[funcNameOrds[i]] = RVA2FA32(base, funcNames[i], NULL);
     }
 
-    printf("===addrs of func===\n");
     for (DWORD i = 0; i < pExportTableDes->NumberOfFunctions; i++)
     {
         if (funcAdddrs[i] == 0)
@@ -104,17 +102,11 @@ bool ParseExportTable32(char* base, unsigned long long size)
             continue;
         }
         /**
+        * dllName:  dllName
         * ordinal:  ordBase + i    
         * func addr:funcAddrs[i]
         * funcName: funcNameFOA[i]
         */
-
-        /*printf("ord:%d funcAddr:%x ", i + ordBase, funcAdddrs[i]);
-        if (funcNameFOA[i] != 0)
-        {
-            printf("funcName:%s", funcNameFOA[i]);
-        }
-        printf("\n");*/
     }
 
 
@@ -125,21 +117,19 @@ bool ParseImportTable32(char* base, unsigned long long size){
     if (base == NULL) {
         return false;
     }
-    PIMAGE_NT_HEADERS32 pNtHeader = ((PIMAGE_DOS_HEADER)base)->e_lfanew + base;
 
+    PIMAGE_NT_HEADERS32 pNtHeader = ((PIMAGE_DOS_HEADER)base)->e_lfanew + base;
     DWORD iidRVA = pNtHeader->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress;
     PIMAGE_SECTION_HEADER pSection = NULL;
     IMAGE_IMPORT_DESCRIPTOR  importTableDesNULL = { 0 };
-    PIMAGE_IMPORT_DESCRIPTOR pImportTableDes = (PIMAGE_IMPORT_DESCRIPTOR)RVA2FOA32(pNtHeader, iidRVA, base, &pSection);
-    if (pImportTableDes == NULL) {
+    PIMAGE_IMPORT_DESCRIPTOR pImportTableDes = (PIMAGE_IMPORT_DESCRIPTOR)RVA2FA32(base, iidRVA, &pSection);
+    if (pImportTableDes == NULL)
+    {
         return false;
     }
-    pSection = NULL;
 }
 
 int ClassifyPE32(char* buffer, unsigned long long size) {
-
-    ParseExportTable32(buffer, size);
 
     PIMAGE_NT_HEADERS32 pNtHeader = ((PIMAGE_DOS_HEADER)buffer)->e_lfanew + buffer;
 

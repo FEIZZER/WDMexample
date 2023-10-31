@@ -1,6 +1,9 @@
 //
 // Created by DELL on 2023/9/4.
 //
+#include "pch.h"
+
+#include "PE64.h"
 #include "windows.h"
 #define IMAGE_FIRST_SECTION64(ntheader) ((PIMAGE_SECTION_HEADER) \
 					( (ULONG_PTR)ntheader +                    \
