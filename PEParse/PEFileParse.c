@@ -8,12 +8,14 @@
 
 
 bool LoadFile(char* filePath, void** pBuf, unsigned long* pSize) {
+
     HANDLE hFile = NULL;
     bool bRet = false;
     void* buffer = NULL;
     DWORD size = 0;
+
     do {
-        // 不能读中文
+     
         hFile = CreateFileA(filePath, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
         if (hFile == NULL || hFile == INVALID_HANDLE_VALUE) {
             break;
@@ -93,8 +95,8 @@ int ClassifyPE(char* buffer, unsigned long long size) {
     if (!IsPE(buffer, size)) {
         return 0;
     }
+
     unsigned short e_magic = *(unsigned short*)(*(unsigned long*)(buffer + 60) + buffer + 24);
-    printf("%x", e_magic);
     if (e_magic == IMAGE_NT_OPTIONAL_HDR32_MAGIC) {
         return ClassifyPE32(buffer, size);
     }

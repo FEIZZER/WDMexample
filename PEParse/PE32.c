@@ -29,21 +29,67 @@ PIMAGE_SECTION_HEADER Rva2Section32(PIMAGE_NT_HEADERS32 pNtHeader, DWORD Rva) {
     return NULL;
 }
 
-Rva2Va32(PIMAGE_NT_HEADERS32 pNtHeader, DWORD Rva, char* base, PIMAGE_SECTION_HEADER* pSectionHeader) {
+char* RVA2FOA32(PIMAGE_NT_HEADERS32 pNtHeader, DWORD Rva, char* base, PIMAGE_SECTION_HEADER* ppSectionHeader) {
 
     if (NULL == pNtHeader || NULL == base) {
         return NULL;
     }
 
-    if (NULL == *pSectionHeader) {
-        *pSectionHeader = Rva2Section32(pNtHeader, Rva);
-        if (NULL == *pSectionHeader) {
-            return NULL;
-        }
+    PIMAGE_SECTION_HEADER pSectionHeader = NULL;
+    if (ppSectionHeader != NULL && *ppSectionHeader != NULL)
+    {
+        pSectionHeader = *ppSectionHeader;
+    }
+    else
+    {
+        pSectionHeader = Rva2Section32(pNtHeader, Rva);
+    }
+    if (pSectionHeader == NULL)
+    {
+        return NULL;
+    }
+    if (ppSectionHeader != NULL)
+    {
+        *ppSectionHeader = pSectionHeader;
     }
 
-    return (PVOID)((ULONG_PTR)base + (Rva - (*pSectionHeader)->VirtualAddress) +
-                   (*pSectionHeader)->PointerToRawData);
+    return (PVOID)((ULONG_PTR)base + Rva - pSectionHeader->VirtualAddress +pSectionHeader->PointerToRawData);
+}
+
+bool ParseExportTable32(char* base, unsigned long long size)
+{
+    if (base == NULL)
+    {
+        return false;
+    }
+    PIMAGE_NT_HEADERS32 pNtHeader = ((PIMAGE_DOS_HEADER)base)->e_lfanew + base;
+
+    DWORD iedRVA = pNtHeader->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress;
+    PIMAGE_SECTION_HEADER pSection = NULL;
+    PIMAGE_EXPORT_DIRECTORY pExportTableDes = RVA2FOA32(pNtHeader, iedRVA, base, &pSection);
+    if (pExportTableDes == NULL)
+    {
+        printf("null\n");
+        return false;
+    }
+
+    DWORD* funcAdddrs = (DWORD*)RVA2FOA32(pNtHeader, pExportTableDes->AddressOfFunctions, base, NULL);
+    DWORD* funcNames = (DWORD*)RVA2FOA32(pNtHeader, pExportTableDes->AddressOfNames, base, NULL);
+    WORD* funcNameOrds = (WORD*)RVA2FOA32(pNtHeader, pExportTableDes->AddressOfNameOrdinals, base, NULL);
+
+    printf("===addrs of func===\n");
+    for (DWORD i = 0; i < pExportTableDes->NumberOfFunctions; i++)
+    {
+        printf("%d: %x\n", i, funcAdddrs[i]);
+    }
+
+    printf("===names of func===\n");
+    for (DWORD i = 0; i < pExportTableDes->NumberOfNames; i++)
+    {
+        printf("%d: %s\n", i, RVA2FOA32(pNtHeader, funcNames[i], base, NULL));
+    }
+
+    return true;
 }
 
 bool ParseImportTable32(char* base, unsigned long long size){
@@ -55,16 +101,16 @@ bool ParseImportTable32(char* base, unsigned long long size){
     DWORD iidRVA = pNtHeader->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress;
     PIMAGE_SECTION_HEADER pSection = NULL;
     IMAGE_IMPORT_DESCRIPTOR  importTableDesNULL = { 0 };
-    PIMAGE_IMPORT_DESCRIPTOR pImportTableDes = (PIMAGE_IMPORT_DESCRIPTOR)Rva2Va32(pNtHeader, iidRVA, base, &pSection);
+    PIMAGE_IMPORT_DESCRIPTOR pImportTableDes = (PIMAGE_IMPORT_DESCRIPTOR)RVA2FOA32(pNtHeader, iidRVA, base, &pSection);
     if (pImportTableDes == NULL) {
         return false;
     }
     pSection = NULL;
-
-
 }
 
 int ClassifyPE32(char* buffer, unsigned long long size) {
+
+    ParseExportTable32(buffer, size);
 
     PIMAGE_NT_HEADERS32 pNtHeader = ((PIMAGE_DOS_HEADER)buffer)->e_lfanew + buffer;
 
