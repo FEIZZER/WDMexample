@@ -1,15 +1,19 @@
 //
 // Created by DELL on 2023/9/4.
 //
-#include "pch.h"
 
 #include "PE32.h"
+
+#include "pch.h"
 #include "windows.h"
 
 #define IMAGE_FIRST_SECTION32(ntheader) ((PIMAGE_SECTION_HEADER) \
 					    ((ULONG_PTR)ntheader +                    \
 						FIELD_OFFSET(IMAGE_NT_HEADERS32,OptionalHeader) + \
 						((PIMAGE_NT_HEADERS32)(ntheader))->FileHeader.SizeOfOptionalHeader))
+
+extern char* oleaut32_ordinal2funcname[444]; 
+extern char* ws2_32_ordinal2funcname[501];
 
 PIMAGE_SECTION_HEADER Rva2Section32(PIMAGE_NT_HEADERS32 pNtHeader, DWORD Rva) {
 
@@ -136,7 +140,7 @@ bool ParseImportTable32(char* base, unsigned long long size){
         }
 
         char* dllName = RVA2FA32(base, pImportTableDes->Name, NULL);
-        
+        printf("dllName:%s\n", dllName);
 
         pImportTableDes++;
     }

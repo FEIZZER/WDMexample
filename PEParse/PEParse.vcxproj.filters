@@ -29,9 +29,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PEFileParse.h">
-      <Filter>源文件</Filter>
-    </ClInclude>
     <ClInclude Include="PE32.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -39,6 +36,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PEFileParse.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

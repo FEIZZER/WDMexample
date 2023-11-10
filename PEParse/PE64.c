@@ -1,7 +1,6 @@
 //
 // Created by DELL on 2023/9/4.
 //
-#include "pch.h"
 
 #include "PE64.h"
 #include "windows.h"
