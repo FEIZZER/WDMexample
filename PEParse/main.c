@@ -8,7 +8,7 @@
 int main() {
     char* buf = NULL;
     unsigned long size = 0;
-    if (!LoadFile("E:\\DllDemo.dll", &buf, &size)) {
+    if (!LoadFile("C:\\Users\\DELL\\Downloads\\sandboxie installer.exe", &buf, &size)) {
         printf("load file failed\n");
         return 1;
     }

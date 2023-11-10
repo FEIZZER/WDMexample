@@ -142,6 +142,21 @@ bool ParseImportTable32(char* base, unsigned long long size){
         char* dllName = RVA2FA32(base, pImportTableDes->Name, NULL);
         printf("dllName:%s\n", dllName);
 
+        PIMAGE_THUNK_DATA32 pINT = RVA2FA32(base, pImportTableDes->OriginalFirstThunk, NULL);
+        while (pINT->u1.Function != 0) {
+
+            if (pINT->u1.AddressOfData >> (sizeof(pINT->u1.AddressOfData) * 8 - 1))
+            {
+                printf("func ord:%d\n", pINT->u1.Ordinal << 1 >> 1);
+            }
+            else // 通过函数名导出的情况
+            {
+                PIMAGE_IMPORT_BY_NAME pIIBN = RVA2FA32(base, pINT->u1.AddressOfData, NULL);
+                printf("func ord:%d, name:%s\n", pIIBN->Hint, pIIBN->Name);
+            }
+            pINT++;
+        }
+
         pImportTableDes++;
     }
 }
