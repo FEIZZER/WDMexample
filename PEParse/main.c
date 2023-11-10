@@ -14,5 +14,6 @@ int main() {
     }
     //printf("%d",  ClassifyPE(buf, size));
     ParseExportTable(buf, size);
+    ParseImportTable(buf, size);
     return 0;
 }

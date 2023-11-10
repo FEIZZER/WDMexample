@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OutputLog", "OutputLog\Outp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DllDemo", "DllDemo\DllDemo.vcxproj", "{C2C991E9-308E-4B39-AA2A-6BE3305BC4E1}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "emo", "AssembleDemo\AssembleDemo.vcxproj", "{299933EB-2826-4EF7-933C-378D129FF5C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +43,14 @@ Global
 		{C2C991E9-308E-4B39-AA2A-6BE3305BC4E1}.Release|x64.Build.0 = Release|x64
 		{C2C991E9-308E-4B39-AA2A-6BE3305BC4E1}.Release|x86.ActiveCfg = Release|Win32
 		{C2C991E9-308E-4B39-AA2A-6BE3305BC4E1}.Release|x86.Build.0 = Release|Win32
+		{299933EB-2826-4EF7-933C-378D129FF5C1}.Debug|x64.ActiveCfg = Debug|x64
+		{299933EB-2826-4EF7-933C-378D129FF5C1}.Debug|x64.Build.0 = Debug|x64
+		{299933EB-2826-4EF7-933C-378D129FF5C1}.Debug|x86.ActiveCfg = Debug|Win32
+		{299933EB-2826-4EF7-933C-378D129FF5C1}.Debug|x86.Build.0 = Debug|Win32
+		{299933EB-2826-4EF7-933C-378D129FF5C1}.Release|x64.ActiveCfg = Release|x64
+		{299933EB-2826-4EF7-933C-378D129FF5C1}.Release|x64.Build.0 = Release|x64
+		{299933EB-2826-4EF7-933C-378D129FF5C1}.Release|x86.ActiveCfg = Release|Win32
+		{299933EB-2826-4EF7-933C-378D129FF5C1}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

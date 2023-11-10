@@ -127,6 +127,19 @@ bool ParseImportTable32(char* base, unsigned long long size){
     {
         return false;
     }
+
+    while (true) 
+    {
+        if (pImportTableDes->Characteristics == 0)
+        {
+            break;
+        }
+
+        char* dllName = RVA2FA32(base, pImportTableDes->Name, NULL);
+        
+
+        pImportTableDes++;
+    }
 }
 
 int ClassifyPE32(char* buffer, unsigned long long size) {
