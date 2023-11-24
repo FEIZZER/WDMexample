@@ -1,6 +1,5 @@
 
 #include <iostream>
-#include <stdio.h>
 
 int g_Count = 100;
 
@@ -21,13 +20,5 @@ int& GetCount() {
 
 int main() 
 {
-	int a = 20;
-	int b = 23;
-	int c = Add(a, b);
-
-	GetCount() = 90;
-
-	// printf("Count:%d", g_Count);
-
-	return 0;
+	std::shared_ptr<int> shPtr = std::make_shared<int>(20);
 }

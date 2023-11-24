@@ -8,12 +8,10 @@
 int main() {
     char* buf = NULL;
     unsigned long size = 0;
-    if (!LoadFile("C:\\Users\\DELL\\Downloads\\sandboxie installer.exe", &buf, &size)) {
+    if (!LoadFile("E:\\Projects\\drivers\\Release\\UhsElam.sys", &buf, &size)) {
         printf("load file failed\n");
         return 1;
     }
-    //printf("%d",  ClassifyPE(buf, size));
-    ParseExportTable(buf, size);
-    ParseImportTable(buf, size);
+    printf("%d",  ClassifyPE(buf, size));
     return 0;
 }

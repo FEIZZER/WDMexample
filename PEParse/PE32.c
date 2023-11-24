@@ -7,6 +7,8 @@
 #include "pch.h"
 #include "windows.h"
 
+#define NTOSKRNL        "ntoskrnl.exe"
+
 #define IMAGE_FIRST_SECTION32(ntheader) ((PIMAGE_SECTION_HEADER) \
 					    ((ULONG_PTR)ntheader +                    \
 						FIELD_OFFSET(IMAGE_NT_HEADERS32,OptionalHeader) + \
@@ -161,6 +163,38 @@ bool ParseImportTable32(char* base, unsigned long long size){
     }
 }
 
+bool IsDriver32(char* base, unsigned long long size)
+{
+    if (base == NULL) {
+        return false;
+    }
+
+    PIMAGE_NT_HEADERS32 pNtHeader = ((PIMAGE_DOS_HEADER)base)->e_lfanew + base;
+    DWORD iidRVA = pNtHeader->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress;
+    IMAGE_IMPORT_DESCRIPTOR  importTableDesNULL = { 0 };
+    PIMAGE_IMPORT_DESCRIPTOR pImportTableDes = (PIMAGE_IMPORT_DESCRIPTOR)RVA2FA32(base, iidRVA, NULL);
+    if (pImportTableDes == NULL)
+    {
+        return false;
+    }
+
+    while (true)
+    {
+        if (pImportTableDes->Characteristics == 0)
+        {
+            break;
+        }
+
+        char* dllName = RVA2FA32(base, pImportTableDes->Name, NULL); 
+        if (0 == _strnicmp(dllName, NTOSKRNL, sizeof(NTOSKRNL)))
+        {
+            return true;
+        }
+        pImportTableDes++;
+    }
+    return false;
+}
+
 int ClassifyPE32(char* buffer, unsigned long long size) {
 
     PIMAGE_NT_HEADERS32 pNtHeader = ((PIMAGE_DOS_HEADER)buffer)->e_lfanew + buffer;
@@ -173,10 +207,16 @@ int ClassifyPE32(char* buffer, unsigned long long size) {
     {
         return 2;
     }
-    else
+    else if (IsDriver32(buffer, size))
     {
         return 3;
     }
 
     return 0;
+}
+
+bool GenImpHash32(char* base, unsigned long long size, char impHash[])
+{
+
+    return true;
 }

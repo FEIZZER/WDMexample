@@ -6,6 +6,8 @@
 #include "windows.h"
 #include <stdio.h>
 
+#define NTOSKRNL        "ntoshrnl.exe"
+
 char* oleaut32_ordinal2funcname[444] = {
         "","","SysAllocString","SysReAllocString",
         "SysAllocStringLen","SysReAllocStringLen","SysFreeString","SysStringLen",
@@ -247,6 +249,8 @@ char* ws2_32_ordinal2funcname[501] = {
         "","","","",
         "WEP"
 };
+
+
 
 
 bool LoadFile(char* filePath, char** pBuf, unsigned long* pSize) {

@@ -3,7 +3,7 @@
 //
 #include <stdbool.h>
 
-bool LoadFile(char*, void**, unsigned long*);
+bool LoadFile(char* filePath, char** pBuf, unsigned long* pSize);
 
 bool IsPE(char*, unsigned long long);
 
