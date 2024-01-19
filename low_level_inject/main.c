@@ -2,16 +2,24 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-extern void Start();
 
-void PrintTest() {
+void PrintTest() 
+{
     printf("printf test\n");
+    return;
+}
+void add(int a, int b)
+{
+    int c = a + b;
+    return;
 }
 
-int main(int argc, char* argv[]) 
+int main1(int argc, char* argv[]) 
 {
 
-    //Start();
+    /*printf("start\n");
+    Start();
+    printf("end\n");*/
 
     // 
     if (argc != 2) 

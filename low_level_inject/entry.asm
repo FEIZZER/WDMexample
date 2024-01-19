@@ -1,15 +1,16 @@
 
 	.code
 
-_Start PROC
-	mov rax, 136
+EXTERN PrintTest: PROC
+EXTERN add: PROC
+main PROC
+
+	mov rbp, rsp
+	call PrintTest
+	mov rsp, rbp
 	ret
-_Start endp
 
+main endp
 
-
-	.code zzzz
-
-	dq _Start
 
 end
