@@ -5,6 +5,8 @@
 
 int main() 
 {
+	printf("init start!");
+
 	Inject_Init_Template();
 
 	printf("init done!");

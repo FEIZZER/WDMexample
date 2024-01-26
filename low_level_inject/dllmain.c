@@ -17,4 +17,5 @@ BOOL DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
 	default:
 		break;
 	}
+	return TRUE;
 }

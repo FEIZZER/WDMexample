@@ -11,6 +11,6 @@ typedef enum _LowLevelError
 
 } LowLevelError;
 
-LowLevelError Inject_Init_Template();
-LowLevelError Inject_Init();
-LowLevelError Inject(HANDLE hProcess);
+LowLevelError __declspec(dllimport) Inject_Init_Template();
+LowLevelError __declspec(dllimport) Inject_Init();
+LowLevelError __declspec(dllimport) Inject(HANDLE hProcess);
