@@ -15,25 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="low_level_inject.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="dllmain.c">
+    <ClCompile Include="main.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="entry.asm">
-      <Filter>源文件</Filter>
-    </MASM>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="low_level_inject.def">
-      <Filter>源文件</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="low_level_inject.h">
+    <ClInclude Include="..\low_level_inject\low_level_inject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

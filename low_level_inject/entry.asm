@@ -2,15 +2,16 @@
 	.code
 
 EXTERN PrintTest: PROC
-EXTERN add: PROC
-main PROC
-
-	mov rbp, rsp
+; EXTERN add: PROC
+_Start PROC
+	sub rsp, 28h
 	call PrintTest
-	mov rsp, rbp
+	add rsp, 28h
 	ret
 
-main endp
+_Start endp
 
+	.code zzzz
+	dq _Start
 
 end
