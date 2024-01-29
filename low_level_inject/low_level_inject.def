@@ -1,4 +1,4 @@
-LIBRARY low_level_dll
+LIBRARY low_level_inject
 EXPORTS
 
 Inject_Init_Template

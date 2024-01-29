@@ -21,6 +21,9 @@
     <ClCompile Include="dllmain.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\api_template\Api_Win.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <MASM Include="entry.asm">

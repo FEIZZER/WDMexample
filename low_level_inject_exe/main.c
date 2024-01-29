@@ -5,11 +5,20 @@
 
 int main() 
 {
-	printf("init start!");
+	printf("init start!\n");
 
-	Inject_Init_Template();
+	if (Inject_Init_Template() != LOWLEVEL_SUCCESS)
+	{
+		printf("init failed\n");
+		return 1;
+	}
+	else 
+	{
+		printf("init done!");
+	}
 
-	printf("init done!");
+
+	
 
 	return 0;
 }

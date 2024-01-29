@@ -21,21 +21,97 @@ typedef struct _Section_Offset {
 
 
 
-extern Dll_Instance;
-
+HINSTANCE Dll_Instance = NULL;
+PCHAR Inject_Code = NULL;
+SIZE_T Inject_Code_Size = 0;
 
 LowLevelError Inject_Init_Template() 
 {
-    LowLevelError err = Init_Load_Dll_Err;
+    LowLevelError err;
+    PCHAR binData = NULL;
+    do {
+        err = Init_Load_Dll_Err;
 
-    WCHAR dllFilePath[Max_File_Len];
-    if (GetModuleFileNameW(Dll_Instance, dllFilePath, Max_File_Len) == 0)
+        WCHAR dllFilePath[Max_File_Len];
+        DWORD filePathLen = GetModuleFileNameW(Dll_Instance, dllFilePath, Max_File_Len);
+        if (filePathLen == 0)
+        {
+            printf("get filePath failed:%x\n", GetLastError());
+            break;
+        }
+        dllFilePath[filePathLen] = L'\0';
+
+        HANDLE hFile = CreateFileW(dllFilePath, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+        if (hFile == NULL || hFile == INVALID_HANDLE_VALUE)
+        {
+            break;
+        }
+        Inject_Code_Size = GetFileSize(hFile, NULL);
+        if (Inject_Code_Size <= 0)
+        {
+            printf("GetFileSize failed:%x\n", GetLastError());
+            break;
+        }
+        binData = malloc(Inject_Code_Size);
+        if (binData == NULL)
+        {
+            printf("malloc buf failed:%x\n", GetLastError());
+            break;
+        }
+        DWORD readSize = 0;
+        if (!ReadFile(hFile, binData, Inject_Code_Size, &readSize, NULL))
+        {
+            printf("ReadFile failed:%x\n", GetLastError());
+            break;
+        }
+
+        err = Init_Parse_Dll_Err;
+
+        PIMAGE_DOS_HEADER pDosHeader = (PIMAGE_DOS_HEADER)binData;
+        if (pDosHeader->e_magic != 'MZ' && pDosHeader->e_magic != 'ZM')
+        {
+            printf("bad magic num\n");
+            break;
+        }
+        // todo: need access memory verify
+        PIMAGE_NT_HEADERS pNtHeader = (PIMAGE_NT_HEADERS)(binData + pDosHeader->e_lfanew);
+        if (pNtHeader->Signature != IMAGE_NT_SIGNATURE)
+        {
+            printf("bad signature\n");
+            break;
+        }
+        // todo: need to distinguish pe32 and pe64
+        if (pNtHeader->OptionalHeader.Magic != IMAGE_NT_OPTIONAL_HDR64_MAGIC)
+        {
+            printf("bad opt magic\n");
+            break;
+        }
+        PIMAGE_NT_HEADERS64 pNtHeader64 = (PIMAGE_NT_HEADERS64)pNtHeader;
+        PIMAGE_OPTIONAL_HEADER64 pOptHeader64 = &pNtHeader64->OptionalHeader;
+        PIMAGE_SECTION_HEADER section = IMAGE_FIRST_SECTION(pNtHeader);
+        if (pNtHeader->FileHeader.NumberOfSections < 2)
+        {
+            printf("bad Section num\n");
+            break;
+        }
+        if (strncmp(section[TEXT_SECTION_IDX].Name, TEXT_SECTION_NAME, sizeof(TEXT_SECTION_NAME)) ||
+            strncmp(section[ZZZZ_SECTION_IDX].Name, ZZZZ_SECTION_NAME, sizeof(ZZZZ_SECTION_NAME)))
+        {
+            printf("bad section name\n");
+            break;
+        }
+        PSection_Offset target = (PSection_Offset)&binData[section[ZZZZ_SECTION_IDX].PointerToRawData];
+        Inject_Code_Size = section[TEXT_SECTION_IDX].SizeOfRawData;
+        Inject_Code = binData + section[TEXT_SECTION_IDX].PointerToRawData;
+        err = LOWLEVEL_SUCCESS;
+    } while (0);
+
+    if (err != LOWLEVEL_SUCCESS && binData != NULL)
     {
-        return err;
+        free(binData);
+        binData = NULL;
     }
-
-    wprintf(L"init done, filePath%s\n", dllFilePath);
-
+    return err;
 }
 
 // load dll resources
@@ -106,6 +182,11 @@ LowLevelError Inject(HANDLE hProcess)
     {
         return 1;
     }
+    if (Inject_CopyCode(hProcess, Inject_Code, Inject_Code_Size) == NULL)
+    {
+        return 1;
+    }
+
 
     return LOWLEVEL_SUCCESS;
 }
@@ -142,9 +223,27 @@ int main2(int argc, char* argv[])
     return 0;
 }
 
+void* Inject_CopyCode(HANDLE hProcess,void* codePtr, SIZE_T codeSize)
+{
+    void* remoteAddr = Inject_AllocVirMem(hProcess, codeSize, TRUE);
+    if (remoteAddr == NULL) 
+    {
+        return NULL;
+    }
+    SIZE_T writedSize = 0;
+    if (!WriteProcessMemory(hProcess, remoteAddr, codePtr, codeSize, &writedSize))
+    {
+        return NULL;
+    }
+    if (codeSize != writedSize)
+    {
+        return NULL;
+    }
 
+    return remoteAddr;
+}
 
-void* InjectAllocVirMem(HANDLE hProcess, SIZE_T size, BOOLEAN executable) {
+void* Inject_AllocVirMem(HANDLE hProcess, SIZE_T size, BOOLEAN executable) {
 
     void* remote_addr = NULL;
 
@@ -182,4 +281,24 @@ bool InjectWriteJump(HANDLE hProcess, void* targetPtr, void* injectPtr) {
     }
 
     return true;
+}
+
+
+BOOL DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
+{
+    switch (dwReason)
+    {
+    case DLL_PROCESS_ATTACH:
+        Dll_Instance = hInstance;
+        break;
+    case DLL_PROCESS_DETACH:
+        break;
+    case DLL_THREAD_ATTACH:
+        break;
+    case DLL_THREAD_DETACH:
+        break;
+    default:
+        break;
+    }
+    return TRUE;
 }
