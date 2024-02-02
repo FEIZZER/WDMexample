@@ -20,7 +20,7 @@
 //	num--;
 //	return g_Count;
 //}
-int main()
+int main2()
 {
 
 

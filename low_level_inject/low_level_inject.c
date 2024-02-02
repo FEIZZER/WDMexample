@@ -19,11 +19,44 @@ typedef struct _Section_Offset {
 
 }Section_Offset, *PSection_Offset;
 
-
+ULONG Start_Offset = 0;
 
 HINSTANCE Dll_Instance = NULL;
 PCHAR Inject_Code = NULL;
 SIZE_T Inject_Code_Size = 0;
+
+
+void* Inject_CopyCode(HANDLE, void*, SIZE_T);
+void* Inject_AllocVirMem(HANDLE, SIZE_T, BOOLEAN);
+bool Inject_WriteJump(HANDLE, void*, void*, bool);
+
+
+
+// is  in 32bit jmp range
+bool Inject_InRange32Bit(ULONG_PTR target_ptr, ULONG_PTR inject_ptr)
+{
+    ULONG_PTR diff = target_ptr - inject_ptr;
+    diff = diff < 0 ? diff * -1 : diff;
+    return diff < 0x80000000;
+}
+
+ULONG_PTR GetMessageBoxWAddr()
+{
+    HMODULE hUser32dll = LoadLibraryW(L"user32.dll");
+    // HMODULE hUser32dll = GetModuleHandleW(L"C:\\Windows\\System32\\user32.dll");
+    if (hUser32dll == NULL || hUser32dll == INVALID_HANDLE_VALUE)
+    {
+        printf("load dll failed:%x\n", GetLastError());
+        return NULL;
+    }
+    ULONG_PTR MessgaeBoxWProc_addr = GetProcAddress(hUser32dll, "MessageBoxW");
+    if (MessgaeBoxWProc_addr == NULL)
+    {
+        printf("can not find MessageBoxW\n");
+        return NULL;
+    }
+    return MessgaeBoxWProc_addr;
+}
 
 LowLevelError Inject_Init_Template() 
 {
@@ -101,6 +134,9 @@ LowLevelError Inject_Init_Template()
             break;
         }
         PSection_Offset target = (PSection_Offset)&binData[section[ZZZZ_SECTION_IDX].PointerToRawData];
+        Start_Offset = (ULONG)(target->entry - pOptHeader64->ImageBase - section[TEXT_SECTION_IDX].VirtualAddress);
+        printf("target->entry:%x, imageBase:%x, start_offset:%x\n", 
+            target->entry,pOptHeader64->ImageBase, Start_Offset);
         Inject_Code_Size = section[TEXT_SECTION_IDX].SizeOfRawData;
         Inject_Code = binData + section[TEXT_SECTION_IDX].PointerToRawData;
         err = LOWLEVEL_SUCCESS;
@@ -182,11 +218,21 @@ LowLevelError Inject(HANDLE hProcess)
     {
         return 1;
     }
-    if (Inject_CopyCode(hProcess, Inject_Code, Inject_Code_Size) == NULL)
+    ULONG_PTR remote_addr = Inject_CopyCode(hProcess, Inject_Code, Inject_Code_Size);
+    if (remote_addr == NULL)
     {
         return 1;
     }
 
+    ULONG_PTR hookProc_addr = GetMessageBoxWAddr();
+    printf("target_ptr:%llx, remote_ptr:%llx, start_offset:%x delta:%llx\n", 
+        hookProc_addr, remote_addr,  Start_Offset, hookProc_addr-remote_addr);
+
+    if (!Inject_WriteJump(hProcess, hookProc_addr, remote_addr + Start_Offset, Inject_InRange32Bit(hookProc_addr, remote_addr)))
+    {
+        printf("Inject_WriteJump failed, hookProc_addr:%llux \n", hookProc_addr);
+        return 1;
+    }
 
     return LOWLEVEL_SUCCESS;
 }
@@ -254,34 +300,79 @@ void* Inject_AllocVirMem(HANDLE hProcess, SIZE_T size, BOOLEAN executable) {
     return remote_addr;
 }
 
-
-
-bool InjectWriteJump(HANDLE hProcess, void* targetPtr, void* injectPtr) {
+bool Inject_WriteJump(HANDLE hProcess, void* target_ptr, void* inject_ptr, bool long_diff) {
 
     ULONG myProtect;
     UCHAR jumpCode[20];
 
     // >= win10 ø…”√
-    jumpCode[0] = 0X48;
-    jumpCode[1] = 0xe9;
-    *(ULONG*)(jumpCode + 2) = (ULONG)(ULONG_PTR)injectPtr - (ULONG)(ULONG_PTR)targetPtr - 6;
+    if (long_diff)
+    {
+        jumpCode[0] = 0X48;
+        jumpCode[1] = 0xe9;
+        *(ULONG*)(jumpCode + 2) = (ULONG)(ULONG_PTR)inject_ptr - (ULONG)(ULONG_PTR)target_ptr - 6;
+    }
+    else 
+    {
+        void* jmp_table = 0;
+        if ((ULONG_PTR)inject_ptr & 0xffffffff00000000)
+        {
+            int inject_len = 6;
+            
+            // todo: create jmp_table
+            *(USHORT*)jumpCode = 0x25FF;
+            jumpCode[2] = (ULONG)((ULONG_PTR)jmp_table - (ULONG_PTR)target_ptr);
+            
+        }
+        else
+        {
+            printf("unexpected situation\n");
+            return false;
+        }
+    }
 
-    if (!VirtualProtectEx(hProcess, targetPtr, 6, PAGE_READWRITE, &myProtect)) {
-        printf("change failed \n");
+    if (!VirtualProtectEx(hProcess, target_ptr, 6, PAGE_READWRITE, &myProtect)) {
+        printf("change vm failed:%x\n", GetLastError());
         return false;
     }
     size_t outLen;
-    if (!WriteProcessMemory(hProcess, targetPtr, jumpCode, 6, &outLen)) {
+    if (!WriteProcessMemory(hProcess, target_ptr, jumpCode, 6, &outLen)) {
         printf("write failed \n");
         return false;
     }
-    if (!VirtualProtectEx(hProcess, targetPtr, 6, myProtect, &myProtect)) {
-        printf("change2 failed \n");
+    if (!VirtualProtectEx(hProcess, target_ptr, 6, myProtect, &myProtect)) {
+        printf("change2 vm failed:%x\n", GetLastError());
         return false;
     }
-
+    printf("Inject_WriteJump done! wirtedLen:%d\n", outLen);
+ 
     return true;
 }
+
+void* Inject_WriteJmpTable(HANDLE hProcess,void* target_ptr, void* inject_ptr)
+{
+    HMODULE Ntdll = GetModuleHandleNameW(L"ntdll.dll");
+    HMODULE Kernel32 = GetModuleHandleNameW(L"kernel32.dll");
+    void* temp_ptr = ((ULONG_PTR)Ntdll < (ULONG_PTR)Kernel32 ? (ULONG_PTR)Ntdll : (ULONG_PTR)Kernel32) - 0x10000;
+    void* jmp_table = VirtualAllocEx(hProcess, temp_ptr, 0x100, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+
+    SIZE_T writed_len = 0;
+    if (jmp_table && Inject_InRange32Bit(jmp_table, target_ptr))
+    {
+        WriteProcessMemory(hProcess, jmp_table, &inject_ptr, 8, &writed_len);
+        if (writed_len == 8)
+        {
+            return jmp_table;
+        }
+    }
+
+    temp_ptr = (ULONG_PTR)target_ptr - 8;
+    char prefix_buf[20];
+    SIZE_T read_len = 0;
+    ReadProcessMemory(hProcess, temp_ptr, &prefix_buf, 8, &read_len);
+    return NULL;
+}
+
 
 
 BOOL DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
