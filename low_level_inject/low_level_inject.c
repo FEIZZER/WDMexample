@@ -5,7 +5,7 @@
 #include <wchar.h>
 void PrintTest()
 {
-    printf("Print Test\n");
+    MessageBoxW(NULL, L"you have be injected", L"This is a Title", MB_OK);
 }
 
 //
@@ -29,13 +29,14 @@ SIZE_T Inject_Code_Size = 0;
 void* Inject_CopyCode(HANDLE, void*, SIZE_T);
 void* Inject_AllocVirMem(HANDLE, SIZE_T, BOOLEAN);
 bool Inject_WriteJump(HANDLE, void*, void*, bool);
+void* Inject_WriteJmpTable(HANDLE hProcess, void* target_ptr, void* inject_ptr);
 
 
 
 // is  in 32bit jmp range
 bool Inject_InRange32Bit(ULONG_PTR target_ptr, ULONG_PTR inject_ptr)
 {
-    ULONG_PTR diff = target_ptr - inject_ptr;
+    long long diff = target_ptr - inject_ptr;
     diff = diff < 0 ? diff * -1 : diff;
     return diff < 0x80000000;
 }
@@ -314,14 +315,21 @@ bool Inject_WriteJump(HANDLE hProcess, void* target_ptr, void* inject_ptr, bool 
     }
     else 
     {
+        printf("here\n");
         void* jmp_table = 0;
         if ((ULONG_PTR)inject_ptr & 0xffffffff00000000)
         {
             int inject_len = 6;
             
-            // todo: create jmp_table
+            jmp_table = Inject_WriteJmpTable(hProcess, target_ptr, inject_ptr);
+            if (jmp_table == NULL)
+            {
+                printf("Inject_WriteJmpTable failed\n");
+                return false;
+            }
+            printf("jmp_table:%p\n", jmp_table);
             *(USHORT*)jumpCode = 0x25FF;
-            jumpCode[2] = (ULONG)((ULONG_PTR)jmp_table - (ULONG_PTR)target_ptr);
+            *(ULONG *)(jumpCode + 2) = (ULONG)((ULONG_PTR)jmp_table - (ULONG_PTR)target_ptr - 6);
             
         }
         else
@@ -351,12 +359,13 @@ bool Inject_WriteJump(HANDLE hProcess, void* target_ptr, void* inject_ptr, bool 
 
 void* Inject_WriteJmpTable(HANDLE hProcess,void* target_ptr, void* inject_ptr)
 {
-    HMODULE Ntdll = GetModuleHandleNameW(L"ntdll.dll");
-    HMODULE Kernel32 = GetModuleHandleNameW(L"kernel32.dll");
-    void* temp_ptr = ((ULONG_PTR)Ntdll < (ULONG_PTR)Kernel32 ? (ULONG_PTR)Ntdll : (ULONG_PTR)Kernel32) - 0x10000;
+    HMODULE Ntdll = GetModuleHandleW(L"ntdll.dll");
+    HMODULE Kernel32 = GetModuleHandleW(L"kernel32.dll");
+    HMODULE User32 = GetModuleHandleW(L"user32.dll");
+    void* temp_ptr = ((ULONG_PTR)User32 < (ULONG_PTR)Kernel32 ? (ULONG_PTR)User32 : (ULONG_PTR)Kernel32) - 0x10000;
     void* jmp_table = VirtualAllocEx(hProcess, temp_ptr, 0x100, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
-
     SIZE_T writed_len = 0;
+    
     if (jmp_table && Inject_InRange32Bit(jmp_table, target_ptr))
     {
         WriteProcessMemory(hProcess, jmp_table, &inject_ptr, 8, &writed_len);
@@ -365,11 +374,56 @@ void* Inject_WriteJmpTable(HANDLE hProcess,void* target_ptr, void* inject_ptr)
             return jmp_table;
         }
     }
-
+    jmp_table = NULL;
     temp_ptr = (ULONG_PTR)target_ptr - 8;
-    char prefix_buf[20];
+    short prefix_buf[1024];
     SIZE_T read_len = 0;
-    ReadProcessMemory(hProcess, temp_ptr, &prefix_buf, 8, &read_len);
+    ReadProcessMemory(hProcess, temp_ptr, prefix_buf, 8, &read_len);
+    if (*(ULONG_PTR*)prefix_buf == 0x9090909090909090 || 
+        *(ULONG_PTR*)prefix_buf == 0xcccccccccccccccc)
+    {
+        printf("write jmp done!\n");
+        jmp_table = temp_ptr;
+    }
+    else
+    {
+        ReadProcessMemory(hProcess, (void*)((ULONG_PTR)temp_ptr + 0x100000), prefix_buf, sizeof(prefix_buf), &read_len);
+        if (read_len != sizeof(prefix_buf))
+        {
+            printf("ReadProcessMemory failed\n");
+            return NULL;
+        }
+        printf("before jmp_table:%p\n", jmp_table);
+        for (int i = 0; i < sizeof(prefix_buf) && !jmp_table; i++) {
+            if (*((ULONG_PTR*)&prefix_buf[i]) == 0x9090909090909090 ||
+                *((ULONG_PTR*)&prefix_buf[i]) == 0xcccccccccccccccc) {
+                jmp_table = (void*)((ULONG_PTR)temp_ptr + i);
+                printf("jmp_table:%p\n", jmp_table);
+                /*
+                sprintf(buffer,"HACK: table found at %p, index %x\n",myTable, i);
+                OutputDebugStringA(buffer);
+                */
+            }
+        }
+
+        if (jmp_table == NULL)
+        {
+            printf("no patch area\n");
+            return NULL;
+        }
+    }
+
+    ULONG myProtect;
+    if (VirtualProtectEx(hProcess, jmp_table, sizeof(void*), PAGE_READWRITE, &myProtect)) {
+        SIZE_T len2 = 0;
+        BOOL myVM = WriteProcessMemory(hProcess, jmp_table, &inject_ptr, 8, &len2);
+        if (myVM && 8 == len2) {
+            myVM = VirtualProtectEx(hProcess, jmp_table, 8, myProtect, &myProtect);
+            if (myVM) {
+                return jmp_table;
+            }
+        }
+    }
     return NULL;
 }
 

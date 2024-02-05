@@ -1,9 +1,11 @@
 #include "windows.h"
 #include <iostream>
 #include <cstring>
+#include <stdio.h>
 
 int main() 
 {
+	printf("print test\n");
 	std::cout<<"pid:"<< GetCurrentProcessId()<< std::endl;
 	std::string str;
 	do
