@@ -14,6 +14,12 @@ void PrintTest()
 #define ZZZZ_SECTION_NAME   "zzzz"
 #define ZZZZ_SECTION_IDX    1
 
+typedef struct _LowLevel_Data {
+    __declspec(align(16))
+        CHAR LdrInitializeThunk_tramp[48];
+
+}LowLevel_Data, *PLowLevel_Data;
+
 typedef struct _Section_Offset {
     unsigned long long entry;
 
@@ -29,8 +35,8 @@ SIZE_T Inject_Code_Size = 0;
 void* Inject_CopyCode(HANDLE, void*, SIZE_T);
 void* Inject_AllocVirMem(HANDLE, SIZE_T, BOOLEAN);
 bool Inject_WriteJump(HANDLE, void*, void*, bool);
-void* Inject_WriteJmpTable(HANDLE hProcess, void* target_ptr, void* inject_ptr);
-
+void* Inject_WriteJmpTable(HANDLE, void*, void*);
+bool Inject_BuildTramp(HANDLE, void*, PLowLevel_Data, ULONG_PTR);
 
 
 // is  in 32bit jmp range
@@ -215,6 +221,11 @@ LowLevelError Inject_Init()
 
 LowLevelError Inject(HANDLE hProcess)
 {
+    PLowLevel_Data pLowLevelData = (PLowLevel_Data)malloc(sizeof(LowLevel_Data));
+    if (pLowLevelData == NULL) 
+    {
+        return 1;
+    }
     if (hProcess == NULL || hProcess == INVALID_HANDLE_VALUE)
     {
         return 1;
@@ -226,48 +237,18 @@ LowLevelError Inject(HANDLE hProcess)
     }
 
     ULONG_PTR hookProc_addr = GetMessageBoxWAddr();
-    printf("target_ptr:%llx, remote_ptr:%llx, start_offset:%x delta:%llx\n", 
-        hookProc_addr, remote_addr,  Start_Offset, hookProc_addr-remote_addr);
-
+    if (!Inject_WriteTramp(pLowLevelData->LdrInitializeThunk_tramp, hookProc_addr))
+    {
+        printf("Inject_WriteTramp failed\n");
+        return 1;
+    }
     if (!Inject_WriteJump(hProcess, hookProc_addr, remote_addr + Start_Offset, Inject_InRange32Bit(hookProc_addr, remote_addr)))
     {
-        printf("Inject_WriteJump failed, hookProc_addr:%llux \n", hookProc_addr);
+        printf("Inject_WriteJump failed\n");
         return 1;
     }
 
     return LOWLEVEL_SUCCESS;
-}
-
-int main2(int argc, char* argv[]) 
-{
-
-    // 
-    if (argc != 2) 
-    {
-        printf("bad args\n");
-        return 1;
-    }
-    int ProcessId = atoi(argv[1]);
-    if (ProcessId == 0)
-    {
-        printf("bad args\n");
-        return 1;
-    }
-
-    HANDLE hProcess = NULL;
-    const ULONG _DesiredAccess = PROCESS_TERMINATE | PROCESS_SUSPEND_RESUME | PROCESS_QUERY_INFORMATION
-        | PROCESS_VM_OPERATION | PROCESS_VM_READ | PROCESS_VM_WRITE;
-
-    hProcess = OpenProcess(_DesiredAccess, FALSE, ProcessId);
-    if (hProcess == NULL || hProcess == INVALID_HANDLE_VALUE)
-    {
-        printf("open process:%d failed, err:%d\n", ProcessId, GetLastError());
-        return 1;
-    }
-
-
-
-    return 0;
 }
 
 void* Inject_CopyCode(HANDLE hProcess,void* codePtr, SIZE_T codeSize)
@@ -427,7 +408,21 @@ void* Inject_WriteJmpTable(HANDLE hProcess,void* target_ptr, void* inject_ptr)
     return NULL;
 }
 
+bool Inject_BuildTramp(HANDLE hProcess, void* target_ptr, PLowLevel_Data pLowLevelData, ULONG_PTR addr)
+{
+    SIZE_T read_len = 0;
+    if (!ReadProcessMemory(hProcess, target_ptr, 
+        pLowLevelData->LdrInitializeThunk_tramp,
+        sizeof(pLowLevelData->LdrInitializeThunk_tramp), &read_len) ||
+        read_len != sizeof(pLowLevelData->LdrInitializeThunk_tramp))
+    {
+        return false;
+    }
 
+    // todo: write code jmp back to origin func_ptr
+
+    return true;
+}
 
 BOOL DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
 {

@@ -1,8 +1,29 @@
 #include "windows.h"
 
 
-void* Entry()
+void* FindDllExport(void* dllBase, const PCHAR procName)
 {
 
-	return nullptr;
+	return NULL;
+}
+
+
+
+
+
+void LoadMyDll()
+{
+
+
+	return;
+}
+
+
+void* Entry()
+{
+	// todo: handle multi thread
+
+
+
+	return NULL;
 }

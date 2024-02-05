@@ -220,3 +220,44 @@ bool GenImpHash32(char* base, unsigned long long size, char impHash[])
 
     return true;
 }
+
+// base is image memory
+// can not call other function
+void* FindDllExportProcAddr32(char* base, const char* procName)
+{
+    PIMAGE_DOS_HEADER pDosHeader = (PIMAGE_DOS_HEADER)base;
+    PIMAGE_NT_HEADERS32 pNtHeader = (PIMAGE_NT_HEADERS32)(base + pDosHeader->e_lfanew);
+    PIMAGE_OPTIONAL_HEADER32 pOptHeader = &pNtHeader->OptionalHeader;
+    
+    IMAGE_DATA_DIRECTORY exportDir = pOptHeader->DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT];
+    if (exportDir.Size == 0 || exportDir.VirtualAddress == 0)
+    {
+        return NULL;
+    }
+
+    PIMAGE_EXPORT_DIRECTORY pIED = (PIMAGE_EXPORT_DIRECTORY)(base + exportDir.VirtualAddress);
+    ULONG procNameLen = 0;
+    for (procNameLen; procName[procNameLen]; procNameLen++);
+    ULONG* name_offsets = (ULONG*)(base + pIED->AddressOfNames);
+    USHORT* name2ordinal = (USHORT*)(base + pIED->AddressOfNameOrdinals);
+    ULONG* function_offsets = (ULONG*)(base + pIED->AddressOfFunctions);
+    void* procAddr = NULL;
+    ULONG i, j = 0;
+    for (ULONG i = 0; i < pIED->NumberOfNames; i++)
+    {
+        char* name = base + name_offsets[i];
+        for ( j = 0; j < procNameLen; j++)
+        {
+            if (name[j] != procName[j]) break;
+        }
+
+        if (j != procNameLen) continue;
+        if (name2ordinal[i] >= pIED->NumberOfFunctions) continue;
+
+        procAddr = base + function_offsets[name2ordinal[i]];
+        break;
+    }
+
+    return procAddr;
+
+}
