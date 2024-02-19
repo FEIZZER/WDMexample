@@ -24,6 +24,18 @@
     <ClCompile Include="..\api_template\Api_Win.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\api_template\inject.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\PEParse\PEFileParse.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\PEParse\PE32.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\PEParse\PE64.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <MASM Include="entry.asm">
@@ -37,6 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="low_level_inject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\PEParse\PEFileParse.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

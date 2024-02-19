@@ -1,0 +1,72 @@
+;
+; KernelDemo.inf
+;
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=KernelDemo ; TODO: edit Class
+ClassGuid={78A1C341-4539-11d3-B88D-00C04FAD5171} ; TODO: edit ClassGuid
+Provider=%ManufacturerName%
+CatalogFile=KernelDemo.cat
+DriverVer=0.0.0 ; TODO: set DriverVer in stampinf property pages
+PnpLockDown=1
+
+[DestinationDirs]
+DefaultDestDir = 12
+KernelDemo.CopyDriverFiles = 12
+KernelDemo.DelDriverFiles = 12
+
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+KernelDemo.sys  = 1,,
+
+;*****************************************
+; for amd64
+;*****************************************
+[DefaultInstall.NTamd64]
+;OptionDesc = %Description%
+CopyFiles = KernelDemo.CopyDriverFiles
+
+
+[DefaultInstall.NTamd64.Services]
+AddService = %ServiceName%,,KernelDemo.Service
+
+
+[DefaultUninstall.NTamd64]
+DelFiles = KernelDemo.DelDriverFiles
+LegacyUninstall = 1
+
+
+[DefaultUninstall.NTamd64.Services]
+DelService = %ServiceName%,0x200 ; SPSVCINST_STOPSERVICE
+
+[KernelDemo.CopyDriverFiles]
+KernelDemo.sys,,,0x00000040 ; COPYFLG_OVERWRITE_OLDER_ONLY
+
+[KernelDemo.DelDriverFiles]
+KernelDemo.sys
+
+[KernelDemo.Service]
+DisplayName 		= %ServiceName%
+Description 		= %ServiceDesc%
+Dependencies 		= %ServiceDepend%
+ServiceType 		= 2  ; #define SERVICE_FILE_SYSTEM_DRIVER     0x00000002
+StartType 			= 2    ; #define SERVICE_AUTO_START             0x00000002
+ErrorControl 		= 1 ; SERVICE_ERROR_NORMAL
+ServiceBinary 		= %12%\KernelDemo.sys
+; AddReg           	= 
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+ManufacturerName="YOUGIN"
+ClassName="Samples" ; TODO: edit ClassName
+DiskName = "KernelDemo Installation Disk"
+KernelDemo.DeviceDesc = "KernelDemo Device"
+KernelDemo.SVCDESC = "KernelDemo Service"
+ServiceName = "KernelDemo"
+ServiceDesc = "KernelDemo Service Description"
+ServiceDepend = "FltMgr"
+Description = "KernelDemo Filter"

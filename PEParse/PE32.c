@@ -238,14 +238,14 @@ void* FindDllExportProcAddr32(char* base, const char* procName)
     PIMAGE_EXPORT_DIRECTORY pIED = (PIMAGE_EXPORT_DIRECTORY)(base + exportDir.VirtualAddress);
     ULONG procNameLen = 0;
     for (procNameLen; procName[procNameLen]; procNameLen++);
-    ULONG* name_offsets = (ULONG*)(base + pIED->AddressOfNames);
+    ULONG* names_offset = (ULONG*)(base + pIED->AddressOfNames);
     USHORT* name2ordinal = (USHORT*)(base + pIED->AddressOfNameOrdinals);
-    ULONG* function_offsets = (ULONG*)(base + pIED->AddressOfFunctions);
+    ULONG* functions_offset = (ULONG*)(base + pIED->AddressOfFunctions);
     void* procAddr = NULL;
     ULONG i, j = 0;
     for (ULONG i = 0; i < pIED->NumberOfNames; i++)
     {
-        char* name = base + name_offsets[i];
+        char* name = base + names_offset[i];
         for ( j = 0; j < procNameLen; j++)
         {
             if (name[j] != procName[j]) break;
@@ -254,10 +254,9 @@ void* FindDllExportProcAddr32(char* base, const char* procName)
         if (j != procNameLen) continue;
         if (name2ordinal[i] >= pIED->NumberOfFunctions) continue;
 
-        procAddr = base + function_offsets[name2ordinal[i]];
+        procAddr = base + functions_offset[name2ordinal[i]];
         break;
     }
 
     return procAddr;
-
 }

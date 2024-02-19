@@ -162,6 +162,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\api_template\Api_Win.c" />
+    <ClCompile Include="..\api_template\inject.c" />
+    <ClCompile Include="..\PEParse\PE32.c" />
+    <ClCompile Include="..\PEParse\PE64.c" />
+    <ClCompile Include="..\PEParse\PEFileParse.c" />
     <ClCompile Include="dllmain.c" />
     <ClCompile Include="low_level_inject.c" />
   </ItemGroup>
@@ -172,6 +176,7 @@
     <None Include="low_level_inject.def" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\PEParse\PEFileParse.h" />
     <ClInclude Include="low_level_inject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
