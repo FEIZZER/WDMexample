@@ -25,6 +25,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "low_level_inject_exe", "low
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KernelDemo", "KernelDemo\KernelDemo.vcxproj", "{6E338221-E254-47C1-8A03-5483E99E8EA9}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpp_learn", "cpp_learn\cpp_learn.vcxproj", "{78148448-2B30-448D-BDE1-12C9A923A501}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -181,6 +183,18 @@ Global
 		{6E338221-E254-47C1-8A03-5483E99E8EA9}.Release|x86.ActiveCfg = Release|Win32
 		{6E338221-E254-47C1-8A03-5483E99E8EA9}.Release|x86.Build.0 = Release|Win32
 		{6E338221-E254-47C1-8A03-5483E99E8EA9}.Release|x86.Deploy.0 = Release|Win32
+		{78148448-2B30-448D-BDE1-12C9A923A501}.Debug|ARM.ActiveCfg = Debug|Win32
+		{78148448-2B30-448D-BDE1-12C9A923A501}.Debug|ARM64.ActiveCfg = Debug|Win32
+		{78148448-2B30-448D-BDE1-12C9A923A501}.Debug|x64.ActiveCfg = Debug|x64
+		{78148448-2B30-448D-BDE1-12C9A923A501}.Debug|x64.Build.0 = Debug|x64
+		{78148448-2B30-448D-BDE1-12C9A923A501}.Debug|x86.ActiveCfg = Debug|Win32
+		{78148448-2B30-448D-BDE1-12C9A923A501}.Debug|x86.Build.0 = Debug|Win32
+		{78148448-2B30-448D-BDE1-12C9A923A501}.Release|ARM.ActiveCfg = Release|Win32
+		{78148448-2B30-448D-BDE1-12C9A923A501}.Release|ARM64.ActiveCfg = Release|Win32
+		{78148448-2B30-448D-BDE1-12C9A923A501}.Release|x64.ActiveCfg = Release|x64
+		{78148448-2B30-448D-BDE1-12C9A923A501}.Release|x64.Build.0 = Release|x64
+		{78148448-2B30-448D-BDE1-12C9A923A501}.Release|x86.ActiveCfg = Release|Win32
+		{78148448-2B30-448D-BDE1-12C9A923A501}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
