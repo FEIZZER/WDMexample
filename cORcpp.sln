@@ -25,6 +25,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KernelDemo", "KernelDemo\Ke
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "detours_hook_dll", "detours_hook_dll\detours_hook_dll.vcxproj", "{6E232249-6038-44E3-A514-C283BB69B77C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpp_learn", "cpp_learn\cpp_learn.vcxproj", "{78148448-2B30-448D-BDE1-12C9A923A501}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -181,6 +183,18 @@ Global
 		{6E232249-6038-44E3-A514-C283BB69B77C}.Release|x64.Build.0 = Release|x64
 		{6E232249-6038-44E3-A514-C283BB69B77C}.Release|x86.ActiveCfg = Release|Win32
 		{6E232249-6038-44E3-A514-C283BB69B77C}.Release|x86.Build.0 = Release|Win32
+		{78148448-2B30-448D-BDE1-12C9A923A501}.Debug|ARM.ActiveCfg = Debug|Win32
+		{78148448-2B30-448D-BDE1-12C9A923A501}.Debug|ARM64.ActiveCfg = Debug|Win32
+		{78148448-2B30-448D-BDE1-12C9A923A501}.Debug|x64.ActiveCfg = Debug|x64
+		{78148448-2B30-448D-BDE1-12C9A923A501}.Debug|x64.Build.0 = Debug|x64
+		{78148448-2B30-448D-BDE1-12C9A923A501}.Debug|x86.ActiveCfg = Debug|Win32
+		{78148448-2B30-448D-BDE1-12C9A923A501}.Debug|x86.Build.0 = Debug|Win32
+		{78148448-2B30-448D-BDE1-12C9A923A501}.Release|ARM.ActiveCfg = Release|Win32
+		{78148448-2B30-448D-BDE1-12C9A923A501}.Release|ARM64.ActiveCfg = Release|Win32
+		{78148448-2B30-448D-BDE1-12C9A923A501}.Release|x64.ActiveCfg = Release|x64
+		{78148448-2B30-448D-BDE1-12C9A923A501}.Release|x64.Build.0 = Release|x64
+		{78148448-2B30-448D-BDE1-12C9A923A501}.Release|x86.ActiveCfg = Release|Win32
+		{78148448-2B30-448D-BDE1-12C9A923A501}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

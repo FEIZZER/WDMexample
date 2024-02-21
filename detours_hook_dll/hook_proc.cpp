@@ -1,5 +1,7 @@
 #include <Windows.h>
 #include <stdio.h>
+#include <list>
+#include <TlHelp32.h>
 #include "hook_proc.h"
 
 extern HMODULE gDllModule;
