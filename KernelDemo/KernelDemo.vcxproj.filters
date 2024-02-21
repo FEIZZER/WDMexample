@@ -17,6 +17,12 @@
       <UniqueIdentifier>{8E41214B-6785-4CFE-B992-037D68949A14}</UniqueIdentifier>
       <Extensions>inf;inv;inx;mof;mc;</Extensions>
     </Filter>
+    <Filter Include="IoControl">
+      <UniqueIdentifier>{07bf8fcc-a073-4250-90d3-432cc7c86e68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LogMgr">
+      <UniqueIdentifier>{aa136746-2b30-4b95-a285-33ef19441777}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Inf Include="KernelDemo.inf">
@@ -25,14 +31,32 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
-      <Filter>Resource Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ProcessNotify.c">
-      <Filter>Resource Files</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IoControl.c">
+      <Filter>IoControl</Filter>
+    </ClCompile>
+    <ClCompile Include="LogMgr.c">
+      <Filter>LogMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\KBobMap.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ProcessNotify.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\CommunicateData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LogMgr.h">
+      <Filter>LogMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\KBobMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

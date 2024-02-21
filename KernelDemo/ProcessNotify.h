@@ -1,6 +1,7 @@
 #pragma once
-#include <ntdef.h>
 
 BOOLEAN InitProcessFrame();
 
 BOOLEAN UnInitProcessFrame();
+
+VOID UpdateProcessInfo(HANDLE ProcessId);

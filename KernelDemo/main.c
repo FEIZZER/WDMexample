@@ -2,20 +2,34 @@
 
 #include "ProcessNotify.h"
 #include "../Common/CommunicateData.h"
-
+#include "LogMgr.h"
 
 #define DEVICE_NAME		L"\\DosDevices\\YOUGIN_DEVICE"
 
 NTSTATUS IrpDeviceControl(PDEVICE_OBJECT DeviceObject, PIRP Irp)
 {
 	UNREFERENCED_PARAMETER(DeviceObject);
-	NTSTATUS status;
+	NTSTATUS status = STATUS_SUCCESS;
 	PIO_STACK_LOCATION irpSp = IoGetCurrentIrpStackLocation(Irp);
 	ULONG IoControlCode = irpSp->Parameters.DeviceIoControl.IoControlCode;
+	PVOID pBuf = Irp->AssociatedIrp.SystemBuffer;
+	ULONG ulInputLen = irpSp->Parameters.DeviceIoControl.InputBufferLength;
+	ULONG ulOutputLen = irpSp->Parameters.DeviceIoControl.OutputBufferLength;
 
 	switch (IoControlCode)
 	{
 	case IOCTL_GetProcessNotify:
+		DbgPrint("feizzer IOCTL_GetProcessNotify %d", ulOutputLen);
+		GetLog(pBuf, ulOutputLen);
+		break;
+
+	case IOCTL_SetSyncEvent:
+		DbgPrint("feizzer IOCTL_SetSyncEvent");
+		SetSyncEvent(*(HANDLE*)pBuf);
+		break;
+	case IOCTL_SetProcessStatus:
+		DbgPrint("feizzer IOCTL_SetProcessStatus");
+		UpdateProcessInfo(*(HANDLE*)pBuf);
 		break;
 	default:
 		break;

@@ -1,6 +1,6 @@
 ﻿// dllmain.cpp : 定义 DLL 应用程序的入口点。
 #include "pch.h"
-#include <stdio.h>
+
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
                        LPVOID lpReserved
@@ -15,21 +15,5 @@ BOOL APIENTRY DllMain( HMODULE hModule,
         break;
     }
     return TRUE;
-}
-
-int func1() {
-    printf("print dll content");
-    return 0;
-}
-
-bool func2(int a) {
-    return true;
-}
-
-void func3(int a, ...) {
-    return;
-}
-void func4() {
-    return;
 }
 
