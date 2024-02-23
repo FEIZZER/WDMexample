@@ -1,31 +1,73 @@
 #include <stdio.h>
-
+#include <map>
 #include "windows.h"
 
 #include "../detours_hook_dll/hook_proc.h"
 #include "../low_level_inject/low_level_inject.h"
 
+
+std::map<ULONG, ULONG_PTR> g_injected_process;
+VOID HookProcess(ULONG pid)
+{
+	ULONG_PTR proc_addr = SetHook(ULongToHandle(pid));
+	if (proc_addr == NULL)
+	{
+		printf("pid:%d hook failed\n", pid);
+		return;
+	}
+	g_injected_process.insert({ pid , proc_addr });
+}
+
+VOID UnhookProcess(ULONG pid)
+{
+	auto iter = g_injected_process.find(pid);
+	if (iter == g_injected_process.end())
+	{
+		return;
+	}
+	ULONG_PTR pro_addr = iter->second;
+	if (!UnHook(pro_addr))
+	{
+		printf("pid:%d unhook failed\n", pid);
+	}
+}
+
 int main(int argc, char* argv[])
 {
-	if (argc != 2)
+	ULONG pid;
+	if (argc >= 2)
 	{
-		printf("bad args, need ProcessId");
-		return 1;
+		pid = atoi(argv[1]);
+		HookProcess(pid);
 	}
 
-	unsigned int pid = atoi(argv[1]);
-	if (!SetHook(ULongToHandle(pid)))
+	char input[1024];
+	do {
+		scanf_s("%s", input, 1024);
+		if (input[0] == 'q')
+		{
+			break;
+		}
+		else if (input[0] == 'u')
+		{
+			pid = atoi(input + 1);
+			UnhookProcess(pid);
+		}
+		else
+		{
+			pid = atoi(input);
+			if (pid != 0)
+				HookProcess(pid);
+		}
+
+	} while (true);
+
+
+	for (auto item : g_injected_process)
 	{
-		printf("SetHook failed\n");
-		return 1;
+		UnhookProcess(item.first);
 	}
 
-	MessageBoxW(NULL, L"hooked", L"This is a Title", MB_OK);
-
-	if (!UnHook())
-	{
-		printf("UnHook failed\n");
-	}
 }
 
 

@@ -3,7 +3,7 @@
 #include <cstring>
 #include <stdio.h>
 
-int main() 
+int main2() 
 {
 	printf("print test\n");
 	std::cout<<"pid:"<< GetCurrentProcessId()<< std::endl;

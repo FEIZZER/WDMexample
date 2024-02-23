@@ -2,18 +2,25 @@
 #include <iostream>
 #include <string>
 #include <stdio.h>
+#include <boost/filesystem.hpp>
+#include <fstream>
 
 
 
-
-int main2()
+int main()
 {
-	long long number = 0x0102030405060708;
-	printf("%llx\n", number);
-
-	char* ch = (char*)&number;
-	for (int i = 0; i < 8; i++)
+	boost::filesystem::wpath path(L"C:\\Users\\DELL\\Desktop\\test\\test");
+	try
 	{
-		printf("%x ", ch[i]);
+		std::fstream f;
+		f.open("C:\\Users\\DELL\\Desktop\\test\\test");
+		f.close();
+		int res = boost::filesystem::remove_all(path.parent_path());
+		printf("delete:%d", res);
+		boost::filesystem::remove(path);
+	}
+	catch (const std::exception& e)
+	{
+		printf("error:%s", e.what());
 	}
 }
