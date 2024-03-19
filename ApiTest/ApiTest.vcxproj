@@ -145,10 +145,7 @@
     <ClInclude Include="OsApi.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Global.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="OsApi_Linux.cpp" />
-    <ClCompile Include="OsApi_Win32.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
