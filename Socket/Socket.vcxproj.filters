@@ -13,21 +13,30 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="pocoImp">
+      <UniqueIdentifier>{b2b26121-bcd5-448c-af35-1720f0f954af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pocoImp\include">
+      <UniqueIdentifier>{d1af4b12-6ee1-4a75-a2c9-4d1f839bf963}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pocoImp\src">
+      <UniqueIdentifier>{d9ccd2f7-c425-4a0a-8931-422f3349f700}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="boostImp">
+      <UniqueIdentifier>{aa27944e-cab6-45a8-bed4-e6e82c1610c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="OutputLog.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="spdlog.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="pocoImp\src\WorkThread.cpp">
+      <Filter>pocoImp\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="log.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="flog.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="pocoImp\src\WorkThread.h">
+      <Filter>pocoImp\src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

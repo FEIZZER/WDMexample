@@ -1,26 +1,14 @@
 
 #include <iostream>
-#include <string>
-#include <stdio.h>
-#include <boost/filesystem.hpp>
-#include <fstream>
+#include <Windows.h>
 
 
 
 int main()
 {
-	boost::filesystem::wpath path(L"C:\\Users\\DELL\\Desktop\\test\\test");
-	try
+	HMODULE hDll = LoadLibraryA("C:\\Users\\DELL\\Desktop\\UhsFileDll.dll");
+	if (hDll == nullptr)
 	{
-		std::fstream f;
-		f.open("C:\\Users\\DELL\\Desktop\\test\\test");
-		f.close();
-		int res = boost::filesystem::remove_all(path.parent_path());
-		printf("delete:%d", res);
-		boost::filesystem::remove(path);
-	}
-	catch (const std::exception& e)
-	{
-		printf("error:%s", e.what());
+		std::cout << "LoadLib error:" << GetLastError() << std::endl;
 	}
 }

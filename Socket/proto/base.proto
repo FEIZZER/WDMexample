@@ -1,0 +1,6 @@
+message Base{
+	required string host = 1;
+	required string name = 2;
+	required string address = 3;
+	optional string info = 4;
+}

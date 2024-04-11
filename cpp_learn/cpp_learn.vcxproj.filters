@@ -30,12 +30,21 @@
     <ClCompile Include="stl\auto_ptr.cpp">
       <Filter>stl</Filter>
     </ClCompile>
+    <ClCompile Include="decltype.cpp">
+      <Filter>stl</Filter>
+    </ClCompile>
+    <ClCompile Include="stl\template.cpp">
+      <Filter>stl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseClass.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="stl\auto_ptr.h">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\template.h">
       <Filter>stl</Filter>
     </ClInclude>
   </ItemGroup>

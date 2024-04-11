@@ -144,6 +144,7 @@
     <ClCompile Include="spdlog.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="flog.h" />
     <ClInclude Include="log.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

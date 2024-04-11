@@ -1,0 +1,6 @@
+[test_logger] [2024-04-08 14:40:06.378] [info] [17748] [log.h:37]  Hello World
+[test_logger] [2024-04-08 14:40:06.378] [error] [17748] [log.h:44]  Hello World
+[test_logger] [2024-04-08 14:40:53.830] [info] [27048] [log.h:37]  Hello World
+[test_logger] [2024-04-08 14:40:53.830] [error] [27048] [log.h:44]  Hello World
+[test_logger] [2024-04-08 14:40:57.787] [info] [28880] [log.h:37]  Hello World
+[test_logger] [2024-04-08 14:40:57.787] [error] [28880] [log.h:44]  Hello World

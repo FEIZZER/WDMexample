@@ -2,17 +2,16 @@
 //
 
 
-#include <iostream>
-#include <string>
-#include <fstream>
-#include "windows.h"
+
 #include "log.h"
+#include "flog.h"
 
 int main()
 {
-	F_spdlog::setTemporaryLogPath("C:\\Users\\DELL\\Desktop\\hook_log.txt");
-	F_spdlog::t_info("info");
-	F_spdlog::t_error("error");
+	F_spdlog::initLog("spdlog.log");
+	F_spdlog::info("Hello {}", "World");
+	F_spdlog::error("Hello {}", "World");
 
-	MessageBoxA(NULL, "Block", "Title", NULL);
+	f_info("test:", 1, "hello");
+
 }

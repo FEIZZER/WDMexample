@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{78148448-2b30-448d-bde1-12c9a923a501}</ProjectGuid>
-    <RootNamespace>cpplearn</RootNamespace>
+    <ProjectGuid>{4e6e82d0-05ac-4748-94ab-095b40ad5119}</ProjectGuid>
+    <RootNamespace>Socket</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -51,7 +51,6 @@
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <SpectreMitigation>false</SpectreMitigation>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -82,6 +81,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <ExternalIncludePath>E:\ENV\lib\lib\x64\poco_1_12_6\include;$(ExternalIncludePath)</ExternalIncludePath>
+    <LibraryPath>E:\ENV\lib\lib\x64\poco_1_12_6\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -131,25 +133,22 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>E:\ENV\lib\lib\x64\poco_1_12_6\lib\PocoNet.lib;E:\ENV\lib\lib\x64\poco_1_12_6\lib\PocoFoundation.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BaseClass.cpp" />
-    <ClCompile Include="decltype.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="stl\auto_ptr.cpp" />
-    <ClCompile Include="stl\template.cpp" />
+    <ClCompile Include="pocoImp\src\WorkThread.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseClass.h" />
-    <ClInclude Include="stl\auto_ptr.h" />
-    <ClInclude Include="stl\template.h" />
+    <ClInclude Include="pocoImp\src\WorkThread.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

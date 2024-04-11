@@ -1,0 +1,384 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F9DAB059-31CF-3636-BEB9-70DD03A4676D}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <VcpkgEnabled>false</VcpkgEnabled>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>client</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="do_not_import_user.props" Condition="exists('do_not_import_user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">E:\workbench\cppORc template\Socket\grpcImp\cmake-build\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">client.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">client</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">E:\workbench\cppORc template\Socket\grpcImp\cmake-build\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">client.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">client</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">E:\workbench\cppORc template\Socket\grpcImp\cmake-build\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">client.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">client</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">E:\workbench\cppORc template\Socket\grpcImp\cmake-build\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">client.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">client</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "E:/ENV/vcpkg/installed/x64-windows/include"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;PROTOBUF_USE_DLLS;ABSL_CONSUME_DLL;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;PROTOBUF_USE_DLLS;ABSL_CONSUME_DLL;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\ENV\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\ENV\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file E:/ENV/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/Debug/client.exe" -installedDir E:/ENV/vcpkg/installed/x64-windows/debug/bin -OutVariable out
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>E:\ENV\vcpkg\installed\x64-windows\debug\lib\grpc++.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\grpc++_reflection.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\gpr.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\grpc.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\grpc++.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\libprotocd.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\libprotobufd.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\libprotobuf-lited.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\grpc.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\gpr.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\upb_json.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\upb_textformat.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\upb_reflection.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\upb_collections.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\upb_mini_table.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\upb.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\upb_fastdecode.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\upb_utf8_range.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\upb_extension_registry.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\descriptor_upb_proto.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\zlibd.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\cares.lib;advapi32.lib;iphlpapi.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\address_sorting.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\re2.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\absl_flags_internal.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\absl_flags_marshalling.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\absl_flags_reflection.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\absl_flags_config.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\absl_flags_program_name.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\absl_flags_private_handle_accessor.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\absl_flags_commandlineflag.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\absl_flags_commandlineflag_internal.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\abseil_dll.lib;-ignore:4221;E:\ENV\vcpkg\installed\x64-windows\debug\lib\libssl.lib;E:\ENV\vcpkg\installed\x64-windows\debug\lib\libcrypto.lib;wsock32.lib;ws2_32.lib;crypt32.lib;gdi32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>E:/workbench/cppORc template/Socket/grpcImp/cmake-build/Debug/client.lib</ImportLibrary>
+      <ProgramDataBaseFile>E:/workbench/cppORc template/Socket/grpcImp/cmake-build/Debug/client.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "E:/ENV/vcpkg/installed/x64-windows/include"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;PROTOBUF_USE_DLLS;ABSL_CONSUME_DLL;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;PROTOBUF_USE_DLLS;ABSL_CONSUME_DLL;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\ENV\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\ENV\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file E:/ENV/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/Release/client.exe" -installedDir E:/ENV/vcpkg/installed/x64-windows/bin -OutVariable out
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>E:\ENV\vcpkg\installed\x64-windows\lib\grpc++.lib;E:\ENV\vcpkg\installed\x64-windows\lib\grpc++_reflection.lib;E:\ENV\vcpkg\installed\x64-windows\lib\gpr.lib;E:\ENV\vcpkg\installed\x64-windows\lib\grpc.lib;E:\ENV\vcpkg\installed\x64-windows\lib\grpc++.lib;E:\ENV\vcpkg\installed\x64-windows\lib\libprotoc.lib;E:\ENV\vcpkg\installed\x64-windows\lib\libprotobuf.lib;E:\ENV\vcpkg\installed\x64-windows\lib\libprotobuf-lite.lib;E:\ENV\vcpkg\installed\x64-windows\lib\grpc.lib;E:\ENV\vcpkg\installed\x64-windows\lib\gpr.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb_json.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb_textformat.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb_reflection.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb_collections.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb_mini_table.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb_fastdecode.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb_utf8_range.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb_extension_registry.lib;E:\ENV\vcpkg\installed\x64-windows\lib\descriptor_upb_proto.lib;E:\ENV\vcpkg\installed\x64-windows\lib\zlib.lib;E:\ENV\vcpkg\installed\x64-windows\lib\cares.lib;advapi32.lib;iphlpapi.lib;E:\ENV\vcpkg\installed\x64-windows\lib\address_sorting.lib;E:\ENV\vcpkg\installed\x64-windows\lib\re2.lib;E:\ENV\vcpkg\installed\x64-windows\lib\absl_flags_internal.lib;E:\ENV\vcpkg\installed\x64-windows\lib\absl_flags_marshalling.lib;E:\ENV\vcpkg\installed\x64-windows\lib\absl_flags_reflection.lib;E:\ENV\vcpkg\installed\x64-windows\lib\absl_flags_config.lib;E:\ENV\vcpkg\installed\x64-windows\lib\absl_flags_program_name.lib;E:\ENV\vcpkg\installed\x64-windows\lib\absl_flags_private_handle_accessor.lib;E:\ENV\vcpkg\installed\x64-windows\lib\absl_flags_commandlineflag.lib;E:\ENV\vcpkg\installed\x64-windows\lib\absl_flags_commandlineflag_internal.lib;E:\ENV\vcpkg\installed\x64-windows\lib\abseil_dll.lib;-ignore:4221;E:\ENV\vcpkg\installed\x64-windows\lib\libssl.lib;E:\ENV\vcpkg\installed\x64-windows\lib\libcrypto.lib;wsock32.lib;ws2_32.lib;crypt32.lib;gdi32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>E:/workbench/cppORc template/Socket/grpcImp/cmake-build/Release/client.lib</ImportLibrary>
+      <ProgramDataBaseFile>E:/workbench/cppORc template/Socket/grpcImp/cmake-build/Release/client.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "E:/ENV/vcpkg/installed/x64-windows/include"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;PROTOBUF_USE_DLLS;ABSL_CONSUME_DLL;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;PROTOBUF_USE_DLLS;ABSL_CONSUME_DLL;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\ENV\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\ENV\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file E:/ENV/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/MinSizeRel/client.exe" -installedDir E:/ENV/vcpkg/installed/x64-windows/bin -OutVariable out
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>E:\ENV\vcpkg\installed\x64-windows\lib\grpc++.lib;E:\ENV\vcpkg\installed\x64-windows\lib\grpc++_reflection.lib;E:\ENV\vcpkg\installed\x64-windows\lib\gpr.lib;E:\ENV\vcpkg\installed\x64-windows\lib\grpc.lib;E:\ENV\vcpkg\installed\x64-windows\lib\grpc++.lib;E:\ENV\vcpkg\installed\x64-windows\lib\libprotoc.lib;E:\ENV\vcpkg\installed\x64-windows\lib\libprotobuf.lib;E:\ENV\vcpkg\installed\x64-windows\lib\libprotobuf-lite.lib;E:\ENV\vcpkg\installed\x64-windows\lib\grpc.lib;E:\ENV\vcpkg\installed\x64-windows\lib\gpr.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb_json.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb_textformat.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb_reflection.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb_collections.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb_mini_table.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb_fastdecode.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb_utf8_range.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb_extension_registry.lib;E:\ENV\vcpkg\installed\x64-windows\lib\descriptor_upb_proto.lib;E:\ENV\vcpkg\installed\x64-windows\lib\zlib.lib;E:\ENV\vcpkg\installed\x64-windows\lib\cares.lib;advapi32.lib;iphlpapi.lib;E:\ENV\vcpkg\installed\x64-windows\lib\address_sorting.lib;E:\ENV\vcpkg\installed\x64-windows\lib\re2.lib;E:\ENV\vcpkg\installed\x64-windows\lib\absl_flags_internal.lib;E:\ENV\vcpkg\installed\x64-windows\lib\absl_flags_marshalling.lib;E:\ENV\vcpkg\installed\x64-windows\lib\absl_flags_reflection.lib;E:\ENV\vcpkg\installed\x64-windows\lib\absl_flags_config.lib;E:\ENV\vcpkg\installed\x64-windows\lib\absl_flags_program_name.lib;E:\ENV\vcpkg\installed\x64-windows\lib\absl_flags_private_handle_accessor.lib;E:\ENV\vcpkg\installed\x64-windows\lib\absl_flags_commandlineflag.lib;E:\ENV\vcpkg\installed\x64-windows\lib\absl_flags_commandlineflag_internal.lib;E:\ENV\vcpkg\installed\x64-windows\lib\abseil_dll.lib;-ignore:4221;E:\ENV\vcpkg\installed\x64-windows\lib\libssl.lib;E:\ENV\vcpkg\installed\x64-windows\lib\libcrypto.lib;wsock32.lib;ws2_32.lib;crypt32.lib;gdi32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>E:/workbench/cppORc template/Socket/grpcImp/cmake-build/MinSizeRel/client.lib</ImportLibrary>
+      <ProgramDataBaseFile>E:/workbench/cppORc template/Socket/grpcImp/cmake-build/MinSizeRel/client.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "E:/ENV/vcpkg/installed/x64-windows/include"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;PROTOBUF_USE_DLLS;ABSL_CONSUME_DLL;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;PROTOBUF_USE_DLLS;ABSL_CONSUME_DLL;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\ENV\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\ENV\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file E:/ENV/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/RelWithDebInfo/client.exe" -installedDir E:/ENV/vcpkg/installed/x64-windows/bin -OutVariable out
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>E:\ENV\vcpkg\installed\x64-windows\lib\grpc++.lib;E:\ENV\vcpkg\installed\x64-windows\lib\grpc++_reflection.lib;E:\ENV\vcpkg\installed\x64-windows\lib\gpr.lib;E:\ENV\vcpkg\installed\x64-windows\lib\grpc.lib;E:\ENV\vcpkg\installed\x64-windows\lib\grpc++.lib;E:\ENV\vcpkg\installed\x64-windows\lib\libprotoc.lib;E:\ENV\vcpkg\installed\x64-windows\lib\libprotobuf.lib;E:\ENV\vcpkg\installed\x64-windows\lib\libprotobuf-lite.lib;E:\ENV\vcpkg\installed\x64-windows\lib\grpc.lib;E:\ENV\vcpkg\installed\x64-windows\lib\gpr.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb_json.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb_textformat.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb_reflection.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb_collections.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb_mini_table.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb_fastdecode.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb_utf8_range.lib;E:\ENV\vcpkg\installed\x64-windows\lib\upb_extension_registry.lib;E:\ENV\vcpkg\installed\x64-windows\lib\descriptor_upb_proto.lib;E:\ENV\vcpkg\installed\x64-windows\lib\zlib.lib;E:\ENV\vcpkg\installed\x64-windows\lib\cares.lib;advapi32.lib;iphlpapi.lib;E:\ENV\vcpkg\installed\x64-windows\lib\address_sorting.lib;E:\ENV\vcpkg\installed\x64-windows\lib\re2.lib;E:\ENV\vcpkg\installed\x64-windows\lib\absl_flags_internal.lib;E:\ENV\vcpkg\installed\x64-windows\lib\absl_flags_marshalling.lib;E:\ENV\vcpkg\installed\x64-windows\lib\absl_flags_reflection.lib;E:\ENV\vcpkg\installed\x64-windows\lib\absl_flags_config.lib;E:\ENV\vcpkg\installed\x64-windows\lib\absl_flags_program_name.lib;E:\ENV\vcpkg\installed\x64-windows\lib\absl_flags_private_handle_accessor.lib;E:\ENV\vcpkg\installed\x64-windows\lib\absl_flags_commandlineflag.lib;E:\ENV\vcpkg\installed\x64-windows\lib\absl_flags_commandlineflag_internal.lib;E:\ENV\vcpkg\installed\x64-windows\lib\abseil_dll.lib;-ignore:4221;E:\ENV\vcpkg\installed\x64-windows\lib\libssl.lib;E:\ENV\vcpkg\installed\x64-windows\lib\libcrypto.lib;wsock32.lib;ws2_32.lib;crypt32.lib;gdi32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>E:/workbench/cppORc template/Socket/grpcImp/cmake-build/RelWithDebInfo/client.lib</ImportLibrary>
+      <ProgramDataBaseFile>E:/workbench/cppORc template/Socket/grpcImp/cmake-build/RelWithDebInfo/client.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\workbench\cppORc template\Socket\grpcImp\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule E:/workbench/cppORc template/Socket/grpcImp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+E:\ENV\cmake\bin\cmake.exe "-SE:/workbench/cppORc template/Socket/grpcImp" "-BE:/workbench/cppORc template/Socket/grpcImp/cmake-build" --check-stamp-file "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">E:\ENV\cmake\share\cmake-3.26\Modules\CMakeCInformation.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeCXXInformation.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeCommonLanguageInclude.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeDependentOption.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeFindDependencyMacro.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeGenericSystem.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeInitializeConfigs.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeLanguageInformation.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeRCInformation.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeSystemSpecificInformation.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeSystemSpecificInitialize.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CheckCSourceCompiles.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CheckIncludeFile.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CheckLibraryExists.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Compiler\CMakeCommonCompilerMacros.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Compiler\MSVC-C.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Compiler\MSVC-CXX.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Compiler\MSVC.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\FindOpenSSL.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\FindPackageHandleStandardArgs.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\FindPackageMessage.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\FindProtobuf.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\FindThreads.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\FindZLIB.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Internal\CheckSourceCompiles.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Platform\Windows-MSVC-C.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Platform\Windows-MSVC-CXX.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Platform\Windows-MSVC.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Platform\Windows.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Platform\WindowsPaths.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\SelectLibraryConfigurations.cmake;E:\ENV\vcpkg\installed\x64-windows\share\absl\abslConfig.cmake;E:\ENV\vcpkg\installed\x64-windows\share\absl\abslConfigVersion.cmake;E:\ENV\vcpkg\installed\x64-windows\share\absl\abslTargets-debug.cmake;E:\ENV\vcpkg\installed\x64-windows\share\absl\abslTargets-release.cmake;E:\ENV\vcpkg\installed\x64-windows\share\absl\abslTargets.cmake;E:\ENV\vcpkg\installed\x64-windows\share\c-ares\c-ares-config-version.cmake;E:\ENV\vcpkg\installed\x64-windows\share\c-ares\c-ares-config.cmake;E:\ENV\vcpkg\installed\x64-windows\share\c-ares\c-ares-targets-debug.cmake;E:\ENV\vcpkg\installed\x64-windows\share\c-ares\c-ares-targets-release.cmake;E:\ENV\vcpkg\installed\x64-windows\share\c-ares\c-ares-targets.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\gRPCConfig.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\gRPCConfigVersion.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\gRPCTargets-debug.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\gRPCTargets-release.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\gRPCTargets.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\modules\Findc-ares.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\modules\Findre2.cmake;E:\ENV\vcpkg\installed\x64-windows\share\openssl\vcpkg-cmake-wrapper.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-config-version.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-config.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-module.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-options.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-targets-debug.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-targets-release.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-targets.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\vcpkg-cmake-wrapper.cmake;E:\ENV\vcpkg\installed\x64-windows\share\re2\re2Config.cmake;E:\ENV\vcpkg\installed\x64-windows\share\re2\re2ConfigVersion.cmake;E:\ENV\vcpkg\installed\x64-windows\share\re2\re2Targets-debug.cmake;E:\ENV\vcpkg\installed\x64-windows\share\re2\re2Targets-release.cmake;E:\ENV\vcpkg\installed\x64-windows\share\re2\re2Targets.cmake;E:\ENV\vcpkg\installed\x64-windows\share\upb\upb-config-debug.cmake;E:\ENV\vcpkg\installed\x64-windows\share\upb\upb-config-release.cmake;E:\ENV\vcpkg\installed\x64-windows\share\upb\upb-config.cmake;E:\ENV\vcpkg\installed\x64-windows\share\zlib\vcpkg-cmake-wrapper.cmake;E:\ENV\vcpkg\scripts\buildsystems\vcpkg.cmake;E:\workbench\cppORc template\Socket\grpcImp\cmake-build\CMakeFiles\3.26.3\CMakeCCompiler.cmake;E:\workbench\cppORc template\Socket\grpcImp\cmake-build\CMakeFiles\3.26.3\CMakeCXXCompiler.cmake;E:\workbench\cppORc template\Socket\grpcImp\cmake-build\CMakeFiles\3.26.3\CMakeRCCompiler.cmake;E:\workbench\cppORc template\Socket\grpcImp\cmake-build\CMakeFiles\3.26.3\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">E:\workbench\cppORc template\Socket\grpcImp\cmake-build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule E:/workbench/cppORc template/Socket/grpcImp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+E:\ENV\cmake\bin\cmake.exe "-SE:/workbench/cppORc template/Socket/grpcImp" "-BE:/workbench/cppORc template/Socket/grpcImp/cmake-build" --check-stamp-file "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">E:\ENV\cmake\share\cmake-3.26\Modules\CMakeCInformation.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeCXXInformation.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeCommonLanguageInclude.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeDependentOption.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeFindDependencyMacro.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeGenericSystem.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeInitializeConfigs.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeLanguageInformation.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeRCInformation.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeSystemSpecificInformation.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeSystemSpecificInitialize.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CheckCSourceCompiles.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CheckIncludeFile.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CheckLibraryExists.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Compiler\CMakeCommonCompilerMacros.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Compiler\MSVC-C.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Compiler\MSVC-CXX.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Compiler\MSVC.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\FindOpenSSL.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\FindPackageHandleStandardArgs.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\FindPackageMessage.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\FindProtobuf.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\FindThreads.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\FindZLIB.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Internal\CheckSourceCompiles.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Platform\Windows-MSVC-C.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Platform\Windows-MSVC-CXX.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Platform\Windows-MSVC.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Platform\Windows.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Platform\WindowsPaths.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\SelectLibraryConfigurations.cmake;E:\ENV\vcpkg\installed\x64-windows\share\absl\abslConfig.cmake;E:\ENV\vcpkg\installed\x64-windows\share\absl\abslConfigVersion.cmake;E:\ENV\vcpkg\installed\x64-windows\share\absl\abslTargets-debug.cmake;E:\ENV\vcpkg\installed\x64-windows\share\absl\abslTargets-release.cmake;E:\ENV\vcpkg\installed\x64-windows\share\absl\abslTargets.cmake;E:\ENV\vcpkg\installed\x64-windows\share\c-ares\c-ares-config-version.cmake;E:\ENV\vcpkg\installed\x64-windows\share\c-ares\c-ares-config.cmake;E:\ENV\vcpkg\installed\x64-windows\share\c-ares\c-ares-targets-debug.cmake;E:\ENV\vcpkg\installed\x64-windows\share\c-ares\c-ares-targets-release.cmake;E:\ENV\vcpkg\installed\x64-windows\share\c-ares\c-ares-targets.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\gRPCConfig.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\gRPCConfigVersion.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\gRPCTargets-debug.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\gRPCTargets-release.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\gRPCTargets.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\modules\Findc-ares.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\modules\Findre2.cmake;E:\ENV\vcpkg\installed\x64-windows\share\openssl\vcpkg-cmake-wrapper.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-config-version.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-config.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-module.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-options.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-targets-debug.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-targets-release.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-targets.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\vcpkg-cmake-wrapper.cmake;E:\ENV\vcpkg\installed\x64-windows\share\re2\re2Config.cmake;E:\ENV\vcpkg\installed\x64-windows\share\re2\re2ConfigVersion.cmake;E:\ENV\vcpkg\installed\x64-windows\share\re2\re2Targets-debug.cmake;E:\ENV\vcpkg\installed\x64-windows\share\re2\re2Targets-release.cmake;E:\ENV\vcpkg\installed\x64-windows\share\re2\re2Targets.cmake;E:\ENV\vcpkg\installed\x64-windows\share\upb\upb-config-debug.cmake;E:\ENV\vcpkg\installed\x64-windows\share\upb\upb-config-release.cmake;E:\ENV\vcpkg\installed\x64-windows\share\upb\upb-config.cmake;E:\ENV\vcpkg\installed\x64-windows\share\zlib\vcpkg-cmake-wrapper.cmake;E:\ENV\vcpkg\scripts\buildsystems\vcpkg.cmake;E:\workbench\cppORc template\Socket\grpcImp\cmake-build\CMakeFiles\3.26.3\CMakeCCompiler.cmake;E:\workbench\cppORc template\Socket\grpcImp\cmake-build\CMakeFiles\3.26.3\CMakeCXXCompiler.cmake;E:\workbench\cppORc template\Socket\grpcImp\cmake-build\CMakeFiles\3.26.3\CMakeRCCompiler.cmake;E:\workbench\cppORc template\Socket\grpcImp\cmake-build\CMakeFiles\3.26.3\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">E:\workbench\cppORc template\Socket\grpcImp\cmake-build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule E:/workbench/cppORc template/Socket/grpcImp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+E:\ENV\cmake\bin\cmake.exe "-SE:/workbench/cppORc template/Socket/grpcImp" "-BE:/workbench/cppORc template/Socket/grpcImp/cmake-build" --check-stamp-file "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">E:\ENV\cmake\share\cmake-3.26\Modules\CMakeCInformation.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeCXXInformation.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeCommonLanguageInclude.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeDependentOption.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeFindDependencyMacro.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeGenericSystem.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeInitializeConfigs.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeLanguageInformation.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeRCInformation.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeSystemSpecificInformation.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeSystemSpecificInitialize.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CheckCSourceCompiles.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CheckIncludeFile.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CheckLibraryExists.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Compiler\CMakeCommonCompilerMacros.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Compiler\MSVC-C.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Compiler\MSVC-CXX.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Compiler\MSVC.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\FindOpenSSL.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\FindPackageHandleStandardArgs.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\FindPackageMessage.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\FindProtobuf.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\FindThreads.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\FindZLIB.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Internal\CheckSourceCompiles.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Platform\Windows-MSVC-C.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Platform\Windows-MSVC-CXX.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Platform\Windows-MSVC.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Platform\Windows.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Platform\WindowsPaths.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\SelectLibraryConfigurations.cmake;E:\ENV\vcpkg\installed\x64-windows\share\absl\abslConfig.cmake;E:\ENV\vcpkg\installed\x64-windows\share\absl\abslConfigVersion.cmake;E:\ENV\vcpkg\installed\x64-windows\share\absl\abslTargets-debug.cmake;E:\ENV\vcpkg\installed\x64-windows\share\absl\abslTargets-release.cmake;E:\ENV\vcpkg\installed\x64-windows\share\absl\abslTargets.cmake;E:\ENV\vcpkg\installed\x64-windows\share\c-ares\c-ares-config-version.cmake;E:\ENV\vcpkg\installed\x64-windows\share\c-ares\c-ares-config.cmake;E:\ENV\vcpkg\installed\x64-windows\share\c-ares\c-ares-targets-debug.cmake;E:\ENV\vcpkg\installed\x64-windows\share\c-ares\c-ares-targets-release.cmake;E:\ENV\vcpkg\installed\x64-windows\share\c-ares\c-ares-targets.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\gRPCConfig.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\gRPCConfigVersion.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\gRPCTargets-debug.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\gRPCTargets-release.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\gRPCTargets.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\modules\Findc-ares.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\modules\Findre2.cmake;E:\ENV\vcpkg\installed\x64-windows\share\openssl\vcpkg-cmake-wrapper.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-config-version.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-config.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-module.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-options.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-targets-debug.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-targets-release.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-targets.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\vcpkg-cmake-wrapper.cmake;E:\ENV\vcpkg\installed\x64-windows\share\re2\re2Config.cmake;E:\ENV\vcpkg\installed\x64-windows\share\re2\re2ConfigVersion.cmake;E:\ENV\vcpkg\installed\x64-windows\share\re2\re2Targets-debug.cmake;E:\ENV\vcpkg\installed\x64-windows\share\re2\re2Targets-release.cmake;E:\ENV\vcpkg\installed\x64-windows\share\re2\re2Targets.cmake;E:\ENV\vcpkg\installed\x64-windows\share\upb\upb-config-debug.cmake;E:\ENV\vcpkg\installed\x64-windows\share\upb\upb-config-release.cmake;E:\ENV\vcpkg\installed\x64-windows\share\upb\upb-config.cmake;E:\ENV\vcpkg\installed\x64-windows\share\zlib\vcpkg-cmake-wrapper.cmake;E:\ENV\vcpkg\scripts\buildsystems\vcpkg.cmake;E:\workbench\cppORc template\Socket\grpcImp\cmake-build\CMakeFiles\3.26.3\CMakeCCompiler.cmake;E:\workbench\cppORc template\Socket\grpcImp\cmake-build\CMakeFiles\3.26.3\CMakeCXXCompiler.cmake;E:\workbench\cppORc template\Socket\grpcImp\cmake-build\CMakeFiles\3.26.3\CMakeRCCompiler.cmake;E:\workbench\cppORc template\Socket\grpcImp\cmake-build\CMakeFiles\3.26.3\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">E:\workbench\cppORc template\Socket\grpcImp\cmake-build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule E:/workbench/cppORc template/Socket/grpcImp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+E:\ENV\cmake\bin\cmake.exe "-SE:/workbench/cppORc template/Socket/grpcImp" "-BE:/workbench/cppORc template/Socket/grpcImp/cmake-build" --check-stamp-file "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">E:\ENV\cmake\share\cmake-3.26\Modules\CMakeCInformation.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeCXXInformation.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeCommonLanguageInclude.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeDependentOption.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeFindDependencyMacro.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeGenericSystem.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeInitializeConfigs.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeLanguageInformation.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeRCInformation.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeSystemSpecificInformation.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CMakeSystemSpecificInitialize.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CheckCSourceCompiles.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CheckIncludeFile.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\CheckLibraryExists.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Compiler\CMakeCommonCompilerMacros.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Compiler\MSVC-C.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Compiler\MSVC-CXX.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Compiler\MSVC.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\FindOpenSSL.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\FindPackageHandleStandardArgs.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\FindPackageMessage.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\FindProtobuf.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\FindThreads.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\FindZLIB.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Internal\CheckSourceCompiles.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Platform\Windows-MSVC-C.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Platform\Windows-MSVC-CXX.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Platform\Windows-MSVC.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Platform\Windows.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\Platform\WindowsPaths.cmake;E:\ENV\cmake\share\cmake-3.26\Modules\SelectLibraryConfigurations.cmake;E:\ENV\vcpkg\installed\x64-windows\share\absl\abslConfig.cmake;E:\ENV\vcpkg\installed\x64-windows\share\absl\abslConfigVersion.cmake;E:\ENV\vcpkg\installed\x64-windows\share\absl\abslTargets-debug.cmake;E:\ENV\vcpkg\installed\x64-windows\share\absl\abslTargets-release.cmake;E:\ENV\vcpkg\installed\x64-windows\share\absl\abslTargets.cmake;E:\ENV\vcpkg\installed\x64-windows\share\c-ares\c-ares-config-version.cmake;E:\ENV\vcpkg\installed\x64-windows\share\c-ares\c-ares-config.cmake;E:\ENV\vcpkg\installed\x64-windows\share\c-ares\c-ares-targets-debug.cmake;E:\ENV\vcpkg\installed\x64-windows\share\c-ares\c-ares-targets-release.cmake;E:\ENV\vcpkg\installed\x64-windows\share\c-ares\c-ares-targets.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\gRPCConfig.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\gRPCConfigVersion.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\gRPCTargets-debug.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\gRPCTargets-release.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\gRPCTargets.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\modules\Findc-ares.cmake;E:\ENV\vcpkg\installed\x64-windows\share\grpc\modules\Findre2.cmake;E:\ENV\vcpkg\installed\x64-windows\share\openssl\vcpkg-cmake-wrapper.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-config-version.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-config.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-module.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-options.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-targets-debug.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-targets-release.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\protobuf-targets.cmake;E:\ENV\vcpkg\installed\x64-windows\share\protobuf\vcpkg-cmake-wrapper.cmake;E:\ENV\vcpkg\installed\x64-windows\share\re2\re2Config.cmake;E:\ENV\vcpkg\installed\x64-windows\share\re2\re2ConfigVersion.cmake;E:\ENV\vcpkg\installed\x64-windows\share\re2\re2Targets-debug.cmake;E:\ENV\vcpkg\installed\x64-windows\share\re2\re2Targets-release.cmake;E:\ENV\vcpkg\installed\x64-windows\share\re2\re2Targets.cmake;E:\ENV\vcpkg\installed\x64-windows\share\upb\upb-config-debug.cmake;E:\ENV\vcpkg\installed\x64-windows\share\upb\upb-config-release.cmake;E:\ENV\vcpkg\installed\x64-windows\share\upb\upb-config.cmake;E:\ENV\vcpkg\installed\x64-windows\share\zlib\vcpkg-cmake-wrapper.cmake;E:\ENV\vcpkg\scripts\buildsystems\vcpkg.cmake;E:\workbench\cppORc template\Socket\grpcImp\cmake-build\CMakeFiles\3.26.3\CMakeCCompiler.cmake;E:\workbench\cppORc template\Socket\grpcImp\cmake-build\CMakeFiles\3.26.3\CMakeCXXCompiler.cmake;E:\workbench\cppORc template\Socket\grpcImp\cmake-build\CMakeFiles\3.26.3\CMakeRCCompiler.cmake;E:\workbench\cppORc template\Socket\grpcImp\cmake-build\CMakeFiles\3.26.3\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">E:\workbench\cppORc template\Socket\grpcImp\cmake-build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="E:\workbench\cppORc template\Socket\grpcImp\client.cpp" />
+    <ClCompile Include="E:\workbench\cppORc template\Socket\proto\helloworld.grpc.pb.cc" />
+    <ClCompile Include="E:\workbench\cppORc template\Socket\proto\helloworld.pb.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="E:\workbench\cppORc template\Socket\grpcImp\cmake-build\ZERO_CHECK.vcxproj">
+      <Project>{A295CCD1-784A-3D5D-81B5-4F75AB330F93}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
