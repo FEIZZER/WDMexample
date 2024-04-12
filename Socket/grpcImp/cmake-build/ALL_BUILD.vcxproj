@@ -177,9 +177,21 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{F9DAB059-31CF-3636-BEB9-70DD03A4676D}</Project>
       <Name>client</Name>
     </ProjectReference>
+    <ProjectReference Include="E:\workbench\cppORc template\Socket\grpcImp\cmake-build\client_async.vcxproj">
+      <Project>{EBA724FE-3439-332E-AD11-9AE45609FF30}</Project>
+      <Name>client_async</Name>
+    </ProjectReference>
+    <ProjectReference Include="E:\workbench\cppORc template\Socket\grpcImp\cmake-build\client_async2.vcxproj">
+      <Project>{F9028AA2-E348-3296-BA54-8D115430ABDF}</Project>
+      <Name>client_async2</Name>
+    </ProjectReference>
     <ProjectReference Include="E:\workbench\cppORc template\Socket\grpcImp\cmake-build\server.vcxproj">
       <Project>{6767DFD9-426E-376C-BA77-843EE6BDDE8E}</Project>
       <Name>server</Name>
+    </ProjectReference>
+    <ProjectReference Include="E:\workbench\cppORc template\Socket\grpcImp\cmake-build\server_async.vcxproj">
+      <Project>{E0729D5A-AE22-36B7-9C71-5795C9ED760F}</Project>
+      <Name>server_async</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
