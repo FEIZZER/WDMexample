@@ -50,6 +50,7 @@ public:
 
     // There is no shutdown handling in this code.
     void Run() {
+        std::cout << "In Run()" << std::endl;
         std::string server_address("0.0.0.0:50051");
 
         ServerBuilder builder;
@@ -68,6 +69,28 @@ public:
         // Proceed to the server's main loop.
         HandleRpcs();
     }
+    // This can be run in multiple threads if needed.
+    void HandleRpcs() {
+        std::cout << "In HandleRpcs()" << std::endl;
+        // Spawn a new CallData instance to serve new clients.
+        new CallData(&service_, cq_.get());
+        void* tag;  // uniquely identifies a request.
+        bool ok;
+        while (true) {
+            // Block waiting to read the next event from the completion queue. The
+            // event is uniquely identified by its tag, which in this case is the
+            // memory address of a CallData instance.
+            // The return value of Next should always be checked. This return value
+            // tells us whether there is any kind of event or cq_ is shutting down.
+            GPR_ASSERT(cq_->Next(&tag, &ok));
+            GPR_ASSERT(ok);
+            static_cast<CallData*>(tag)->Proceed();
+        }
+    }
+
+    std::unique_ptr<ServerCompletionQueue> cq_;
+    Greeter::AsyncService service_;
+    std::unique_ptr<Server> server_;
 
 private:
     // Class encompasing the state and logic needed to serve a request.
@@ -79,11 +102,13 @@ private:
         CallData(Greeter::AsyncService* service, ServerCompletionQueue* cq)
             : service_(service), cq_(cq), responder_(&ctx_), status_(CREATE) {
             // Invoke the serving logic right away.
+            std::cout << "In CallData()" << std::endl;
             Proceed();
         }
 
         void Proceed() {
             if (status_ == CREATE) {
+                std::cout << "In CREATE()" << std::endl;
                 // Make this instance progress to the PROCESS state.
                 status_ = PROCESS;
 
@@ -92,10 +117,10 @@ private:
                 // the tag uniquely identifying the request (so that different CallData
                 // instances can serve different requests concurrently), in this case
                 // the memory address of this CallData instance.
-                service_->RequestSayHello(&ctx_, &request_, &responder_, cq_, cq_,
-                    this);
+                service_->RequestSayHello(&ctx_, &request_, &responder_, cq_, cq_, this);
             }
             else if (status_ == PROCESS) {
+                std::cout << "In PROCESS()" << std::endl;
                 // Spawn a new CallData instance to serve new clients while we process
                 // the one for this CallData. The instance will deallocate itself as
                 // part of its FINISH state.
@@ -112,6 +137,7 @@ private:
                 responder_.Finish(reply_, Status::OK, this);
             }
             else {
+                std::cout << "In FINISH()" << std::endl;
                 GPR_ASSERT(status_ == FINISH);
                 // Once in the FINISH state, deallocate ourselves (CallData).
                 delete this;
@@ -141,28 +167,6 @@ private:
         enum CallStatus { CREATE, PROCESS, FINISH };
         CallStatus status_;  // The current serving state.
     };
-
-    // This can be run in multiple threads if needed.
-    void HandleRpcs() {
-        // Spawn a new CallData instance to serve new clients.
-        new CallData(&service_, cq_.get());
-        void* tag;  // uniquely identifies a request.
-        bool ok;
-        while (true) {
-            // Block waiting to read the next event from the completion queue. The
-            // event is uniquely identified by its tag, which in this case is the
-            // memory address of a CallData instance.
-            // The return value of Next should always be checked. This return value
-            // tells us whether there is any kind of event or cq_ is shutting down.
-            GPR_ASSERT(cq_->Next(&tag, &ok));
-            GPR_ASSERT(ok);
-            static_cast<CallData*>(tag)->Proceed();
-        }
-    }
-
-    std::unique_ptr<ServerCompletionQueue> cq_;
-    Greeter::AsyncService service_;
-    std::unique_ptr<Server> server_;
 };
 
 int main(int argc, char** argv) {

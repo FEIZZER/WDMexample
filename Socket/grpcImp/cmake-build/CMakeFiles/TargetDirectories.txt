@@ -1,5 +1,4 @@
-E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/server.dir
-E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/client.dir
+E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/grpc_demo.dir
 E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/server_async.dir
 E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/client_async.dir
 E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/client_async2.dir

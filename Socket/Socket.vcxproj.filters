@@ -25,6 +25,12 @@
     <Filter Include="boostImp">
       <UniqueIdentifier>{aa27944e-cab6-45a8-bed4-e6e82c1610c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="grpcImp">
+      <UniqueIdentifier>{7ea8c042-bd38-42be-b1cb-0f67f899f9ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="proto">
+      <UniqueIdentifier>{5bc61b53-edee-446e-9a72-10004f578c3d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -33,10 +39,68 @@
     <ClCompile Include="pocoImp\src\WorkThread.cpp">
       <Filter>pocoImp\src</Filter>
     </ClCompile>
+    <ClCompile Include="pocoImp\src\IpcMgr.cpp">
+      <Filter>pocoImp\src</Filter>
+    </ClCompile>
+    <ClCompile Include="proto\base.pb.cc">
+      <Filter>proto</Filter>
+    </ClCompile>
+    <ClCompile Include="proto\base.grpc.pb.cc">
+      <Filter>proto</Filter>
+    </ClCompile>
+    <ClCompile Include="grpcImp\server.cpp">
+      <Filter>grpcImp</Filter>
+    </ClCompile>
+    <ClCompile Include="grpcImp\client.cpp">
+      <Filter>grpcImp</Filter>
+    </ClCompile>
+    <ClCompile Include="proto\helloworld.grpc.pb.cc">
+      <Filter>proto</Filter>
+    </ClCompile>
+    <ClCompile Include="proto\helloworld.pb.cc">
+      <Filter>proto</Filter>
+    </ClCompile>
+    <ClCompile Include="grpcImp\client_async.cpp">
+      <Filter>grpcImp</Filter>
+    </ClCompile>
+    <ClCompile Include="grpcImp\server_async.cpp">
+      <Filter>grpcImp</Filter>
+    </ClCompile>
+    <ClCompile Include="grpcImp\client_async2.cpp">
+      <Filter>grpcImp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pocoImp\src\WorkThread.h">
       <Filter>pocoImp\src</Filter>
     </ClInclude>
+    <ClInclude Include="pocoImp\src\IpcMgr.h">
+      <Filter>pocoImp\src</Filter>
+    </ClInclude>
+    <ClInclude Include="proto\base.pb.h">
+      <Filter>proto</Filter>
+    </ClInclude>
+    <ClInclude Include="proto\base.grpc.pb.h">
+      <Filter>proto</Filter>
+    </ClInclude>
+    <ClInclude Include="proto\helloworld.grpc.pb.h">
+      <Filter>proto</Filter>
+    </ClInclude>
+    <ClInclude Include="proto\helloworld.pb.h">
+      <Filter>proto</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="proto\base.proto">
+      <Filter>proto</Filter>
+    </None>
+    <None Include="proto\helloworld.proto">
+      <Filter>proto</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="grpcImp\CMakeLists.txt">
+      <Filter>grpcImp</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -30,6 +30,12 @@ E:/ENV/cmake/share/cmake-3.26/Modules/Platform/Windows-MSVC.cmake
 E:/ENV/cmake/share/cmake-3.26/Modules/Platform/Windows.cmake
 E:/ENV/cmake/share/cmake-3.26/Modules/Platform/WindowsPaths.cmake
 E:/ENV/cmake/share/cmake-3.26/Modules/SelectLibraryConfigurations.cmake
+E:/ENV/lib/lib/x64/poco_1_12_6/cmake/PocoConfig.cmake
+E:/ENV/lib/lib/x64/poco_1_12_6/cmake/PocoConfigVersion.cmake
+E:/ENV/lib/lib/x64/poco_1_12_6/cmake/PocoFoundationConfig.cmake
+E:/ENV/lib/lib/x64/poco_1_12_6/cmake/PocoFoundationConfigVersion.cmake
+E:/ENV/lib/lib/x64/poco_1_12_6/cmake/PocoFoundationTargets-release.cmake
+E:/ENV/lib/lib/x64/poco_1_12_6/cmake/PocoFoundationTargets.cmake
 E:/ENV/vcpkg/installed/x64-windows/share/absl/abslConfig.cmake
 E:/ENV/vcpkg/installed/x64-windows/share/absl/abslConfigVersion.cmake
 E:/ENV/vcpkg/installed/x64-windows/share/absl/abslTargets-debug.cmake

@@ -26,7 +26,7 @@ events:
       用于 .NET Framework 的 Microsoft (R) 生成引擎版本 16.11.2+f32259642
       版权所有(C) Microsoft Corporation。保留所有权利。
       
-      生成启动时间为 2024/4/11 14:23:51。
+      生成启动时间为 2024/4/18 14:50:04。
       节点 1 上的项目“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\3.26.3\\CompilerIdC\\CompilerIdC.vcxproj”(默认目标)。
       PrepareForBuild:
         正在创建目录“Debug\\”。
@@ -61,7 +61,7 @@ events:
           0 个警告
           0 个错误
       
-      已用时间 00:00:01.45
+      已用时间 00:00:01.40
       
       
       Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
@@ -89,7 +89,7 @@ events:
       用于 .NET Framework 的 Microsoft (R) 生成引擎版本 16.11.2+f32259642
       版权所有(C) Microsoft Corporation。保留所有权利。
       
-      生成启动时间为 2024/4/11 14:23:53。
+      生成启动时间为 2024/4/18 14:50:05。
       节点 1 上的项目“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\3.26.3\\CompilerIdCXX\\CompilerIdCXX.vcxproj”(默认目标)。
       PrepareForBuild:
         正在创建目录“Debug\\”。
@@ -124,7 +124,7 @@ events:
           0 个警告
           0 个错误
       
-      已用时间 00:00:01.27
+      已用时间 00:00:01.28
       
       
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
@@ -143,8 +143,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-7dd4dw"
-      binary: "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-7dd4dw"
+      source: "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-yaz4gp"
+      binary: "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-yaz4gp"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3"
       VCPKG_APPLOCAL_DEPS: "ON"
@@ -154,31 +154,31 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-7dd4dw
+        Change Dir: E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-yaz4gp
         
-        Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_151b8.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:n && 用于 .NET Framework 的 Microsoft (R) 生成引擎版本 16.11.2+f32259642
+        Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_04aa7.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:n && 用于 .NET Framework 的 Microsoft (R) 生成引擎版本 16.11.2+f32259642
         版权所有(C) Microsoft Corporation。保留所有权利。
         
-        生成启动时间为 2024/4/11 14:23:54。
-        节点 1 上的项目“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-7dd4dw\\cmTC_151b8.vcxproj”(默认目标)。
+        生成启动时间为 2024/4/18 14:50:07。
+        节点 1 上的项目“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-yaz4gp\\cmTC_04aa7.vcxproj”(默认目标)。
         PrepareForBuild:
-          正在创建目录“cmTC_151b8.dir\\Debug\\”。
-          正在创建目录“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-7dd4dw\\Debug\\”。
-          正在创建目录“cmTC_151b8.dir\\Debug\\cmTC_151b8.tlog\\”。
+          正在创建目录“cmTC_04aa7.dir\\Debug\\”。
+          正在创建目录“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-yaz4gp\\Debug\\”。
+          正在创建目录“cmTC_04aa7.dir\\Debug\\cmTC_04aa7.tlog\\”。
         InitializeBuildStatus:
-          正在创建“cmTC_151b8.dir\\Debug\\cmTC_151b8.tlog\\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+          正在创建“cmTC_04aa7.dir\\Debug\\cmTC_04aa7.tlog\\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
         ClCompile:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_151b8.dir\\Debug\\\\" /Fd"cmTC_151b8.dir\\Debug\\vc142.pdb" /external:W3 /Gd /TC /errorReport:queue "E:\\ENV\\cmake\\share\\cmake-3.26\\Modules\\CMakeCCompilerABI.c"
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_04aa7.dir\\Debug\\\\" /Fd"cmTC_04aa7.dir\\Debug\\vc142.pdb" /external:W3 /Gd /TC /errorReport:queue "E:\\ENV\\cmake\\share\\cmake-3.26\\Modules\\CMakeCCompilerABI.c"
           用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.29.30146 版
           版权所有(C) Microsoft Corporation。保留所有权利。
           CMakeCCompilerABI.c
-          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_151b8.dir\\Debug\\\\" /Fd"cmTC_151b8.dir\\Debug\\vc142.pdb" /external:W3 /Gd /TC /errorReport:queue "E:\\ENV\\cmake\\share\\cmake-3.26\\Modules\\CMakeCCompilerABI.c"
+          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_04aa7.dir\\Debug\\\\" /Fd"cmTC_04aa7.dir\\Debug\\vc142.pdb" /external:W3 /Gd /TC /errorReport:queue "E:\\ENV\\cmake\\share\\cmake-3.26\\Modules\\CMakeCCompilerABI.c"
         Link:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-7dd4dw\\Debug\\cmTC_151b8.exe" /INCREMENTAL /ILK:"cmTC_151b8.dir\\Debug\\cmTC_151b8.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-7dd4dw/Debug/cmTC_151b8.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-7dd4dw/Debug/cmTC_151b8.lib" /MACHINE:X64  /machine:x64 cmTC_151b8.dir\\Debug\\CMakeCCompilerABI.obj
-          cmTC_151b8.vcxproj -> E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-7dd4dw\\Debug\\cmTC_151b8.exe
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-yaz4gp\\Debug\\cmTC_04aa7.exe" /INCREMENTAL /ILK:"cmTC_04aa7.dir\\Debug\\cmTC_04aa7.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-yaz4gp/Debug/cmTC_04aa7.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-yaz4gp/Debug/cmTC_04aa7.lib" /MACHINE:X64  /machine:x64 cmTC_04aa7.dir\\Debug\\CMakeCCompilerABI.obj
+          cmTC_04aa7.vcxproj -> E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-yaz4gp\\Debug\\cmTC_04aa7.exe
         PostBuildEvent:
           setlocal
-          C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -noprofile -executionpolicy Bypass -file E:/ENV/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-7dd4dw/Debug/cmTC_151b8.exe" -installedDir E:/ENV/vcpkg/installed/x64-windows/debug/bin -OutVariable out
+          C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -noprofile -executionpolicy Bypass -file E:/ENV/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-yaz4gp/Debug/cmTC_04aa7.exe" -installedDir E:/ENV/vcpkg/installed/x64-windows/debug/bin -OutVariable out
           if %errorlevel% neq 0 goto :cmEnd
           :cmEnd
           endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
@@ -188,15 +188,15 @@ events:
           if %errorlevel% neq 0 goto :VCEnd
           :VCEnd
         FinalizeBuildStatus:
-          正在删除文件“cmTC_151b8.dir\\Debug\\cmTC_151b8.tlog\\unsuccessfulbuild”。
-          正在对“cmTC_151b8.dir\\Debug\\cmTC_151b8.tlog\\cmTC_151b8.lastbuildstate”执行 Touch 任务。
-        已完成生成项目“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-7dd4dw\\cmTC_151b8.vcxproj”(默认目标)的操作。
+          正在删除文件“cmTC_04aa7.dir\\Debug\\cmTC_04aa7.tlog\\unsuccessfulbuild”。
+          正在对“cmTC_04aa7.dir\\Debug\\cmTC_04aa7.tlog\\cmTC_04aa7.lastbuildstate”执行 Touch 任务。
+        已完成生成项目“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-yaz4gp\\cmTC_04aa7.vcxproj”(默认目标)的操作。
         
         已成功生成。
             0 个警告
             0 个错误
         
-        已用时间 00:00:01.20
+        已用时间 00:00:01.19
         
       exitCode: 0
   -
@@ -208,8 +208,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-nklqt9"
-      binary: "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-nklqt9"
+      source: "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-gb1gnt"
+      binary: "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-gb1gnt"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /W3 /GR /EHsc"
       VCPKG_APPLOCAL_DEPS: "ON"
@@ -219,31 +219,31 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-nklqt9
+        Change Dir: E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-gb1gnt
         
-        Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_4e7c1.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:n && 用于 .NET Framework 的 Microsoft (R) 生成引擎版本 16.11.2+f32259642
+        Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_2642e.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:n && 用于 .NET Framework 的 Microsoft (R) 生成引擎版本 16.11.2+f32259642
         版权所有(C) Microsoft Corporation。保留所有权利。
         
-        生成启动时间为 2024/4/11 14:23:56。
-        节点 1 上的项目“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-nklqt9\\cmTC_4e7c1.vcxproj”(默认目标)。
+        生成启动时间为 2024/4/18 14:50:08。
+        节点 1 上的项目“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-gb1gnt\\cmTC_2642e.vcxproj”(默认目标)。
         PrepareForBuild:
-          正在创建目录“cmTC_4e7c1.dir\\Debug\\”。
-          正在创建目录“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-nklqt9\\Debug\\”。
-          正在创建目录“cmTC_4e7c1.dir\\Debug\\cmTC_4e7c1.tlog\\”。
+          正在创建目录“cmTC_2642e.dir\\Debug\\”。
+          正在创建目录“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-gb1gnt\\Debug\\”。
+          正在创建目录“cmTC_2642e.dir\\Debug\\cmTC_2642e.tlog\\”。
         InitializeBuildStatus:
-          正在创建“cmTC_4e7c1.dir\\Debug\\cmTC_4e7c1.tlog\\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+          正在创建“cmTC_2642e.dir\\Debug\\cmTC_2642e.tlog\\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
         ClCompile:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_4e7c1.dir\\Debug\\\\" /Fd"cmTC_4e7c1.dir\\Debug\\vc142.pdb" /external:W3 /Gd /TP /errorReport:queue "E:\\ENV\\cmake\\share\\cmake-3.26\\Modules\\CMakeCXXCompilerABI.cpp"
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_2642e.dir\\Debug\\\\" /Fd"cmTC_2642e.dir\\Debug\\vc142.pdb" /external:W3 /Gd /TP /errorReport:queue "E:\\ENV\\cmake\\share\\cmake-3.26\\Modules\\CMakeCXXCompilerABI.cpp"
           用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.29.30146 版
           版权所有(C) Microsoft Corporation。保留所有权利。
           CMakeCXXCompilerABI.cpp
-          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_4e7c1.dir\\Debug\\\\" /Fd"cmTC_4e7c1.dir\\Debug\\vc142.pdb" /external:W3 /Gd /TP /errorReport:queue "E:\\ENV\\cmake\\share\\cmake-3.26\\Modules\\CMakeCXXCompilerABI.cpp"
+          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_2642e.dir\\Debug\\\\" /Fd"cmTC_2642e.dir\\Debug\\vc142.pdb" /external:W3 /Gd /TP /errorReport:queue "E:\\ENV\\cmake\\share\\cmake-3.26\\Modules\\CMakeCXXCompilerABI.cpp"
         Link:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-nklqt9\\Debug\\cmTC_4e7c1.exe" /INCREMENTAL /ILK:"cmTC_4e7c1.dir\\Debug\\cmTC_4e7c1.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-nklqt9/Debug/cmTC_4e7c1.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-nklqt9/Debug/cmTC_4e7c1.lib" /MACHINE:X64  /machine:x64 cmTC_4e7c1.dir\\Debug\\CMakeCXXCompilerABI.obj
-          cmTC_4e7c1.vcxproj -> E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-nklqt9\\Debug\\cmTC_4e7c1.exe
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-gb1gnt\\Debug\\cmTC_2642e.exe" /INCREMENTAL /ILK:"cmTC_2642e.dir\\Debug\\cmTC_2642e.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-gb1gnt/Debug/cmTC_2642e.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-gb1gnt/Debug/cmTC_2642e.lib" /MACHINE:X64  /machine:x64 cmTC_2642e.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_2642e.vcxproj -> E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-gb1gnt\\Debug\\cmTC_2642e.exe
         PostBuildEvent:
           setlocal
-          C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -noprofile -executionpolicy Bypass -file E:/ENV/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-nklqt9/Debug/cmTC_4e7c1.exe" -installedDir E:/ENV/vcpkg/installed/x64-windows/debug/bin -OutVariable out
+          C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -noprofile -executionpolicy Bypass -file E:/ENV/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-gb1gnt/Debug/cmTC_2642e.exe" -installedDir E:/ENV/vcpkg/installed/x64-windows/debug/bin -OutVariable out
           if %errorlevel% neq 0 goto :cmEnd
           :cmEnd
           endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
@@ -253,15 +253,15 @@ events:
           if %errorlevel% neq 0 goto :VCEnd
           :VCEnd
         FinalizeBuildStatus:
-          正在删除文件“cmTC_4e7c1.dir\\Debug\\cmTC_4e7c1.tlog\\unsuccessfulbuild”。
-          正在对“cmTC_4e7c1.dir\\Debug\\cmTC_4e7c1.tlog\\cmTC_4e7c1.lastbuildstate”执行 Touch 任务。
-        已完成生成项目“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-nklqt9\\cmTC_4e7c1.vcxproj”(默认目标)的操作。
+          正在删除文件“cmTC_2642e.dir\\Debug\\cmTC_2642e.tlog\\unsuccessfulbuild”。
+          正在对“cmTC_2642e.dir\\Debug\\cmTC_2642e.tlog\\cmTC_2642e.lastbuildstate”执行 Touch 任务。
+        已完成生成项目“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-gb1gnt\\cmTC_2642e.vcxproj”(默认目标)的操作。
         
         已成功生成。
             0 个警告
             0 个错误
         
-        已用时间 00:00:01.22
+        已用时间 00:00:01.17
         
       exitCode: 0
   -
@@ -277,12 +277,12 @@ events:
       - "E:/ENV/vcpkg/scripts/buildsystems/vcpkg.cmake:859 (_find_package)"
       - "E:/ENV/vcpkg/installed/x64-windows/share/grpc/gRPCConfig.cmake:18 (find_package)"
       - "E:/ENV/vcpkg/scripts/buildsystems/vcpkg.cmake:857 (_find_package)"
-      - "CMakeLists.txt:5 (find_package)"
+      - "CMakeLists.txt:6 (find_package)"
     checks:
       - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
     directories:
-      source: "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-vgyeai"
-      binary: "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-vgyeai"
+      source: "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-t87va2"
+      binary: "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-t87va2"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3"
       CMAKE_MODULE_PATH: "E:/ENV/vcpkg/installed/x64-windows/share/grpc/modules"
@@ -293,38 +293,38 @@ events:
       variable: "CMAKE_HAVE_LIBC_PTHREAD"
       cached: true
       stdout: |
-        Change Dir: E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-vgyeai
+        Change Dir: E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-t87va2
         
-        Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_ff506.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:n && 用于 .NET Framework 的 Microsoft (R) 生成引擎版本 16.11.2+f32259642
+        Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_e3a17.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:n && 用于 .NET Framework 的 Microsoft (R) 生成引擎版本 16.11.2+f32259642
         版权所有(C) Microsoft Corporation。保留所有权利。
         
-        生成启动时间为 2024/4/11 14:23:57。
-        节点 1 上的项目“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-vgyeai\\cmTC_ff506.vcxproj”(默认目标)。
+        生成启动时间为 2024/4/18 14:50:09。
+        节点 1 上的项目“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-t87va2\\cmTC_e3a17.vcxproj”(默认目标)。
         PrepareForBuild:
-          正在创建目录“cmTC_ff506.dir\\Debug\\”。
-          正在创建目录“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-vgyeai\\Debug\\”。
-          正在创建目录“cmTC_ff506.dir\\Debug\\cmTC_ff506.tlog\\”。
+          正在创建目录“cmTC_e3a17.dir\\Debug\\”。
+          正在创建目录“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-t87va2\\Debug\\”。
+          正在创建目录“cmTC_e3a17.dir\\Debug\\cmTC_e3a17.tlog\\”。
         InitializeBuildStatus:
-          正在创建“cmTC_ff506.dir\\Debug\\cmTC_ff506.tlog\\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+          正在创建“cmTC_e3a17.dir\\Debug\\cmTC_e3a17.tlog\\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
         ClCompile:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CMAKE_HAVE_LIBC_PTHREAD /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_ff506.dir\\Debug\\\\" /Fd"cmTC_ff506.dir\\Debug\\vc142.pdb" /external:W3 /Gd /TC /errorReport:queue "E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-vgyeai\\src.c"
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CMAKE_HAVE_LIBC_PTHREAD /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_e3a17.dir\\Debug\\\\" /Fd"cmTC_e3a17.dir\\Debug\\vc142.pdb" /external:W3 /Gd /TC /errorReport:queue "E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-t87va2\\src.c"
           用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.29.30146 版
           版权所有(C) Microsoft Corporation。保留所有权利。
           src.c
-          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CMAKE_HAVE_LIBC_PTHREAD /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_ff506.dir\\Debug\\\\" /Fd"cmTC_ff506.dir\\Debug\\vc142.pdb" /external:W3 /Gd /TC /errorReport:queue "E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-vgyeai\\src.c"
-        E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-vgyeai\\src.c(1,10): fatal error C1083: 无法打开包括文件: “pthread.h”: No such file or directory [E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-vgyeai\\cmTC_ff506.vcxproj]
-        已完成生成项目“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-vgyeai\\cmTC_ff506.vcxproj”(默认目标)的操作 - 失败。
+          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CMAKE_HAVE_LIBC_PTHREAD /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_e3a17.dir\\Debug\\\\" /Fd"cmTC_e3a17.dir\\Debug\\vc142.pdb" /external:W3 /Gd /TC /errorReport:queue "E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-t87va2\\src.c"
+        E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-t87va2\\src.c(1,10): fatal error C1083: 无法打开包括文件: “pthread.h”: No such file or directory [E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-t87va2\\cmTC_e3a17.vcxproj]
+        已完成生成项目“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-t87va2\\cmTC_e3a17.vcxproj”(默认目标)的操作 - 失败。
         
         生成失败。
         
-        “E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-vgyeai\\cmTC_ff506.vcxproj”(默认目标) (1) ->
+        “E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-t87va2\\cmTC_e3a17.vcxproj”(默认目标) (1) ->
         (ClCompile 目标) -> 
-          E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-vgyeai\\src.c(1,10): fatal error C1083: 无法打开包括文件: “pthread.h”: No such file or directory [E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-vgyeai\\cmTC_ff506.vcxproj]
+          E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-t87va2\\src.c(1,10): fatal error C1083: 无法打开包括文件: “pthread.h”: No such file or directory [E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-t87va2\\cmTC_e3a17.vcxproj]
         
             0 个警告
             1 个错误
         
-        已用时间 00:00:00.28
+        已用时间 00:00:00.27
         
       exitCode: 1
   -
@@ -339,12 +339,12 @@ events:
       - "E:/ENV/vcpkg/scripts/buildsystems/vcpkg.cmake:859 (_find_package)"
       - "E:/ENV/vcpkg/installed/x64-windows/share/grpc/gRPCConfig.cmake:18 (find_package)"
       - "E:/ENV/vcpkg/scripts/buildsystems/vcpkg.cmake:857 (_find_package)"
-      - "CMakeLists.txt:5 (find_package)"
+      - "CMakeLists.txt:6 (find_package)"
     checks:
       - "Looking for pthread_create in pthreads"
     directories:
-      source: "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-8gzb63"
-      binary: "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-8gzb63"
+      source: "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-cekcy0"
+      binary: "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-cekcy0"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3"
       CMAKE_MODULE_PATH: "E:/ENV/vcpkg/installed/x64-windows/share/grpc/modules"
@@ -355,40 +355,40 @@ events:
       variable: "CMAKE_HAVE_PTHREADS_CREATE"
       cached: true
       stdout: |
-        Change Dir: E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-8gzb63
+        Change Dir: E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-cekcy0
         
-        Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_531da.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:n && 用于 .NET Framework 的 Microsoft (R) 生成引擎版本 16.11.2+f32259642
+        Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_1e265.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:n && 用于 .NET Framework 的 Microsoft (R) 生成引擎版本 16.11.2+f32259642
         版权所有(C) Microsoft Corporation。保留所有权利。
         
-        生成启动时间为 2024/4/11 14:23:58。
-        节点 1 上的项目“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-8gzb63\\cmTC_531da.vcxproj”(默认目标)。
+        生成启动时间为 2024/4/18 14:50:10。
+        节点 1 上的项目“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-cekcy0\\cmTC_1e265.vcxproj”(默认目标)。
         PrepareForBuild:
-          正在创建目录“cmTC_531da.dir\\Debug\\”。
-          正在创建目录“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-8gzb63\\Debug\\”。
-          正在创建目录“cmTC_531da.dir\\Debug\\cmTC_531da.tlog\\”。
+          正在创建目录“cmTC_1e265.dir\\Debug\\”。
+          正在创建目录“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-cekcy0\\Debug\\”。
+          正在创建目录“cmTC_1e265.dir\\Debug\\cmTC_1e265.tlog\\”。
         InitializeBuildStatus:
-          正在创建“cmTC_531da.dir\\Debug\\cmTC_531da.tlog\\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+          正在创建“cmTC_1e265.dir\\Debug\\cmTC_1e265.tlog\\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
         ClCompile:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_531da.dir\\Debug\\\\" /Fd"cmTC_531da.dir\\Debug\\vc142.pdb" /external:W3 /Gd /TC /errorReport:queue "E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-8gzb63\\CheckFunctionExists.c"
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_1e265.dir\\Debug\\\\" /Fd"cmTC_1e265.dir\\Debug\\vc142.pdb" /external:W3 /Gd /TC /errorReport:queue "E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-cekcy0\\CheckFunctionExists.c"
           用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.29.30146 版
           版权所有(C) Microsoft Corporation。保留所有权利。
           CheckFunctionExists.c
-          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_531da.dir\\Debug\\\\" /Fd"cmTC_531da.dir\\Debug\\vc142.pdb" /external:W3 /Gd /TC /errorReport:queue "E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-8gzb63\\CheckFunctionExists.c"
+          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_1e265.dir\\Debug\\\\" /Fd"cmTC_1e265.dir\\Debug\\vc142.pdb" /external:W3 /Gd /TC /errorReport:queue "E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-cekcy0\\CheckFunctionExists.c"
         Link:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-8gzb63\\Debug\\cmTC_531da.exe" /INCREMENTAL /ILK:"cmTC_531da.dir\\Debug\\cmTC_531da.ilk" /NOLOGO pthreads.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-8gzb63/Debug/cmTC_531da.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-8gzb63/Debug/cmTC_531da.lib" /MACHINE:X64  /machine:x64 cmTC_531da.dir\\Debug\\CheckFunctionExists.obj
-        LINK : fatal error LNK1104: 无法打开文件“pthreads.lib” [E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-8gzb63\\cmTC_531da.vcxproj]
-        已完成生成项目“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-8gzb63\\cmTC_531da.vcxproj”(默认目标)的操作 - 失败。
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-cekcy0\\Debug\\cmTC_1e265.exe" /INCREMENTAL /ILK:"cmTC_1e265.dir\\Debug\\cmTC_1e265.ilk" /NOLOGO pthreads.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-cekcy0/Debug/cmTC_1e265.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-cekcy0/Debug/cmTC_1e265.lib" /MACHINE:X64  /machine:x64 cmTC_1e265.dir\\Debug\\CheckFunctionExists.obj
+        LINK : fatal error LNK1104: 无法打开文件“pthreads.lib” [E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-cekcy0\\cmTC_1e265.vcxproj]
+        已完成生成项目“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-cekcy0\\cmTC_1e265.vcxproj”(默认目标)的操作 - 失败。
         
         生成失败。
         
-        “E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-8gzb63\\cmTC_531da.vcxproj”(默认目标) (1) ->
+        “E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-cekcy0\\cmTC_1e265.vcxproj”(默认目标) (1) ->
         (Link 目标) -> 
-          LINK : fatal error LNK1104: 无法打开文件“pthreads.lib” [E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-8gzb63\\cmTC_531da.vcxproj]
+          LINK : fatal error LNK1104: 无法打开文件“pthreads.lib” [E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-cekcy0\\cmTC_1e265.vcxproj]
         
             0 个警告
             1 个错误
         
-        已用时间 00:00:00.35
+        已用时间 00:00:00.34
         
       exitCode: 1
   -
@@ -403,12 +403,12 @@ events:
       - "E:/ENV/vcpkg/scripts/buildsystems/vcpkg.cmake:859 (_find_package)"
       - "E:/ENV/vcpkg/installed/x64-windows/share/grpc/gRPCConfig.cmake:18 (find_package)"
       - "E:/ENV/vcpkg/scripts/buildsystems/vcpkg.cmake:857 (_find_package)"
-      - "CMakeLists.txt:5 (find_package)"
+      - "CMakeLists.txt:6 (find_package)"
     checks:
       - "Looking for pthread_create in pthread"
     directories:
-      source: "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-cjrzsl"
-      binary: "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-cjrzsl"
+      source: "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-l7ckbg"
+      binary: "E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-l7ckbg"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3"
       CMAKE_MODULE_PATH: "E:/ENV/vcpkg/installed/x64-windows/share/grpc/modules"
@@ -419,35 +419,35 @@ events:
       variable: "CMAKE_HAVE_PTHREAD_CREATE"
       cached: true
       stdout: |
-        Change Dir: E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-cjrzsl
+        Change Dir: E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-l7ckbg
         
-        Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_5cf70.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:n && 用于 .NET Framework 的 Microsoft (R) 生成引擎版本 16.11.2+f32259642
+        Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_328b6.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:n && 用于 .NET Framework 的 Microsoft (R) 生成引擎版本 16.11.2+f32259642
         版权所有(C) Microsoft Corporation。保留所有权利。
         
-        生成启动时间为 2024/4/11 14:23:58。
-        节点 1 上的项目“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-cjrzsl\\cmTC_5cf70.vcxproj”(默认目标)。
+        生成启动时间为 2024/4/18 14:50:10。
+        节点 1 上的项目“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-l7ckbg\\cmTC_328b6.vcxproj”(默认目标)。
         PrepareForBuild:
-          正在创建目录“cmTC_5cf70.dir\\Debug\\”。
-          正在创建目录“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-cjrzsl\\Debug\\”。
-          正在创建目录“cmTC_5cf70.dir\\Debug\\cmTC_5cf70.tlog\\”。
+          正在创建目录“cmTC_328b6.dir\\Debug\\”。
+          正在创建目录“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-l7ckbg\\Debug\\”。
+          正在创建目录“cmTC_328b6.dir\\Debug\\cmTC_328b6.tlog\\”。
         InitializeBuildStatus:
-          正在创建“cmTC_5cf70.dir\\Debug\\cmTC_5cf70.tlog\\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+          正在创建“cmTC_328b6.dir\\Debug\\cmTC_328b6.tlog\\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
         ClCompile:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_5cf70.dir\\Debug\\\\" /Fd"cmTC_5cf70.dir\\Debug\\vc142.pdb" /external:W3 /Gd /TC /errorReport:queue "E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-cjrzsl\\CheckFunctionExists.c"
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_328b6.dir\\Debug\\\\" /Fd"cmTC_328b6.dir\\Debug\\vc142.pdb" /external:W3 /Gd /TC /errorReport:queue "E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-l7ckbg\\CheckFunctionExists.c"
           用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.29.30146 版
           版权所有(C) Microsoft Corporation。保留所有权利。
           CheckFunctionExists.c
-          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_5cf70.dir\\Debug\\\\" /Fd"cmTC_5cf70.dir\\Debug\\vc142.pdb" /external:W3 /Gd /TC /errorReport:queue "E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-cjrzsl\\CheckFunctionExists.c"
+          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_328b6.dir\\Debug\\\\" /Fd"cmTC_328b6.dir\\Debug\\vc142.pdb" /external:W3 /Gd /TC /errorReport:queue "E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-l7ckbg\\CheckFunctionExists.c"
         Link:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-cjrzsl\\Debug\\cmTC_5cf70.exe" /INCREMENTAL /ILK:"cmTC_5cf70.dir\\Debug\\cmTC_5cf70.ilk" /NOLOGO pthread.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-cjrzsl/Debug/cmTC_5cf70.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-cjrzsl/Debug/cmTC_5cf70.lib" /MACHINE:X64  /machine:x64 cmTC_5cf70.dir\\Debug\\CheckFunctionExists.obj
-        LINK : fatal error LNK1104: 无法打开文件“pthread.lib” [E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-cjrzsl\\cmTC_5cf70.vcxproj]
-        已完成生成项目“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-cjrzsl\\cmTC_5cf70.vcxproj”(默认目标)的操作 - 失败。
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-l7ckbg\\Debug\\cmTC_328b6.exe" /INCREMENTAL /ILK:"cmTC_328b6.dir\\Debug\\cmTC_328b6.ilk" /NOLOGO pthread.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-l7ckbg/Debug/cmTC_328b6.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/workbench/cppORc template/Socket/grpcImp/cmake-build/CMakeFiles/CMakeScratch/TryCompile-l7ckbg/Debug/cmTC_328b6.lib" /MACHINE:X64  /machine:x64 cmTC_328b6.dir\\Debug\\CheckFunctionExists.obj
+        LINK : fatal error LNK1104: 无法打开文件“pthread.lib” [E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-l7ckbg\\cmTC_328b6.vcxproj]
+        已完成生成项目“E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-l7ckbg\\cmTC_328b6.vcxproj”(默认目标)的操作 - 失败。
         
         生成失败。
         
-        “E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-cjrzsl\\cmTC_5cf70.vcxproj”(默认目标) (1) ->
+        “E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-l7ckbg\\cmTC_328b6.vcxproj”(默认目标) (1) ->
         (Link 目标) -> 
-          LINK : fatal error LNK1104: 无法打开文件“pthread.lib” [E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-cjrzsl\\cmTC_5cf70.vcxproj]
+          LINK : fatal error LNK1104: 无法打开文件“pthread.lib” [E:\\workbench\\cppORc template\\Socket\\grpcImp\\cmake-build\\CMakeFiles\\CMakeScratch\\TryCompile-l7ckbg\\cmTC_328b6.vcxproj]
         
             0 个警告
             1 个错误

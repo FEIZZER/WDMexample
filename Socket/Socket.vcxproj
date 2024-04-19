@@ -144,11 +144,33 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="grpcImp\client_async.cpp" />
+    <ClCompile Include="grpcImp\client.cpp" />
+    <ClCompile Include="grpcImp\client_async2.cpp" />
+    <ClCompile Include="grpcImp\server.cpp" />
+    <ClCompile Include="grpcImp\server_async.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="pocoImp\src\IpcMgr.cpp" />
     <ClCompile Include="pocoImp\src\WorkThread.cpp" />
+    <ClCompile Include="proto\base.grpc.pb.cc" />
+    <ClCompile Include="proto\base.pb.cc" />
+    <ClCompile Include="proto\helloworld.grpc.pb.cc" />
+    <ClCompile Include="proto\helloworld.pb.cc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="pocoImp\src\IpcMgr.h" />
     <ClInclude Include="pocoImp\src\WorkThread.h" />
+    <ClInclude Include="proto\base.grpc.pb.h" />
+    <ClInclude Include="proto\base.pb.h" />
+    <ClInclude Include="proto\helloworld.grpc.pb.h" />
+    <ClInclude Include="proto\helloworld.pb.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="proto\base.proto" />
+    <None Include="proto\helloworld.proto" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="grpcImp\CMakeLists.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

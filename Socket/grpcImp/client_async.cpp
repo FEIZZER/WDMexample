@@ -84,7 +84,6 @@ public:
         // The return value of Next should always be checked. This return value
         // tells us whether there is any kind of event or the cq_ is shutting down.
         
-
         cq.Next(&got_tag, &ok);
 
         // Verify that the result from "cq" corresponds, by its tag, our previous

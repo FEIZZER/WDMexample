@@ -20,12 +20,13 @@ void f1(T param) {}
 template<typename T>
 void f2(T& param) {}
 
+
+void Test(size_t v)
+{
+	std::cout << v << std::endl;
+}
+#define V 2048
 int main()
 {
-#define aa "aa"
-	char path[256] = {1,2,3,4,5,6,7,'a','a', 0};
-
-	std::cout << strlen(path) << "  " << strncmp(aa, path + strlen(path) - sizeof(aa) + 1, sizeof(aa)) << "  "  << sizeof(aa);
-
-
+	Test((size_t)V * 1024 * 1024);
 }
