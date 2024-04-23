@@ -13,6 +13,8 @@ int main(int argc, char** argv)
 {
     #define V "testetst d"
 
+    char test_value[] = { '1', '1', '2', '\0', '0' };
+
     if (argc != 2)
     {
         return 1;
@@ -22,19 +24,23 @@ int main(int argc, char** argv)
     {
         std::cout << "server" << std::endl;
         ServerImp server(test);
-        server.Run();
-
-    }
-    else if (strcmpi(argv[1], "stream_s") == 0)
-    {
+        server.RunAsync2();
 
     }
     else if (strcmpi(argv[1], "client") == 0)
     {
-        std::cout << "client" << std::endl;
-        std::string target_str = "localhost:50051";
-        ClientImpl base(grpc::CreateChannel(target_str, grpc::InsecureChannelCredentials()));
-        std::string reply = base.ClientStreamTransmit(V, sizeof(V));
+        auto connect = GrpcClient::CreatePersistentConnect("localhost:50051");
+        auto connect2 = GrpcClient::CreatePersistentConnect("localhost:50051");
+        char in[1024] = { 0 };
+        do {
+            std::cin >> in;
+            if (strcmpi(in, "quit") == 0)
+                break;
+            connect->Request(in, 1024);
+            in[0] = 'g';
+            connect2->Request(in, 1024);
+        } while (true);
+       
     }
     else if (strcmpi(argv[1], "async_c") == 0)
     {

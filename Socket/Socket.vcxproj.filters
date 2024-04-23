@@ -48,10 +48,10 @@
     <ClCompile Include="proto\base.grpc.pb.cc">
       <Filter>proto</Filter>
     </ClCompile>
-    <ClCompile Include="grpcImp\server.cpp">
+    <ClCompile Include="grpcImp\server.h">
       <Filter>grpcImp</Filter>
     </ClCompile>
-    <ClCompile Include="grpcImp\client.cpp">
+    <ClCompile Include="grpcImp\client.h">
       <Filter>grpcImp</Filter>
     </ClCompile>
     <ClCompile Include="proto\helloworld.grpc.pb.cc">
@@ -88,6 +88,12 @@
     </ClInclude>
     <ClInclude Include="proto\helloworld.pb.h">
       <Filter>proto</Filter>
+    </ClInclude>
+    <ClInclude Include="grpcImp\grpc_base_service.h">
+      <Filter>grpcImp</Filter>
+    </ClInclude>
+    <ClInclude Include="grpcImp\work_thread.h">
+      <Filter>grpcImp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

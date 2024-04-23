@@ -145,9 +145,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="grpcImp\client_async.cpp" />
-    <ClCompile Include="grpcImp\client.cpp" />
+    <ClCompile Include="grpcImp\client.h" />
     <ClCompile Include="grpcImp\client_async2.cpp" />
-    <ClCompile Include="grpcImp\server.cpp" />
+    <ClCompile Include="grpcImp\server.h" />
     <ClCompile Include="grpcImp\server_async.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pocoImp\src\IpcMgr.cpp" />
@@ -158,6 +158,8 @@
     <ClCompile Include="proto\helloworld.pb.cc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="grpcImp\grpc_base_service.h" />
+    <ClInclude Include="grpcImp\work_thread.h" />
     <ClInclude Include="pocoImp\src\IpcMgr.h" />
     <ClInclude Include="pocoImp\src\WorkThread.h" />
     <ClInclude Include="proto\base.grpc.pb.h" />

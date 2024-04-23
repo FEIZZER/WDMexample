@@ -131,9 +131,47 @@ public:
 
         BaseRequest request;
         request.set_buffer("client stream1", sizeof("client stream1"));
-        client_writer->Write(request);
+        while (true)
+        {
+            if (!client_writer->Write(request))
+            {
+                break;
+            }
+            Sleep(2000);
+        }
         client_writer->WritesDone();
         client_writer->Finish();
+        std::cout << "reply:" << reply.buffer().c_str() << std::endl;
+
+        return "";
+    }
+    std::string StreamTransmit(const char* buf, unsigned __int32 length)
+    {
+        std::cout << "In StreamTransmit" << std::endl;
+        ClientContext context;
+        auto stream(stub_->StreamTransmit(&context));
+
+        BaseRequest request;
+        BaseReply reply;
+
+        while (true)
+        {
+            if (!stream->Write(request))
+            {
+                std::cout << "stream write failed";
+                break;
+            }
+            if (!stream->Read(&reply))
+            {
+                std::cout << "stream read failed";
+                break;
+            }
+            else
+            {
+                std::cout << "stream read: " << reply.buffer().c_str() << std::endl;
+            }
+            Sleep(2000);
+        }
 
         return "";
     }
@@ -174,4 +212,53 @@ public:
 private:
     std::unique_ptr<Base::Stub> stub_;
     grpc::CompletionQueue cq_;
+};
+
+class PersistentConnect : public WorkThread
+{
+public:
+    PersistentConnect(std::string target)
+    {
+        stub_ = std::move(Base::NewStub(grpc::CreateChannel(target, grpc::InsecureChannelCredentials())));
+        stream_ = std::move(stub_->StreamTransmit(&ctx_));
+    };
+
+    bool Request(void* buf, unsigned __int32 length)
+    {
+        request_.set_buffer(buf, length);
+        return stream_->Write(request_);
+    }
+    void CreateStream()
+    {
+        auto stream2(stub_->StreamTransmit(&ctx_));
+    }
+    void run()
+    {
+        while (true)
+        {
+            if (!stream_->Read(&reply_))
+            {
+                std::cout << "Server Done" << std::endl;
+                break;
+            }
+            std::cout << "Read: " << reply_.buffer().c_str() << std::endl;
+        }
+    };
+private:
+    std::unique_ptr<Base::Stub> stub_ = nullptr;
+    std::unique_ptr<grpc::ClientReaderWriter<BaseRequest, BaseReply>> stream_ = nullptr;
+    ClientContext ctx_;
+    BaseRequest request_;
+    BaseReply reply_;
+};
+
+class GrpcClient
+{
+public:
+    static std::unique_ptr<PersistentConnect> CreatePersistentConnect(std::string target)
+    {
+        auto newConnect = std::make_unique<PersistentConnect>(target);
+        newConnect->InitThread();
+        return newConnect;
+    }
 };

@@ -19,9 +19,9 @@ service Base
 {
 	rpc BaseTransmit (BaseRequest) returns (BaseReply) {}
 
-	rpc StreamTransmit (stream BaseRequest) returns (stream BaseReply) {}
+	rpc ServerStreamTransmit (BaseRequest) returns (stream BaseReply) {}
 
 	rpc ClientStreamTransmit(stream BaseRequest) returns (BaseReply) {}
 
-	rpc ServerStreamTransmit (BaseRequest) returns (stream BaseReply) {}
+	rpc StreamTransmit (stream BaseRequest) returns (stream BaseReply) {}
 }

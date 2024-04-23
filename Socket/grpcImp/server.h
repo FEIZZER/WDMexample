@@ -41,6 +41,82 @@ using helloworld::Greeter;
 
 using GRPCProc = void (*) (void*, int32_t, void**, int32_t*);
 
+class AsyncStreamTransmitImpl final : public WorkThread
+{
+public:
+    AsyncStreamTransmitImpl(Base::AsyncService* service, grpc::ServerCompletionQueue* cq)
+        :service_(service), cq_(cq), status_(CREATE), stream_(&ctx_)
+    {
+        Proceed();
+    }
+    void run()
+    {
+        BaseRequest request;
+        BaseReply reply;
+        stream_.Read(&request, this);
+    }
+    void Proceed() {
+        if (status_ == CREATE) {
+            std::cout << "In CREATE" << std::endl;
+            // Make this instance progress to the PROCESS state.
+            status_ = INIT_READ;
+
+            // As part of the initial CREATE state, we *request* that the system
+            // start processing SayHello requests. In this request, "this" acts are
+            // the tag uniquely identifying the request (so that different CallData
+            // instances can serve different requests concurrently), in this case
+            // the memory address of this CallData instance.
+            service_->RequestStreamTransmit(&ctx_, &stream_, cq_, cq_, this);
+        }
+        else if (status_ == INIT_READ){
+
+            new AsyncStreamTransmitImpl(service_, cq_);
+            stream_.Read(&request_, this);
+            status_ = WRITE;
+
+        }
+        else if (status_ == READ){
+            stream_.Read(&request_, this);
+            std::cout << "Read:" << request_.buffer().c_str() << std::endl;
+            status_ = WRITE;
+        }
+        else if (status_ == WRITE) {
+            // do write
+            BaseReply reply = {};
+            reply.set_buffer(request_.buffer().c_str());
+            stream_.Write(reply, this);
+
+            status_ = READ;
+
+        }
+        else {
+            std::cout << "In FINISH" << std::endl;
+            GPR_ASSERT(status_ == FINISH);
+            // Once in the FINISH state, deallocate ourselves (CallData).
+            delete this;
+        }
+    }
+private:
+  
+    Base::AsyncService* service_;
+
+    grpc::ServerCompletionQueue* cq_;
+
+    ServerContext ctx_;
+
+    BaseRequest request_;
+
+    BaseReply reply_;
+
+    grpc::ServerAsyncReaderWriter< ::BaseReply, ::BaseRequest> stream_;
+
+    enum CallStatus { CREATE, INIT_READ, READ, WRITE, FINISH };
+    CallStatus status_;
+
+    GRPCProc grpc_proc_;
+};
+
+
 class AsyncServiceImpl final : public WorkThread {
 public:
     // Take in the "service" instance (in this case representing an asynchronous
@@ -176,7 +252,8 @@ public:
         grpc::ServerContext* context, 
         grpc::ServerReaderWriter<BaseReply, BaseRequest>* stream) override
     {
-
+        //stream->Read()
+        // stream->Write()
         return grpc::Status::OK;
     }
 
@@ -213,6 +290,8 @@ public:
             std::cout << "server receive stream: " 
                 << request->buffer().c_str() << std::endl;
         }
+
+        std::cout << "read done" << std::endl;
 
         #define value "ClientStreamTransmit Handle Done"
         response->set_buffer(value, sizeof(value));
@@ -295,6 +374,49 @@ public:
             if (ok) 
             {
                 static_cast<AsyncServiceImpl*>(tag)->Proceed();
+            }
+            else
+            {
+                std::cout << "server_cq_->Next err" << std::endl;
+            }
+        }
+    }
+    void RunAsync2()
+    {
+        std::string server_address("0.0.0.0:50051");
+        ServerBuilder builder;
+        builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
+
+        // Register "service_" as the instance through which we'll communicate with
+        // clients. In this case it corresponds to an *asynchronous* service.
+        Base::AsyncService service_;
+        builder.RegisterService(&service_);
+
+        // Get hold of the completion queue used for the asynchronous communication
+        // with the gRPC runtime.
+        server_cq_ = builder.AddCompletionQueue();
+
+        // Finally assemble the server.
+        server_ = builder.BuildAndStart();
+        std::cout << "Server listening on " << server_address << std::endl;
+
+        // Spawn a new AsyncStreamTransmitImpl instance to serve new clients.
+        new AsyncStreamTransmitImpl(&service_, server_cq_.get());
+        void* tag;  // uniquely identifies a request.
+        bool ok;
+
+        while (true) {
+            // Block waiting to read the next event from the completion queue. The
+            // event is uniquely identified by its tag, which in this case is the
+            // memory address of a CallData instance.
+            // The return value of Next should always be checked. This return value
+            // tells us whether there is any kind of event or cq_ is shutting down.
+            std::cout << "In StartHandleRequest before Next" << std::endl;
+            GPR_ASSERT(server_cq_->Next(&tag, &ok));
+            std::cout << "In StartHandleRequest after Next" << std::endl;
+            if (ok)
+            {
+                static_cast<AsyncStreamTransmitImpl*>(tag)->Proceed();
             }
             else
             {
