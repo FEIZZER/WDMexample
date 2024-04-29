@@ -45,8 +45,10 @@ class AsyncStreamTransmitImpl final : public WorkThread
 {
 public:
     AsyncStreamTransmitImpl(Base::AsyncService* service, grpc::ServerCompletionQueue* cq)
-        :service_(service), cq_(cq), status_(CREATE), stream_(&ctx_)
     {
+        service_ = service;
+        cq_ = cq;
+        status_ = AsyncStreamTransmitImpl::CREATE;
         Proceed();
     }
     void run()
@@ -56,44 +58,42 @@ public:
         stream_.Read(&request, this);
     }
     void Proceed() {
-        if (status_ == CREATE) {
-            std::cout << "In CREATE" << std::endl;
-            // Make this instance progress to the PROCESS state.
+
+        switch (status_)
+        {
+        case AsyncStreamTransmitImpl::CREATE:
+            std::cout << "AsyncStreamTransmitImpl In Create" << std::endl;
             status_ = INIT_READ;
-
-            // As part of the initial CREATE state, we *request* that the system
-            // start processing SayHello requests. In this request, "this" acts are
-            // the tag uniquely identifying the request (so that different CallData
-            // instances can serve different requests concurrently), in this case
-            // the memory address of this CallData instance.
             service_->RequestStreamTransmit(&ctx_, &stream_, cq_, cq_, this);
-        }
-        else if (status_ == INIT_READ){
+            std::cout << "AsyncStreamTransmitImpl after RequestStreamTransmit" << std::endl;
+            break;
 
+        case AsyncStreamTransmitImpl::INIT_READ:
+            std::cout << "AsyncStreamTransmitImpl In Init_Read" << std::endl;
             new AsyncStreamTransmitImpl(service_, cq_);
+        case AsyncStreamTransmitImpl::READ:
+            std::cout << "AsyncStreamTransmitImpl In Read" << std::endl;
             stream_.Read(&request_, this);
+            std::cout << "AsyncStreamTransmitImpl after Read" << std::endl;
             status_ = WRITE;
+            break;
 
-        }
-        else if (status_ == READ){
-            stream_.Read(&request_, this);
-            std::cout << "Read:" << request_.buffer().c_str() << std::endl;
-            status_ = WRITE;
-        }
-        else if (status_ == WRITE) {
+        case AsyncStreamTransmitImpl::WRITE:
+            std::cout << "AsyncStreamTransmitImpl In Write" << std::endl;
+            reply_.set_buffer(" ok then");
+            stream_.Write(reply_, this);
             // do write
-            BaseReply reply = {};
-            reply.set_buffer(request_.buffer().c_str());
-            stream_.Write(reply, this);
-
             status_ = READ;
+            break;
 
-        }
-        else {
-            std::cout << "In FINISH" << std::endl;
+        case AsyncStreamTransmitImpl::FINISH:
             GPR_ASSERT(status_ == FINISH);
-            // Once in the FINISH state, deallocate ourselves (CallData).
+            // Once in the FINISH state, deallocate ourselves
             delete this;
+            break;
+
+        default:
+            break;
         }
     }
 private:
@@ -108,7 +108,8 @@ private:
 
     BaseReply reply_;
 
-    grpc::ServerAsyncReaderWriter< ::BaseReply, ::BaseRequest> stream_;
+    grpc::ServerAsyncReaderWriter< ::BaseReply, ::BaseRequest> stream_
+        = grpc::ServerAsyncReaderWriter<BaseReply, BaseRequest>(&ctx_);
 
     enum CallStatus { CREATE, INIT_READ, READ, WRITE, FINISH };
     CallStatus status_;
@@ -156,35 +157,29 @@ public:
         responder_.Finish(reply_, Status::OK, this);
     }
     void Proceed() {
-        if (status_ == CREATE) {
+        switch (status_)
+        {
+        case AsyncServiceImpl::CREATE:
             std::cout << "In CREATE" << std::endl;
-            // Make this instance progress to the PROCESS state.
             status_ = PROCESS;
-
-            // As part of the initial CREATE state, we *request* that the system
-            // start processing SayHello requests. In this request, "this" acts are
-            // the tag uniquely identifying the request (so that different CallData
-            // instances can serve different requests concurrently), in this case
-            // the memory address of this CallData instance.
             service_->RequestBaseTransmit(&ctx_, &request_, &responder_, cq_, cq_, this);
-        }
-        else if (status_ == PROCESS) {
-            std::cout << "In PROCESS" << std::endl;
-            // Spawn a new CallData instance to serve new clients while we process
-            // the one for this CallData. The instance will deallocate itself as
-            // part of its FINISH state.
+            std::cout << "AsyncServiceImpl after RequestBaseTransmit" << std::endl;
+            break;
+
+        case AsyncServiceImpl::PROCESS:
             new AsyncServiceImpl(service_, cq_, grpc_proc_);
-
             WorkThread::InitThread();
-
             status_ = FINISH;
+            break;
 
-        }
-        else {
+        case AsyncServiceImpl::FINISH:
             std::cout << "In FINISH" << std::endl;
             GPR_ASSERT(status_ == FINISH);
-            // Once in the FINISH state, deallocate ourselves (CallData).
             delete this;
+            break;
+
+        default:
+            break;
         }
     }
 private:
@@ -235,11 +230,9 @@ public:
         int32_t reply_length = 0;
 
         auto request_buffer = request->buffer();
-        grpc_proc_(
-            const_cast<void*>(reinterpret_cast<const void*>(request_buffer.c_str())),
-            request_buffer.size(),
-            &reply_buffer,
-            &reply_length);
+        
+
+        event_.set();
 
         response->set_version(1);
         response->set_length(1);
@@ -300,6 +293,7 @@ public:
 
 private:
     GRPCProc grpc_proc_;
+    Poco::Event event_;
 };
 
 class ServerImp final
@@ -411,9 +405,11 @@ public:
             // memory address of a CallData instance.
             // The return value of Next should always be checked. This return value
             // tells us whether there is any kind of event or cq_ is shutting down.
-            std::cout << "In StartHandleRequest before Next" << std::endl;
-            GPR_ASSERT(server_cq_->Next(&tag, &ok));
-            std::cout << "In StartHandleRequest after Next" << std::endl;
+            if (!server_cq_->Next(&tag, &ok))
+            {
+                break;
+            }
+            
             if (ok)
             {
                 static_cast<AsyncStreamTransmitImpl*>(tag)->Proceed();
@@ -429,6 +425,92 @@ private:
     std::unique_ptr<grpc::ServerCompletionQueue> server_cq_;
 
     GRPCProc grpc_proc_;
+};
+
+class GrpcServer
+{
+public:
+    void InitServer(GRPCProc grpc_proc)
+    {
+        std::string server_address("127.0.0.1:50051");
+        ServerBuilder builder;
+        builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
+
+        // Register "service_" as the instance through which we'll communicate with
+        // clients. In this case it corresponds to an *asynchronous* service.
+        Base::AsyncService service_;
+        builder.RegisterService(&service_);
+
+
+        base_cq_ = builder.AddCompletionQueue(true);
+        stream_cq_ = builder.AddCompletionQueue(true);
+
+        server_ = builder.BuildAndStart();
+
+        new AsyncServiceImpl(&service_, base_cq_.get(), grpc_proc);
+        new AsyncStreamTransmitImpl(&service_, stream_cq_.get());
+        
+        std::thread(&GrpcServer::HandleResponse2, this, stream_cq_.get()).detach();
+        std::thread(&GrpcServer::HandleResponse1, this, base_cq_.get()).join();
+        
+
+    }
+
+private:
+    void HandleResponse1(grpc::ServerCompletionQueue* cq)
+    {
+        void* tag;  // uniquely identifies a request.
+        bool ok;
+
+        while (true) {
+
+            if (!cq->Next(&tag, &ok)) 
+            {
+
+            }
+
+            if (ok)
+            {
+                static_cast<AsyncServiceImpl*>(tag)->Proceed();
+            }
+            else
+            {
+                std::cout << "server_cq_->Next err" << std::endl;
+            }
+        }
+    }
+    void HandleResponse2(grpc::ServerCompletionQueue* cq)
+    {
+        void* tag;  // uniquely identifies a request.
+        bool ok;
+
+        while (true) {
+
+            if (!cq->Next(&tag, &ok))
+            {
+                std::cout << "cq->Next error" << std::endl;
+            }
+
+            if (ok)
+            {
+                static_cast<AsyncStreamTransmitImpl*>(tag)->Proceed();
+            }
+            else
+            {
+                std::cout << "server_cq_->Next err" << std::endl;
+            }
+        }
+    }
+
+private:
+    Poco::Event* event_;
+    void* out_buffer_;
+
+    std::unique_ptr<Server> server_;
+    std::unique_ptr<grpc::ServerCompletionQueue> base_cq_;
+    std::unique_ptr<grpc::ServerCompletionQueue> stream_cq_;
+
+    std::vector<std::thread> threads;
 };
 
 

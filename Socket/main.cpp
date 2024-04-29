@@ -3,6 +3,9 @@
 
 #include "grpcImp/client.h"
 #include "grpcImp/server.h"
+
+#pragma warning(suppress : 4996)
+
 void test(void* request_buffer, int32_t request_length, void** reply_buffer, int32_t* reply_length)
 {
     *reply_buffer = request_buffer;
@@ -20,46 +23,12 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    if (strcmpi(argv[1], "server") == 0)
-    {
-        std::cout << "server" << std::endl;
-        ServerImp server(test);
-        server.RunAsync2();
 
-    }
-    else if (strcmpi(argv[1], "client") == 0)
-    {
-        auto connect = GrpcClient::CreatePersistentConnect("localhost:50051");
-        auto connect2 = GrpcClient::CreatePersistentConnect("localhost:50051");
-        char in[1024] = { 0 };
-        do {
-            std::cin >> in;
-            if (strcmpi(in, "quit") == 0)
-                break;
-            connect->Request(in, 1024);
-            in[0] = 'g';
-            connect2->Request(in, 1024);
-        } while (true);
-       
-    }
-    else if (strcmpi(argv[1], "async_c") == 0)
-    {
-        std::cout << "async_c" << std::endl;
-        std::string target_str = "localhost:50051";
-        ClientImpl base(grpc::CreateChannel(target_str, grpc::InsecureChannelCredentials()));
-        
-        base.LoopReceiveResponse();
+    std::cout << "server" << std::endl;
+    GrpcServer server;
+    server.InitServer(test);
 
-        for (size_t i = 0; i < 10; i++)
-        {
-            base.AsyncTransmit(V, sizeof(V));
-        }
-        Sleep(7000);
-    }
-    else
-    {
-        return 1;
-    }
+
 	return 0;
 }
 

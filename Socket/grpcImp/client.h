@@ -223,6 +223,11 @@ public:
         stream_ = std::move(stub_->StreamTransmit(&ctx_));
     };
 
+    static std::unique_ptr<Base::Stub> CreateTemporaryConnect(std::string target)
+    {
+        return Base::NewStub(grpc::CreateChannel(target, grpc::InsecureChannelCredentials()));
+    }
+
     bool Request(void* buf, unsigned __int32 length)
     {
         request_.set_buffer(buf, length);
@@ -249,6 +254,7 @@ private:
     std::unique_ptr<grpc::ClientReaderWriter<BaseRequest, BaseReply>> stream_ = nullptr;
     ClientContext ctx_;
     BaseRequest request_;
+
     BaseReply reply_;
 };
 
@@ -260,5 +266,18 @@ public:
         auto newConnect = std::make_unique<PersistentConnect>(target);
         newConnect->InitThread();
         return newConnect;
+    }
+
+    static bool Request(const void* buffer, unsigned __int32 length)
+    {
+        auto stub = PersistentConnect::CreateTemporaryConnect("127.0.0.1:50051");
+        ClientContext context;
+        BaseRequest request;
+        BaseReply reply;
+        request.set_buffer(buffer, length);
+        std::cout << "before stub->BaseTransmit" << std::endl;
+        Status status = stub->BaseTransmit(&context, request, &reply);
+        std::cout << "Get Reply:" << reply.buffer().c_str() << std::endl;
+        return true;
     }
 };
