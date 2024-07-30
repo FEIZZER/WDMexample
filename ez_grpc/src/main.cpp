@@ -1,5 +1,5 @@
 #include "grpc_server/server.h"
-#include "grpc_client/client.h"
+#include "ez_grpc/client/client.h"
 #include <iostream>
 
 void Block()
@@ -35,7 +35,7 @@ int main(int args, char* argv[])
 	}
 
 	
-	grpc_cpp_test::BasicServer server;
+	ez_grpc::BasicServer server;
 	if (cmdline == "server")
 	{
 
@@ -47,9 +47,8 @@ int main(int args, char* argv[])
 	}
 	else if (cmdline == "client")
 	{
-		grpc_cpp_test::Client client;
-
-		client.Request(8800, "ok", 2);
+		ez_grpc::Client client;
+		client.CreateShortConnection("test_connect", "127.0.0.1:", 8800)->Request((void*)"hahaha", 6);
 	}
 	else
 	{

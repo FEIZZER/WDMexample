@@ -1,9 +1,9 @@
-#include "basic_service.h"
+#include "service.h"
 
 
 #include <string>
 
-namespace grpc_cpp_test {
+namespace ez_grpc {
 	class BasicServer
 	{
 	public:

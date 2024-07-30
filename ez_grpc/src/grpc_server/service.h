@@ -1,7 +1,7 @@
 #include "base.grpc.pb.h"
 
 
-namespace grpc_cpp_test 
+namespace ez_grpc 
 {
 
 	class BasicServiceImpl final : public Base::Service

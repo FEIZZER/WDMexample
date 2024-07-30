@@ -2,7 +2,7 @@
 
 #include <grpcpp/grpcpp.h>
 
-using namespace grpc_cpp_test;
+using namespace ez_grpc;
 
 #define LocalHost		"127.0.0.1:"
 #define RandomAddr		"127.0.0.1:0"
