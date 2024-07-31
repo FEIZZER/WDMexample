@@ -29,6 +29,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpp_learn", "cpp_learn\cpp_
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Socket", "Socket\Socket.vcxproj", "{4E6E82D0-05AC-4748-94AB-095B40AD5119}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ez_grpc", "ez_grpc\ez_grpc.vcxproj", "{773782FF-4647-4DEB-B5F4-980C7DD6D4A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -209,6 +211,18 @@ Global
 		{4E6E82D0-05AC-4748-94AB-095B40AD5119}.Release|x64.Build.0 = Release|x64
 		{4E6E82D0-05AC-4748-94AB-095B40AD5119}.Release|x86.ActiveCfg = Release|Win32
 		{4E6E82D0-05AC-4748-94AB-095B40AD5119}.Release|x86.Build.0 = Release|Win32
+		{773782FF-4647-4DEB-B5F4-980C7DD6D4A7}.Debug|ARM.ActiveCfg = Debug|Win32
+		{773782FF-4647-4DEB-B5F4-980C7DD6D4A7}.Debug|ARM64.ActiveCfg = Debug|Win32
+		{773782FF-4647-4DEB-B5F4-980C7DD6D4A7}.Debug|x64.ActiveCfg = Debug|x64
+		{773782FF-4647-4DEB-B5F4-980C7DD6D4A7}.Debug|x64.Build.0 = Debug|x64
+		{773782FF-4647-4DEB-B5F4-980C7DD6D4A7}.Debug|x86.ActiveCfg = Debug|Win32
+		{773782FF-4647-4DEB-B5F4-980C7DD6D4A7}.Debug|x86.Build.0 = Debug|Win32
+		{773782FF-4647-4DEB-B5F4-980C7DD6D4A7}.Release|ARM.ActiveCfg = Release|Win32
+		{773782FF-4647-4DEB-B5F4-980C7DD6D4A7}.Release|ARM64.ActiveCfg = Release|Win32
+		{773782FF-4647-4DEB-B5F4-980C7DD6D4A7}.Release|x64.ActiveCfg = Release|x64
+		{773782FF-4647-4DEB-B5F4-980C7DD6D4A7}.Release|x64.Build.0 = Release|x64
+		{773782FF-4647-4DEB-B5F4-980C7DD6D4A7}.Release|x86.ActiveCfg = Release|Win32
+		{773782FF-4647-4DEB-B5F4-980C7DD6D4A7}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
