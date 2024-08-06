@@ -219,8 +219,8 @@ class PersistentConnect : public WorkThread
 public:
     PersistentConnect(std::string target)
     {
-        stub_ = std::move(Base::NewStub(grpc::CreateChannel(target, grpc::InsecureChannelCredentials())));
-        stream_ = std::move(stub_->StreamTransmit(&ctx_));
+        stub_ = Base::NewStub(grpc::CreateChannel(target, grpc::InsecureChannelCredentials()));
+        stream_ = stub_->StreamTransmit(&ctx_);
     };
 
     static std::unique_ptr<Base::Stub> CreateTemporaryConnect(std::string target)

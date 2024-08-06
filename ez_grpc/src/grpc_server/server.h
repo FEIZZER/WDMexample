@@ -4,15 +4,16 @@
 #include <string>
 
 namespace ez_grpc {
-	class BasicServer
+
+	class Server
 	{
 	public:
-		BasicServer();
-		virtual ~BasicServer();
+		Server();
+		virtual ~Server();
 
-		int BuildServer();
+		int BuildServer(ez_request_handler handler);
 
-		bool BuildServer(const int port);
+		bool BuildServer(const int port, ez_request_handler handler);
 
 		bool BuildServer(const std::string& ip, const int port);
 
@@ -20,7 +21,7 @@ namespace ez_grpc {
 
 	private:
 
-		bool BuildServerInternal(const std::string& addr_uri, int& selected_port);
+		bool BuildServerInternal(const std::string& addr_uri, int& selected_port, ez_request_handler handler);
 
 	private:
 

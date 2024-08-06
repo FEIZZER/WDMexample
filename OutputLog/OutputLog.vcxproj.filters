@@ -29,5 +29,8 @@
     <ClInclude Include="flog.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="glog.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

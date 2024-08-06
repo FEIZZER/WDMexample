@@ -2,16 +2,16 @@
 //
 
 
-
 #include "log.h"
-#include "flog.h"
+#include <iostream>
+
+#define	NO_LOG	
+#define INFO_LOG(...)	if ( F_spdlog::getInstance()->f_file_logger != nullptr) \
+							SPDLOG_LOGGER_INFO(F_spdlog::getInstance()->f_file_logger, __VA_ARGS__)
 
 int main()
 {
-	F_spdlog::initLog("spdlog.log");
-	F_spdlog::info("Hello {}", "World");
-	F_spdlog::error("Hello {}", "World");
-
-	f_info("test:", 1, "hello");
-
+	std::string name = "feizzer";
+	std::string str(name, 1000);
+	std::cout << str;
 }

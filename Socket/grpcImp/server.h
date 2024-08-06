@@ -232,64 +232,64 @@ public:
         auto request_buffer = request->buffer();
         
 
-        event_.set();
+        std::cout << "recv" << std::endl;
 
-        response->set_version(1);
-        response->set_length(1);
-        response->set_buffer(reply_buffer, reply_length);
+        //response->set_version(1);
+        response->set_length(0);
+        //response->set_buffer(reply_buffer, reply_length);
 
         return grpc::Status::OK;
     }
     
-    grpc::Status StreamTransmit(
-        grpc::ServerContext* context, 
-        grpc::ServerReaderWriter<BaseReply, BaseRequest>* stream) override
-    {
-        //stream->Read()
-        // stream->Write()
-        return grpc::Status::OK;
-    }
+    //grpc::Status StreamTransmit(
+    //    grpc::ServerContext* context, 
+    //    grpc::ServerReaderWriter<BaseReply, BaseRequest>* stream) override
+    //{
+    //    //stream->Read()
+    //    // stream->Write()
+    //    return grpc::Status::OK;
+    //}
 
-    grpc::Status ServerStreamTransmit(
-        grpc::ServerContext* context, 
-        const ::BaseRequest* request, 
-        grpc::ServerWriter<BaseReply>* writer) override
-    {
-        std::cout << "In ServerStreamTransmit" << std::endl;
-        BaseReply* reply = new BaseReply;
-        while (!context->IsCancelled())
-        {
-           Sleep(2000);
-            request->buffer().c_str();
-            request->length();
-            reply->set_buffer(
-                const_cast<void*>(reinterpret_cast<const void*>(request->buffer().c_str())),
-                request->buffer().size());
+    //grpc::Status ServerStreamTransmit(
+    //    grpc::ServerContext* context, 
+    //    const ::BaseRequest* request, 
+    //    grpc::ServerWriter<BaseReply>* writer) override
+    //{
+    //    std::cout << "In ServerStreamTransmit" << std::endl;
+    //    BaseReply* reply = new BaseReply;
+    //    while (!context->IsCancelled())
+    //    {
+    //       Sleep(2000);
+    //        request->buffer().c_str();
+    //        request->length();
+    //        reply->set_buffer(
+    //            const_cast<void*>(reinterpret_cast<const void*>(request->buffer().c_str())),
+    //            request->buffer().size());
 
-            writer->Write(*reply);
-        }
+    //        writer->Write(*reply);
+    //    }
 
-        return grpc::Status::OK;
-    }
+    //    return grpc::Status::OK;
+    //}
 
-    grpc::Status ClientStreamTransmit(
-        grpc::ServerContext* context,
-        grpc::ServerReader<BaseRequest>* reader,
-        BaseReply* response) override
-    {
-        BaseRequest* request = new BaseRequest;
-        while (reader->Read(request))
-        {
-            std::cout << "server receive stream: " 
-                << request->buffer().c_str() << std::endl;
-        }
+    //grpc::Status ClientStreamTransmit(
+    //    grpc::ServerContext* context,
+    //    grpc::ServerReader<BaseRequest>* reader,
+    //    BaseReply* response) override
+    //{
+    //    BaseRequest* request = new BaseRequest;
+    //    while (reader->Read(request))
+    //    {
+    //        std::cout << "server receive stream: " 
+    //            << request->buffer().c_str() << std::endl;
+    //    }
 
-        std::cout << "read done" << std::endl;
+    //    std::cout << "read done" << std::endl;
 
-        #define value "ClientStreamTransmit Handle Done"
-        response->set_buffer(value, sizeof(value));
-        return grpc::Status::OK;
-    }
+    //    #define value "ClientStreamTransmit Handle Done"
+    //    response->set_buffer(value, sizeof(value));
+    //    return grpc::Status::OK;
+    //}
 
 private:
     GRPCProc grpc_proc_;

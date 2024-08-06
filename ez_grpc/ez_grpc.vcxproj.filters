@@ -54,6 +54,12 @@
     <ClCompile Include="src\grpc_client\client_connect_internal.cpp">
       <Filter>源文件\grpc_client</Filter>
     </ClCompile>
+    <ClCompile Include="src\grpc_server\stream_service.cpp">
+      <Filter>源文件\grpc_server</Filter>
+    </ClCompile>
+    <ClCompile Include="src\grpc_server\stream_server.cpp">
+      <Filter>源文件\grpc_server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\grpc_server\service.h">
@@ -79,6 +85,15 @@
     </ClInclude>
     <ClInclude Include="include\ez_grpc\client\client.h">
       <Filter>头文件\client</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ez_grpc\server\server.h">
+      <Filter>头文件\server</Filter>
+    </ClInclude>
+    <ClInclude Include="src\grpc_server\stream_service.h">
+      <Filter>源文件\grpc_server</Filter>
+    </ClInclude>
+    <ClInclude Include="src\grpc_server\stream_server.h">
+      <Filter>源文件\grpc_server</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

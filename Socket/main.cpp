@@ -18,16 +18,22 @@ int main(int argc, char** argv)
 
     char test_value[] = { '1', '1', '2', '\0', '0' };
 
-    if (argc != 2)
+    if (argc < 2)
     {
-        return 1;
+        std::cout << "client" << std::endl;
+
+        auto channel = grpc::CreateChannel("127.0.0.1:50051", grpc::InsecureChannelCredentials());
+
+        ClientImpl client(channel);
+
+        client.BaseTransmit("haha", 4);
     }
-
-
-    std::cout << "server" << std::endl;
-    GrpcServer server;
-    server.InitServer(test);
-
+    else 
+    {
+        std::cout << "server" << std::endl;
+        ServerImp server(test);
+        server.Run();
+    }
 
 	return 0;
 }

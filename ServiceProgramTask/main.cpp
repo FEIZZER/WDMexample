@@ -1,212 +1,275 @@
 #include "windows.h"
+#include <string>
 #include "stdio.h"
+#include <thread>
 
-
-SERVICE_STATUS          gSvcStatus;
-SERVICE_STATUS_HANDLE   gSvcStatusHandle;
-HANDLE                  ghSvcStopEvent = NULL;
-WCHAR SVCNAME[] = L"SvcName";
-//
-// Purpose: 
-//   Entry point for the process
-//
-// Parameters:
-//   None
-// 
-// Return value:
-//   None, defaults to 0 (zero)
-//
-int __cdecl main(int argc, TCHAR* argv[])
+struct ServiceContext
 {
-    // If command-line parameter is "install", install the service. 
-    // Otherwise, the service is probably being started by the SCM.
-    //if (lstrcmpi(argv[1], TEXT("install")) == 0)
-    //{
-    //    SvcInstall();
-    //    return;
-    //}
+	ServiceContext() = delete;
+	ServiceContext(std::string strSvcName) : m_strSvcName(strSvcName)
+	{
+		;
+	}
+	~ServiceContext()
+	{
+		if (m_hStartedEvent)
+			CloseHandle(m_hStartedEvent);
 
-    // TO_DO: Add any additional services for the process to this table.
+		if (m_hStopEvent)
+			CloseHandle(m_hStopEvent);
+	}
+	std::string           m_strSvcName;
+	SERVICE_STATUS_HANDLE m_svcStatusHandle = nullptr; //Service Status Handle
+	SERVICE_STATUS        m_svcStatus;                 //Service Name
 
-    SERVICE_TABLE_ENTRY DispatchTable[] =
-    {
-        { SVCNAME, (LPSERVICE_MAIN_FUNCTION)SvcMain},
-        { NULL, NULL }
-    };
+	//This event used to check whether service worker is started
+	HANDLE                m_hStartedEvent = CreateEvent(
+		NULL,    // default security attributes
+		TRUE,    // manual reset event
+		FALSE,   // not signaled
+		NULL);   // no name;   
 
-    // This call returns when the service has stopped. 
-    // The process should simply terminate when the call returns.
+	//This event used to notify service worker to stop
+	HANDLE                m_hStopEvent = CreateEvent(
+		NULL,    // default security attributes
+		TRUE,    // manual reset event
+		FALSE,   // not signaled
+		NULL);   // no name;      
+	DWORD                 m_dwHintTimeout = 5 * 1000;  // 5 seconds, check interval for starting and stopping
+	DWORD                 m_dwCheckPoint = 1;          // It's used to co-work check for starting and stopping
+};
 
-    if (!StartServiceCtrlDispatcher(DispatchTable))
-    {
-        printf("done!\n");
-    }
+ServiceContext gCoderSvcCtx("CoderService");
+std::wstring ServiceName = L"ServiceTest";
+
+
+bool ReportSvcStatus(ServiceContext& ctx,
+	DWORD dwCurrentState,
+	DWORD dwWin32ExitCode)
+{
+	// Fill in the SERVICE_STATUS structure.
+	ctx.m_svcStatus.dwCurrentState = dwCurrentState;
+	ctx.m_svcStatus.dwWin32ExitCode = dwWin32ExitCode;
+	ctx.m_svcStatus.dwWaitHint = ctx.m_dwHintTimeout;
+
+	if (dwCurrentState == SERVICE_START_PENDING)
+		ctx.m_svcStatus.dwControlsAccepted = 0;
+	else
+		ctx.m_svcStatus.dwControlsAccepted = SERVICE_ACCEPT_STOP | SERVICE_ACCEPT_SHUTDOWN;
+
+	if ((dwCurrentState == SERVICE_RUNNING) ||
+		(dwCurrentState == SERVICE_STOPPED))
+		ctx.m_svcStatus.dwCheckPoint = 0;
+	else
+		ctx.m_svcStatus.dwCheckPoint = ctx.m_dwCheckPoint++;
+
+	// Report the status of the service to the SCM.
+	return SetServiceStatus(ctx.m_svcStatusHandle, &ctx.m_svcStatus);
+}
+
+class CoderWorker
+{
+public:
+	bool Start()
+	{
+		// You should fill your Worker thread init task here
+		// Here just sleep 10 seconds to fake the init time
+		std::this_thread::sleep_for(std::chrono::seconds(10));
+
+		//Start the worker process tasks
+		int iTmpPara = 1;
+		m_thWorker = std::thread(&CoderWorker::Run, this, iTmpPara);
+
+		return true;
+	}
+	void Stop()
+	{
+		m_bStop = true;
+		if (m_thWorker.joinable())
+			m_thWorker.join();
+
+		// Here we just Fake sleep 10 seconds to stop
+		std::this_thread::sleep_for(std::chrono::seconds(10));
+	}
+
+	void Run(int iPara)
+	{
+		while (!m_bStop)
+		{
+			//do task
+			//Here just fill your code to do your work
+			//just here fake sleep 1 second to do task
+			std::this_thread::sleep_for(std::chrono::seconds(1));
+		}
+	}
+
+private:
+	std::thread   m_thWorker;
+	volatile bool m_bStop = false;
+};
+
+
+
+// Here you can also specify other parameters
+void CoderServiceWorker(ServiceContext& ctx, DWORD dwNumServicesArgs, LPSTR* lpServiceArgVectors)
+{
+	// 1. Init and Start worker and notify the it's started
+	CoderWorker woker{};
+	if (!woker.Start())
+		ExitThread(-1);
+
+	SetEvent(ctx.m_hStartedEvent);
+
+	// 2. Wait for the stop event
+	DWORD dwCode = WaitForSingleObject(ctx.m_hStopEvent, INFINITE);
+	woker.Stop();
+	ExitThread(0);
+	return;
+}
+
+//Service Worker means what your service really do
+void StartCoderServiceWorker(DWORD dwNumServicesArgs, LPWSTR* lpServiceArgVectors)
+{
+	// 1. Start your service worker to handle tasks
+	std::thread thWorker(CoderServiceWorker, std::ref(gCoderSvcCtx), dwNumServicesArgs, lpServiceArgVectors);
+
+	// 2. Check the starting status
+	while (true)
+	{
+		DWORD dwCode = WaitForSingleObject(gCoderSvcCtx.m_hStartedEvent, gCoderSvcCtx.m_dwHintTimeout);
+		if (WAIT_TIMEOUT == dwCode)
+		{
+			//Still starting
+			ReportSvcStatus(gCoderSvcCtx, SERVICE_START_PENDING, NO_ERROR);
+		}
+		else if (WAIT_OBJECT_0 == dwCode)
+		{
+			//Started Finish
+			ResetEvent(gCoderSvcCtx.m_hStartedEvent);
+			ReportSvcStatus(gCoderSvcCtx, SERVICE_RUNNING, NO_ERROR);
+			break;
+		}
+		else
+		{
+			//Other errors
+			ReportSvcStatus(gCoderSvcCtx, SERVICE_STOPPED, NO_ERROR);
+			return;
+		}
+	}
+
+	// 3. Check whether receive stop event
+	while (true)
+	{
+		DWORD dwCheckTime = 1000; //1 second
+		DWORD dwCode = WaitForSingleObject(gCoderSvcCtx.m_hStopEvent, dwCheckTime);
+		if (WAIT_TIMEOUT == dwCode)
+		{
+			//Still runining
+			continue;
+		}
+		else if (WAIT_OBJECT_0 == dwCode)
+		{
+			//It begin to stop
+			// run into Stop pending status
+			ReportSvcStatus(gCoderSvcCtx, SERVICE_STOP_PENDING, NO_ERROR);
+			break;
+		}
+		else
+		{
+			//Other errors
+			ReportSvcStatus(gCoderSvcCtx, SERVICE_STOPPED, NO_ERROR);
+			return;
+		}
+	}
+
+	// 4. Check the stopping status
+	// If it's stopped then set the status to STOP
+	HANDLE hThreadHandle = thWorker.native_handle();
+	while (true)
+	{
+		DWORD dwCode = WaitForSingleObject(hThreadHandle, gCoderSvcCtx.m_dwHintTimeout);
+		if (WAIT_TIMEOUT == dwCode)
+		{
+			//Still stopping
+			ReportSvcStatus(gCoderSvcCtx, SERVICE_STOP_PENDING, NO_ERROR);
+		}
+		else if (WAIT_OBJECT_0 == dwCode)
+		{
+			// stop Finish
+			// Reset the stop event
+			ResetEvent(gCoderSvcCtx.m_hStopEvent);
+			ReportSvcStatus(gCoderSvcCtx, SERVICE_STOPPED, NO_ERROR);
+			break;
+		}
+		else
+		{
+			//Other errors
+			ReportSvcStatus(gCoderSvcCtx, SERVICE_STOPPED, NO_ERROR);
+			return;
+		}
+	}
+	return;
 }
 
 
-//
-// Purpose: 
-//   Entry point for the service
-//
-// Parameters:
-//   dwArgc - Number of arguments in the lpszArgv array
-//   lpszArgv - Array of strings. The first string is the name of
-//     the service and subsequent strings are passed by the process
-//     that called the StartService function to start the service.
-// 
-// Return value:
-//   None.
-//
-VOID WINAPI SvcMain(DWORD dwArgc, LPTSTR* lpszArgv)
+
+void CoderServiceController(DWORD dwControl)
 {
-    // Register the handler function for the service
+	// Handle the requested control code. 
+	switch (dwControl)
+	{
+	case SERVICE_CONTROL_SHUTDOWN:
+	case SERVICE_CONTROL_STOP:
+		ReportSvcStatus(gCoderSvcCtx, SERVICE_STOP_PENDING, NO_ERROR);
+		// Signal the service to stop.
+		SetEvent(gCoderSvcCtx.m_hStopEvent);
 
-    gSvcStatusHandle = RegisterServiceCtrlHandler(
-        SVCNAME,
-        SvcCtrlHandler);
+		return;
 
-    if (!gSvcStatusHandle)
-    {
-        SvcReportEvent(TEXT("RegisterServiceCtrlHandler"));
-        return;
-    }
-
-    // These SERVICE_STATUS members remain as set here
-
-    gSvcStatus.dwServiceType = SERVICE_WIN32_OWN_PROCESS;
-    gSvcStatus.dwServiceSpecificExitCode = 0;
-
-    // Report initial status to the SCM
-
-    ReportSvcStatus(SERVICE_START_PENDING, NO_ERROR, 3000);
-
-    // Perform service-specific initialization and work.
-
-    SvcInit(dwArgc, lpszArgv);
+	default:
+		break;
+	}
 }
 
-//
-// Purpose: 
-//   The service code
-//
-// Parameters:
-//   dwArgc - Number of arguments in the lpszArgv array
-//   lpszArgv - Array of strings. The first string is the name of
-//     the service and subsequent strings are passed by the process
-//     that called the StartService function to start the service.
-// 
-// Return value:
-//   None
-//
-VOID SvcInit(DWORD dwArgc, LPTSTR* lpszArgv)
+//Each Service binding a ServiceMain
+void CoderServiceMain(DWORD dwNumServicesArgs, LPWSTR* lpServiceArgVectors)
 {
-    // TO_DO: Declare and set any required variables.
-    //   Be sure to periodically call ReportSvcStatus() with 
-    //   SERVICE_START_PENDING. If initialization fails, call
-    //   ReportSvcStatus with SERVICE_STOPPED.
+	// 1. Register Control Handler
+	gCoderSvcCtx.m_svcStatusHandle = RegisterServiceCtrlHandler((WCHAR*)ServiceName.c_str(),
+		CoderServiceController);
 
-    // Create an event. The control handler function, SvcCtrlHandler,
-    // signals this event when it receives the stop control code.
+	if (!gCoderSvcCtx.m_svcStatusHandle)
+		return;
 
-    ghSvcStopEvent = CreateEvent(
-        NULL,    // default security attributes
-        TRUE,    // manual reset event
-        FALSE,   // not signaled
-        NULL);   // no name
+	// 2.  Set SERVICE_START_PENDING
+	gCoderSvcCtx.m_svcStatus.dwServiceType = SERVICE_WIN32_OWN_PROCESS;
+	gCoderSvcCtx.m_svcStatus.dwServiceSpecificExitCode = 0;
 
-    if (ghSvcStopEvent == NULL)
-    {
-        ReportSvcStatus(SERVICE_STOPPED, NO_ERROR, 0);
-        return;
-    }
+	if (!ReportSvcStatus(gCoderSvcCtx, SERVICE_START_PENDING, NO_ERROR))
+	{
+		ReportSvcStatus(gCoderSvcCtx, SERVICE_STOPPED, NO_ERROR);
+		return;
+	}
 
-    // Report running status when initialization is complete.
-
-    ReportSvcStatus(SERVICE_RUNNING, NO_ERROR, 0);
-
-    // TO_DO: Perform work until service stops.
-
-    while (1)
-    {
-        // Check whether to stop the service.
-
-        WaitForSingleObject(ghSvcStopEvent, INFINITE);
-
-        ReportSvcStatus(SERVICE_STOPPED, NO_ERROR, 0);
-        return;
-    }
+	// 3. your worker start
+	// Service woker will work for specified task, if it return means it's stopped
+	StartCoderServiceWorker(dwNumServicesArgs, lpServiceArgVectors);
+	return;
 }
 
-//
-// Purpose: 
-//   Sets the current service status and reports it to the SCM.
-//
-// Parameters:
-//   dwCurrentState - The current state (see SERVICE_STATUS)
-//   dwWin32ExitCode - The system error code
-//   dwWaitHint - Estimated time for pending operation, 
-//     in milliseconds
-// 
-// Return value:
-//   None
-//
-VOID ReportSvcStatus(DWORD dwCurrentState,
-    DWORD dwWin32ExitCode,
-    DWORD dwWaitHint)
+
+
+int main()
 {
-    static DWORD dwCheckPoint = 1;
+	SERVICE_TABLE_ENTRY svcTableEntry[] = {
+		{(WCHAR*)ServiceName.c_str(), CoderServiceMain},
+		{NULL, NULL}
+	};
 
-    // Fill in the SERVICE_STATUS structure.
+	//It should be invoked in main as soon as possible
+	//Start failed, you can use GetLastError() to get the error code
+	if (!StartServiceCtrlDispatcher(svcTableEntry))
+		return -1;
 
-    gSvcStatus.dwCurrentState = dwCurrentState;
-    gSvcStatus.dwWin32ExitCode = dwWin32ExitCode;
-    gSvcStatus.dwWaitHint = dwWaitHint;
-
-    if (dwCurrentState == SERVICE_START_PENDING)
-        gSvcStatus.dwControlsAccepted = 0;
-    else gSvcStatus.dwControlsAccepted = SERVICE_ACCEPT_STOP;
-
-    if ((dwCurrentState == SERVICE_RUNNING) ||
-        (dwCurrentState == SERVICE_STOPPED))
-        gSvcStatus.dwCheckPoint = 0;
-    else gSvcStatus.dwCheckPoint = dwCheckPoint++;
-
-    // Report the status of the service to the SCM.
-    SetServiceStatus(gSvcStatusHandle, &gSvcStatus);
-}
-
-//
-// Purpose: 
-//   Called by SCM whenever a control code is sent to the service
-//   using the ControlService function.
-//
-// Parameters:
-//   dwCtrl - control code
-// 
-// Return value:
-//   None
-//
-VOID WINAPI SvcCtrlHandler(DWORD dwCtrl)
-{
-    // Handle the requested control code. 
-
-    switch (dwCtrl)
-    {
-    case SERVICE_CONTROL_STOP:
-        ReportSvcStatus(SERVICE_STOP_PENDING, NO_ERROR, 0);
-
-        // Signal the service to stop.
-
-        SetEvent(ghSvcStopEvent);
-        ReportSvcStatus(gSvcStatus.dwCurrentState, NO_ERROR, 0);
-
-        return;
-
-    case SERVICE_CONTROL_INTERROGATE:
-        break;
-
-    default:
-        break;
-    }
-
+	return 0;
 }

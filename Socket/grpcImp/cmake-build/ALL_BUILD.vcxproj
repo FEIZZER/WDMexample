@@ -27,7 +27,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F99355F5-631B-34BD-9CCB-4C38324654BE}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
     <Platform>x64</Platform>
     <ProjectName>ALL_BUILD</ProjectName>
     <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
@@ -173,21 +173,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="E:\workbench\cppORc template\Socket\grpcImp\cmake-build\client_async.vcxproj">
-      <Project>{EBA724FE-3439-332E-AD11-9AE45609FF30}</Project>
-      <Name>client_async</Name>
-    </ProjectReference>
-    <ProjectReference Include="E:\workbench\cppORc template\Socket\grpcImp\cmake-build\client_async2.vcxproj">
-      <Project>{F9028AA2-E348-3296-BA54-8D115430ABDF}</Project>
-      <Name>client_async2</Name>
-    </ProjectReference>
     <ProjectReference Include="E:\workbench\cppORc template\Socket\grpcImp\cmake-build\grpc_demo.vcxproj">
       <Project>{FB42FCC0-6501-3150-98E9-77EFBC26C4CC}</Project>
       <Name>grpc_demo</Name>
-    </ProjectReference>
-    <ProjectReference Include="E:\workbench\cppORc template\Socket\grpcImp\cmake-build\server_async.vcxproj">
-      <Project>{E0729D5A-AE22-36B7-9C71-5795C9ED760F}</Project>
-      <Name>server_async</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

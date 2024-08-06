@@ -1,32 +1,38 @@
 #include "stl/auto_ptr.h"
 #include "BaseClass.h"
 #include <string>
+#include <time.h>
 #include <iostream>
+#include <thread>
+#include <Windows.h>
 #include <vector>
 #include <array>
+#include <fstream>
 #include "stl/template.h"
-void parameter_transfer(Base& base)
+#include "stl/map.h"
+#include "stl/std_string.h"
+#include <mutex>         //unique_lock
+#include <shared_mutex>  //shared_mutex shared_lock
+#include "stl/TestClass.h"
+
+
+void run()
 {
-	std::cout << "lvalue reference" << std::endl;
-}
-void parameter_transfer(Base&& base)
-{
-	std::cout << "rvalue reference" << std::endl;
+	std::cout << "Done!" << std::endl;
 }
 
-template<typename T>
-void f1(T param) {}
 
-template<typename T>
-void f2(T& param) {}
-
-
-void Test(size_t v)
-{
-	std::cout << v << std::endl;
-}
-#define V 2048
 int main()
 {
-	Test((size_t)V * 1024 * 1024);
+	auto thread = std::thread(run);
+
+	std::cout << "main" << std::endl;
+
+	Sleep(2000);
+
+	thread.join();
+
+	std::cout << "main exit" << std::endl;
+
+	return 0;
 }
