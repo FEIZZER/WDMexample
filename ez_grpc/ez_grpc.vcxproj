@@ -72,19 +72,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)src\proto;$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\common;$(ProjectDir)src\proto;$(ProjectDir)include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)src\proto;$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\common;$(ProjectDir)src\proto;$(ProjectDir)include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)src\proto;$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\common;$(ProjectDir)src\proto;$(ProjectDir)include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)src\proto;$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\common;$(ProjectDir)src\proto;$(ProjectDir)include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -92,7 +92,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\abseil\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\cares\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\grpc\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\protobuf\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\re2\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\zlib\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\abseil\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\cares\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\grpc\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\protobuf\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\re2\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\zlib\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\spdlog\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -109,7 +109,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\abseil\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\cares\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\grpc\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\protobuf\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\re2\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\zlib\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\abseil\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\cares\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\grpc\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\protobuf\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\re2\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\zlib\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\spdlog\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -126,7 +126,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\abseil\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\cares\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\grpc\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\protobuf\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\re2\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\zlib\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\abseil\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\cares\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\grpc\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\protobuf\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\re2\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\zlib\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\spdlog\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,7 +143,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\abseil\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\cares\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\grpc\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\protobuf\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\re2\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\zlib\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\abseil\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\cares\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\grpc\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\protobuf\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\re2\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\zlib\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\spdlog\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>

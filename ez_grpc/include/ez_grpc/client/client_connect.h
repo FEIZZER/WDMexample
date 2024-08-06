@@ -15,6 +15,8 @@ namespace ez_grpc {
 		virtual bool Request(void* buffer, unsigned int length,
 			void** out_buffer = nullptr, unsigned int* out_length = nullptr) = 0;
 
+		virtual bool IsConnected() = 0;
+
 		virtual void DisConnect() = 0;
 
 	private:

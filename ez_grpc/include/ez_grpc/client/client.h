@@ -18,12 +18,12 @@ namespace ez_grpc {
 
 		std::shared_ptr<ClientConnectInterface> CreateShortConnection(const std::string& key, const std::string& ip, int port);
 
-		std::shared_ptr<ClientConnectInterface> CreateLongConnection();
+		std::shared_ptr<ClientConnectInterface> CreateLongConnection(const std::string& key, const std::string& ip, int port);
 
 		std::shared_ptr<ClientConnectInterface> CreateTemporaryConnection();
 
 	private:
-		std::shared_ptr<ClientConnectInterface> CreateConnectionInternal(const std::string& ip, int port);
+		std::shared_ptr<ClientConnectInterface> CreateConnectionInternal(bool keepalive, const std::string& ip, int port);
 
 	private:
 		std::shared_mutex shared_mutex_;

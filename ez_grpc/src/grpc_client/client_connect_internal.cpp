@@ -104,3 +104,36 @@ bool ClientConnectInternal::Request(void* buffer, unsigned int length,
 void ClientConnectInternal::DisConnect()
 {
 }
+
+
+ClientConnectStream::ClientConnectStream(const std::string& ip, int target_port)
+{
+	connected_ = false;
+	auto channel = grpc::CreateChannel(ip + std::to_string(target_port), grpc::InsecureChannelCredentials());
+	if (channel == nullptr)
+	{
+		return;
+	}
+
+	auto deadline = std::chrono::system_clock::now() + std::chrono::milliseconds(Max_Connect_MiliSec);
+	if (!channel->WaitForConnected(deadline))
+	{
+		return;
+	}
+
+	stub_ = Base::NewStub(channel);
+	if (stub_ == nullptr)
+	{
+		return;
+	}
+
+	stream_ = stub_->StreamTransmit(&context_);
+	if (stream_ == nullptr)
+	{
+		return;
+	}
+
+	ip_ = ip;
+	server_port_ = target_port;
+	connected_ = true;
+}
