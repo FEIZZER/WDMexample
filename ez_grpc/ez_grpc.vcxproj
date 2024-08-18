@@ -110,6 +110,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\abseil\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\cares\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\grpc\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\protobuf\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\re2\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\zlib\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\spdlog\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

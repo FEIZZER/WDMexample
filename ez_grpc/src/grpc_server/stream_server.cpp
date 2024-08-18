@@ -49,48 +49,61 @@ void StreamServer::UnInit()
 
 bool StreamServer::Init()
 {
-	Base::AsyncService* async_service = new Base::AsyncService();
-	if (async_service == nullptr)
+	async_service_ = new Base::AsyncService();
+	if (async_service_ == nullptr)
 	{
-		return;
+		return false;
 	}
 
 	grpc::ServerBuilder builder;
-	builder.AddListeningPort("0.0.0.0:50051", grpc::InsecureServerCredentials());
-	builder.RegisterService(async_service);
+	builder.AddListeningPort("0.0.0.0:8800", grpc::InsecureServerCredentials());
+	builder.RegisterService(async_service_);
 
-	for (int i = 0; i < 2; i++)
+	/*for (int i = 0; i < 2; i++)
 	{
 		cqs_.push_back(builder.AddCompletionQueue());
 
+		auto cq = cqs_[i].get();
+
 		threads_.push_back(
-			std::thread(&StreamServer::DrawFromCompletionQueue, this, cqs_[i]));
-	}
+			std::thread(&StreamServer::DrawFromCompletionQueue, this, cq));
+	}*/
+
+	cq_ = builder.AddCompletionQueue();
 
 	server_ = builder.BuildAndStart();	
+
+	threads_.push_back(std::thread(&StreamServer::DrawFromCompletionQueue, this, cq_.get()));
+
+	return server_ != nullptr;
 }
 
 
 
-void StreamServer::DrawFromCompletionQueue(std::unique_ptr<grpc::ServerCompletionQueue> cq)
+void StreamServer::DrawFromCompletionQueue(grpc::ServerCompletionQueue* cq)
 {
 	if (cq == nullptr)
 	{
 		return;
 	}
 
-	new ServerConnect(async_service_, cq.get());
+	new ServerConnect(async_service_, cq);
 
 	void* tag;
 	bool ok;
 	grpc::CompletionQueue::NextStatus status;
 	do {
-		
+
+		tag = nullptr;
+		ok = false;
+
 		status = cq->AsyncNext(&tag, &ok, std::chrono::system_clock::now() + std::chrono::milliseconds(20));
 
 		if (status == grpc::CompletionQueue::GOT_EVENT)
 		{
+			std::cout << "get event" << std::endl;
 			((ServerConnect*)tag)->Proceed();
+			std::cout << "after event" << std::endl;
 		}
 		else if (status == grpc::CompletionQueue::SHUTDOWN)
 		{

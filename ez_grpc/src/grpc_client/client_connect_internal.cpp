@@ -137,3 +137,47 @@ ClientConnectStream::ClientConnectStream(const std::string& ip, int target_port)
 	server_port_ = target_port;
 	connected_ = true;
 }
+
+bool ClientConnectStream::IsConnected()
+{
+	return connected_;
+}
+
+#include <iostream>
+
+bool ClientConnectStream::Request(void* buffer, unsigned int length,
+	void** out_buffer /*= nullptr*/, unsigned int* out_length /*= nullptr*/)
+{
+	bool bRet = false;
+
+	do {
+
+		if (buffer == nullptr || length == 0)
+		{
+			break;
+		}
+
+		if (!connected_)
+		{
+			break;
+		}
+
+		BaseRequest request;
+		request.set_length(length);
+		request.set_buffer(buffer, length);
+		if (!stream_->Write(request))
+		{
+			// log, stream_ has closed
+			break;
+		}
+
+		bRet = true;
+
+	} while (0);
+
+	return bRet;
+}
+
+void ClientConnectStream::DisConnect()
+{
+}

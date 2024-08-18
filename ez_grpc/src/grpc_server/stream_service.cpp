@@ -1,5 +1,7 @@
 #include "stream_service.h"
 
+#include <iostream>
+
 using namespace ez_grpc;
 
 ServerConnect::ServerConnect(Base::AsyncService* async_service, grpc::ServerCompletionQueue* cq) : stream_(&context_)
@@ -20,9 +22,10 @@ void ServerConnect::Proceed()
 		new ServerConnect(async_service_, cq_);
 	}
 
-	BaseRequest request;
-	stream_.Read(&request, this);
-	auto value = request.buffer().c_str();
+	//BaseRequest request;
+	stream_.Read(&request_, this);
+	auto value = request_.buffer().c_str();
+	std::cout << "request_length: " << request_.length() << std::endl;
 	std::cout << "request_value: " << value << std::endl;
 }
 

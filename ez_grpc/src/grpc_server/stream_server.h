@@ -1,5 +1,6 @@
 #pragma once
 #include "base.grpc.pb.h"
+#include "grpc/grpc.h"
 
 #include <memory>
 
@@ -9,14 +10,14 @@ namespace ez_grpc {
 	{
 	public:
 		StreamServer() = default;
-		virtual ~StreamServer() = default;
+		virtual ~StreamServer();
 
 		bool Init();
 
 		void UnInit();
 
 	private:
-		void DrawFromCompletionQueue(std::unique_ptr<grpc::ServerCompletionQueue> cq);
+		void DrawFromCompletionQueue(grpc::ServerCompletionQueue* cq);
 
 	private:
 		Base::AsyncService* async_service_;
@@ -25,6 +26,8 @@ namespace ez_grpc {
 		int thread_num_;
 		std::vector<std::unique_ptr<grpc::ServerCompletionQueue>> cqs_;
 		std::vector<std::thread> threads_;
+
+		std::unique_ptr<grpc::ServerCompletionQueue> cq_;
 
 		bool exit_;
 	};

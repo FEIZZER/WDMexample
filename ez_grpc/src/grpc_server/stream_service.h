@@ -23,5 +23,7 @@ namespace ez_grpc {
 
 		grpc::ServerContext context_;
 		grpc::ServerAsyncReaderWriter<BaseReply, BaseRequest> stream_;
+
+		BaseRequest request_;
 	};
 }

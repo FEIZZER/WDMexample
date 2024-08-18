@@ -1,4 +1,5 @@
 #include "grpc_server/server.h"
+#include "grpc_server/stream_server.h"
 #include "ez_grpc/client/client.h"
 #include <iostream>
 
@@ -48,12 +49,19 @@ int main(int args, char* argv[])
 
 	
 	ez_grpc::Server server;
+	ez_grpc::StreamServer stream_server;
+	ez_grpc::Client client;
 	if (cmdline == "server")
 	{
 
-		if (!server.BuildServer(8800, test_handler))
+		/*if (!server.BuildServer(8800, test_handler))
 		{
 			std::cout << "build server failed";
+		}*/
+
+		if (!stream_server.Init())
+		{
+			std::cout << "build server failed" << std::endl;
 		}
 
 	}
@@ -61,10 +69,13 @@ int main(int args, char* argv[])
 	{
 		void* reply_buffer = nullptr;
 		unsigned int reply_length = 0;
-		ez_grpc::Client client;
-		client.CreateShortConnection("test_connect", "127.0.0.1:", 8800)->Request((void*)"hahaha", 6, &reply_buffer, &reply_length);
+		// client.CreateShortConnection("test_connect", "127.0.0.1:", 8800)->Request((void*)"hahaha", 6, &reply_buffer, &reply_length);
+		if (!client.CreateLongConnection("test_connect", "127.0.0.1:", 8800)->Request((void*)"hahaha", 6))
+		{
+			std::cout << "request failed" << std::endl;
+		}
 		std::string strReply((char*)reply_buffer, reply_length);
-		std::cout << "reply: " << strReply << std::endl;;
+		std::cout << "reply: " << strReply << std::endl;
 	}
 	else
 	{
