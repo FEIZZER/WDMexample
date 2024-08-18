@@ -133,10 +133,19 @@ ClientConnectStream::ClientConnectStream(const std::string& ip, int target_port)
 		return;
 	}
 
+	handle_thread_ = std::thread(&ClientConnectStream::HandleReply, this);
+
 	ip_ = ip;
 	server_port_ = target_port;
 	connected_ = true;
+	exit_ = false;
 }
+
+ClientConnectStream::~ClientConnectStream()
+{
+	DisConnect();
+}
+
 
 bool ClientConnectStream::IsConnected()
 {
@@ -180,4 +189,33 @@ bool ClientConnectStream::Request(void* buffer, unsigned int length,
 
 void ClientConnectStream::DisConnect()
 {
+	context_.TryCancel();
+	stream_->WritesDone();
+	grpc::Status status = stream_->Finish();
+	if (!status.ok())
+	{
+		std::cout << "stream_->Finish() failed" << std::endl;
+	}
+
+	exit_ = true;
+	if (handle_thread_.joinable()) 
+		handle_thread_.join();
+
+	std::cout << "handle_thread_ has exited" << std::endl;
+}
+
+void ClientConnectStream::HandleReply()
+{
+	do {
+
+		BaseReply reply;
+		if (!stream_->Read(&reply))
+		{
+			std::cout << "stream_->Read failed" << std::endl;
+			break;
+		}
+
+	} while (!exit_);
+
+	exit_ = true;
 }

@@ -33,7 +33,9 @@ namespace ez_grpc {
 	{
 	public:
 		ClientConnectStream(const std::string& strIp, int port);
-		~ClientConnectStream() = default;
+		~ClientConnectStream();
+
+		void Uninit();
 
 		bool Request(void* buffer, unsigned int length,
 			void** out_buffer = nullptr, unsigned int* out_length = nullptr);
@@ -42,8 +44,14 @@ namespace ez_grpc {
 
 		void DisConnect();
 
+	private:
+
+		void HandleReply();
 
 	private:
+		bool exit_;
+		std::thread handle_thread_;
+
 		std::unique_ptr<Base::Stub> stub_;
 		grpc::ClientContext context_;
 		std::unique_ptr<grpc::ClientReaderWriter<BaseRequest, BaseReply>> stream_;

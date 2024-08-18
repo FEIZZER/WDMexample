@@ -74,8 +74,15 @@ int main(int args, char* argv[])
 		{
 			std::cout << "request failed" << std::endl;
 		}
-		std::string strReply((char*)reply_buffer, reply_length);
-		std::cout << "reply: " << strReply << std::endl;
+
+		/*for (int i = 0; i < 10000; i++)
+		{
+			if (!client.CreateLongConnection(std::to_string(i), "127.0.0.1:", 8800)->Request((void*)"hahaha", 6))
+			{
+				std::cout << i << ": request failed" << std::endl;
+			}
+		}*/
+
 	}
 	else
 	{

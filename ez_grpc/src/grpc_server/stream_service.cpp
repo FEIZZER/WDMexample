@@ -18,15 +18,26 @@ void ServerConnect::Proceed()
 	// get connected
 	if (!connected_)
 	{
+		std::cout << (ULONG_PTR)this << " get connected, cq:" << (ULONG_PTR)cq_ << std::endl;
 		connected_ = true;
+		context_.AsyncNotifyWhenDone(this);
 		new ServerConnect(async_service_, cq_);
 	}
 
-	//BaseRequest request;
+	if (context_.IsCancelled())
+	{
+		std::cout <<  (ULONG_PTR)this << " disconnected from client" << std::endl;
+		delete this;
+		return;
+	}
+
 	stream_.Read(&request_, this);
+
 	auto value = request_.buffer().c_str();
-	std::cout << "request_length: " << request_.length() << std::endl;
-	std::cout << "request_value: " << value << std::endl;
+	
+
+
+	request_.Clear();
 }
 
 

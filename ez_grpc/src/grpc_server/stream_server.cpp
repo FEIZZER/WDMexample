@@ -21,18 +21,30 @@ void StreamServer::UnInit()
 	exit_ = true;
 	
 	INFO_LOG("thread_num_:{}", thread_num_);
-	for (int i = 0; i < thread_num_; i++)
+	for (int i = 0; i < threads_.size(); i++)
 	{
 		threads_[i].join();
 		INFO_LOG("thread: {} has exited", i);
+		std::cout << "thread has exited" << i << std::endl;
 	}
 
-	server_->Shutdown();
+	if (server_ != nullptr)
+	{
+		server_->Shutdown(std::chrono::system_clock::now() + std::chrono::milliseconds(1000));
+		std::cout << "after shutdown" << std::endl;
+		server_.release();
+	}
+	if (cq_ != nullptr)
+	{
+		cq_->Shutdown();
+		cq_ .release();
+	}
+	
 	INFO_LOG("server_->Shutdown");
 
 	void* ignored_tag;
 	bool ignored_ok;
-	for (int i = 0; i < thread_num_; i++)
+	for (int i = 0; i < cqs_.size(); i++)
 	{
 		cqs_[i]->Shutdown();
 		while (cqs_[i]->Next(&ignored_tag, &ignored_ok)) {}
@@ -43,6 +55,7 @@ void StreamServer::UnInit()
 	threads_.clear();
 	cqs_.clear();
 
+	if (async_service_ != nullptr)
 	delete async_service_;
 }
 
@@ -59,7 +72,9 @@ bool StreamServer::Init()
 	builder.AddListeningPort("0.0.0.0:8800", grpc::InsecureServerCredentials());
 	builder.RegisterService(async_service_);
 
-	/*for (int i = 0; i < 2; i++)
+	thread_num_ = 2;
+
+	for (int i = 0; i < thread_num_; i++)
 	{
 		cqs_.push_back(builder.AddCompletionQueue());
 
@@ -67,13 +82,9 @@ bool StreamServer::Init()
 
 		threads_.push_back(
 			std::thread(&StreamServer::DrawFromCompletionQueue, this, cq));
-	}*/
-
-	cq_ = builder.AddCompletionQueue();
+	}
 
 	server_ = builder.BuildAndStart();	
-
-	threads_.push_back(std::thread(&StreamServer::DrawFromCompletionQueue, this, cq_.get()));
 
 	return server_ != nullptr;
 }
@@ -101,9 +112,7 @@ void StreamServer::DrawFromCompletionQueue(grpc::ServerCompletionQueue* cq)
 
 		if (status == grpc::CompletionQueue::GOT_EVENT)
 		{
-			std::cout << "get event" << std::endl;
 			((ServerConnect*)tag)->Proceed();
-			std::cout << "after event" << std::endl;
 		}
 		else if (status == grpc::CompletionQueue::SHUTDOWN)
 		{
@@ -114,5 +123,7 @@ void StreamServer::DrawFromCompletionQueue(grpc::ServerCompletionQueue* cq)
 		}*/
 
 	} while (!exit_);
+
+
 
 }
