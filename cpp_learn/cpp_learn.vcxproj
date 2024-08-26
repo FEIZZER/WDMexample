@@ -144,18 +144,13 @@
     <ClCompile Include="BaseClass.cpp" />
     <ClCompile Include="decltype.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="std_vector.cpp" />
     <ClCompile Include="stl\auto_ptr.cpp" />
-    <ClCompile Include="stl\safe_unordered_map.h" />
-    <ClCompile Include="stl\std_string.cpp" />
-    <ClCompile Include="stl\stl_thread.cpp" />
     <ClCompile Include="stl\template.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseClass.h" />
     <ClInclude Include="stl\auto_ptr.h" />
     <ClInclude Include="stl\map.h" />
-    <ClInclude Include="stl\std_string.h" />
     <ClInclude Include="stl\template.h" />
     <ClInclude Include="stl\TestClass.h" />
   </ItemGroup>

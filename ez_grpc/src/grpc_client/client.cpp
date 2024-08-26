@@ -18,7 +18,7 @@ Client::~Client()
 }
 
 
-std::shared_ptr<ClientConnectInterface> Client::CreateShortConnection(const std::string& key, const std::string& ip, int port)
+std::shared_ptr<ClientConnect> Client::CreateShortConnection(const std::string& key, const std::string& ip, int port)
 {
 	auto connection = CreateConnectionInternal(false, ip, port);
 	if (connection == nullptr)
@@ -34,7 +34,7 @@ std::shared_ptr<ClientConnectInterface> Client::CreateShortConnection(const std:
 }
 
 
-std::shared_ptr<ClientConnectInterface> Client::CreateLongConnection(const std::string& key, const std::string& ip, int port)
+std::shared_ptr<ClientConnect> Client::CreateLongConnection(const std::string& key, const std::string& ip, int port)
 {
 	auto connection = CreateConnectionInternal(true, ip, port);
 	if (connection == nullptr)
@@ -50,13 +50,13 @@ std::shared_ptr<ClientConnectInterface> Client::CreateLongConnection(const std::
 }
 
 
-std::shared_ptr<ClientConnectInterface> Client::CreateTemporaryConnection()
+std::shared_ptr<ClientConnect> Client::CreateTemporaryConnection()
 {
 
 }
 
 
-std::shared_ptr<ClientConnectInterface> Client::CreateConnectionInternal(bool keepalive, const std::string& ip, int port)
+std::shared_ptr<ClientConnect> Client::CreateConnectionInternal(bool keepalive, const std::string& ip, int port)
 {
 	
 	if (keepalive)

@@ -36,18 +36,6 @@
     <ClCompile Include="stl\template.cpp">
       <Filter>stl</Filter>
     </ClCompile>
-    <ClCompile Include="stl\std_string.cpp">
-      <Filter>stl</Filter>
-    </ClCompile>
-    <ClCompile Include="std_vector.cpp">
-      <Filter>stl</Filter>
-    </ClCompile>
-    <ClCompile Include="stl\safe_unordered_map.h">
-      <Filter>stl</Filter>
-    </ClCompile>
-    <ClCompile Include="stl\stl_thread.cpp">
-      <Filter>stl</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseClass.h">
@@ -60,9 +48,6 @@
       <Filter>stl</Filter>
     </ClInclude>
     <ClInclude Include="stl\map.h">
-      <Filter>stl</Filter>
-    </ClInclude>
-    <ClInclude Include="stl\std_string.h">
       <Filter>stl</Filter>
     </ClInclude>
     <ClInclude Include="stl\TestClass.h">

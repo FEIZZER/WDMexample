@@ -3,11 +3,11 @@
 
 namespace ez_grpc {
 
-	class ConnectInterface
+	class Connect
 	{
 	public:
-		ConnectInterface() = default;
-		virtual ~ConnectInterface() = default;
+		Connect() = default;
+		virtual ~Connect() = default;
 
 	protected:
 		bool connected_;

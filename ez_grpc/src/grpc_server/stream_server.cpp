@@ -4,8 +4,8 @@
 
 #include <grpcpp/grpcpp.h>
 
-
-#include "stream_service.h"
+#include "ez_grpc/common/status.h"
+#include "server_connect.h"
 #include "flog.h"
 
 
@@ -13,10 +13,11 @@ using namespace ez_grpc;
 
 StreamServer::~StreamServer()
 {
-	UnInit();
+	Shutdown();
 }
 
-void StreamServer::UnInit()
+
+void StreamServer::Shutdown()
 {
 	exit_ = true;
 	
@@ -28,16 +29,16 @@ void StreamServer::UnInit()
 		std::cout << "thread has exited" << i << std::endl;
 	}
 
+	for (auto it : connect_pool_)
+	{
+		it.second->DisConnect();
+	}
+
 	if (server_ != nullptr)
 	{
 		server_->Shutdown(std::chrono::system_clock::now() + std::chrono::milliseconds(1000));
 		std::cout << "after shutdown" << std::endl;
 		server_.release();
-	}
-	if (cq_ != nullptr)
-	{
-		cq_->Shutdown();
-		cq_ .release();
 	}
 	
 	INFO_LOG("server_->Shutdown");
@@ -54,6 +55,7 @@ void StreamServer::UnInit()
 	thread_num_ = 0;
 	threads_.clear();
 	cqs_.clear();
+	connect_pool_.clear();
 
 	if (async_service_ != nullptr)
 	delete async_service_;
@@ -81,7 +83,7 @@ bool StreamServer::Init()
 		auto cq = cqs_[i].get();
 
 		threads_.push_back(
-			std::thread(&StreamServer::DrawFromCompletionQueue, this, cq));
+			std::thread(&StreamServer::DrawFromCq, this, cq));
 	}
 
 	server_ = builder.BuildAndStart();	
@@ -89,16 +91,58 @@ bool StreamServer::Init()
 	return server_ != nullptr;
 }
 
+bool StreamServer::Start(const std::string& addr, int thread_nums, int max_connect)
+{
+	if (async_service_ != nullptr) Shutdown();
+	async_service_ = new Base::AsyncService();
+	if (async_service_ == nullptr) return false;
 
+	grpc::ServerBuilder builder;
+	builder.AddListeningPort(addr, grpc::InsecureServerCredentials());
+	builder.RegisterService(async_service_);
 
-void StreamServer::DrawFromCompletionQueue(grpc::ServerCompletionQueue* cq)
+}
+
+bool StreamServer::StartInternal(const std::string& addr, bool limit, int thread_num)
+{
+	if (async_service_ != nullptr) Shutdown();
+	async_service_ = new Base::AsyncService();
+	if (async_service_ == nullptr) return false;
+
+	grpc::ServerBuilder builder;
+	builder.AddListeningPort(addr, grpc::InsecureServerCredentials());
+	builder.RegisterService(async_service_);
+	thread_num_ = thread_num;
+	for (int i = 0; i < thread_num_; i++)
+	{
+		cqs_.push_back(builder.AddCompletionQueue());
+
+	}
+
+	return true;
+}
+
+bool StreamServer::RunWithLimit(int thread_nums)
+{
+	for (int i = 0; i < thread_num_; i++)
+	{
+		auto cq = cqs_[i].get();
+
+		threads_.push_back(
+			std::thread(&StreamServer::DrawFromCq, this, cq));
+	}
+
+	return true;
+}
+
+void StreamServer::DrawFromCq(grpc::ServerCompletionQueue* cq)
 {
 	if (cq == nullptr)
 	{
 		return;
 	}
 
-	new ServerConnect(async_service_, cq);
+	NewConnect(cq);
 
 	void* tag;
 	bool ok;
@@ -110,20 +154,80 @@ void StreamServer::DrawFromCompletionQueue(grpc::ServerCompletionQueue* cq)
 
 		status = cq->AsyncNext(&tag, &ok, std::chrono::system_clock::now() + std::chrono::milliseconds(20));
 
-		if (status == grpc::CompletionQueue::GOT_EVENT)
-		{
-			((ServerConnect*)tag)->Proceed();
-		}
-		else if (status == grpc::CompletionQueue::SHUTDOWN)
+		if (status == grpc::CompletionQueue::SHUTDOWN)
 		{
 			break;
 		}
-		/*else if (status == grpc::CompletionQueue::TIMEOUT)
+
+		if (status == grpc::CompletionQueue::GOT_EVENT)
+		{
+			auto connect_key = std::to_string((uintptr_t)tag);
+			auto connect = GetConnect(connect_key);
+			if (connect == nullptr)
+			{
+				
+			}
+
+			auto connect_status = connect->Proceed();
+			if (connect_status == EZCode::Connect_Get_Connected)
+			{
+				NewConnect(cq);
+			}
+			else if (connect_status == EZCode::Connect_Disconnected)
+			{
+				if (!DeleteConnect(connect_key))
+				{
+
+				}
+			}
+		}
+
+		/*if (status == grpc::CompletionQueue::TIMEOUT)
 		{
 		}*/
 
 	} while (!exit_);
+}
 
-
+void StreamServer::DrawFromCqWithOneConnect(grpc::ServerCompletionQueue* cq)
+{
 
 }
+
+
+void StreamServer::NewConnect(grpc::ServerCompletionQueue* cq)
+{
+	auto connect = std::make_shared<ServerConnectImpl>(async_service_, cq);
+	//error connect == nullptr
+	std::string defaultKey = std::to_string((uintptr_t)(connect.get()));
+
+	std::unique_lock<std::shared_mutex> lock(shared_mutex_);
+	if (connect_pool_.find(defaultKey) != connect_pool_.end())
+	{
+		//warning
+	}
+
+	connect_pool_[defaultKey] = connect;
+}
+
+
+std::shared_ptr<ServerConnectImpl> StreamServer::GetConnect(const std::string& key)
+{
+	std::shared_lock<std::shared_mutex> lock(shared_mutex_);
+
+	auto iter = connect_pool_.find(key);
+	if (iter == connect_pool_.end())
+	{
+		return nullptr;
+	}
+	return iter->second;
+}
+
+
+bool StreamServer::DeleteConnect(const std::string& key)
+{
+	std::unique_lock<std::shared_mutex> lock(shared_mutex_);
+	return connect_pool_.erase(key) == 1;
+}
+
+

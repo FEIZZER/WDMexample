@@ -162,7 +162,7 @@
     <ClCompile Include="src\grpc_server\service.cpp" />
     <ClCompile Include="src\grpc_server\server.cpp" />
     <ClCompile Include="src\grpc_server\stream_server.cpp" />
-    <ClCompile Include="src\grpc_server\stream_service.cpp" />
+    <ClCompile Include="src\grpc_server\server_connect.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\proto\base.grpc.pb.cc" />
     <ClCompile Include="src\proto\base.pb.cc" />
@@ -171,12 +171,14 @@
     <ClInclude Include="include\ez_grpc\client\client.h" />
     <ClInclude Include="include\ez_grpc\client\client_connect.h" />
     <ClInclude Include="include\ez_grpc\common\connect.h" />
+    <ClInclude Include="include\ez_grpc\common\status.h" />
     <ClInclude Include="include\ez_grpc\server\server.h" />
+    <ClInclude Include="include\ez_grpc\server\server_connect.h" />
     <ClInclude Include="src\grpc_client\client_connect_internal.h" />
     <ClInclude Include="src\grpc_server\service.h" />
     <ClInclude Include="src\grpc_server\server.h" />
     <ClInclude Include="src\grpc_server\stream_server.h" />
-    <ClInclude Include="src\grpc_server\stream_service.h" />
+    <ClInclude Include="src\grpc_server\server_connect.h" />
     <ClInclude Include="src\proto\base.grpc.pb.h" />
     <ClInclude Include="src\proto\base.pb.h" />
   </ItemGroup>

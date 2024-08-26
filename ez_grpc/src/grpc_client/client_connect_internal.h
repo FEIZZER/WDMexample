@@ -9,7 +9,7 @@
 
 namespace ez_grpc {
 
-	class ClientConnectInternal : public ez_grpc::ClientConnectInterface
+	class ClientConnectInternal : public ez_grpc::ClientConnect
 	{
 	public:
 		ClientConnectInternal(const std::string& strIp, int port);
@@ -29,7 +29,7 @@ namespace ez_grpc {
 	};
 
 
-	class ClientConnectStream : public ez_grpc::ClientConnectInterface
+	class ClientConnectStream : public ez_grpc::ClientConnect
 	{
 	public:
 		ClientConnectStream(const std::string& strIp, int port);

@@ -16,17 +16,17 @@ namespace ez_grpc {
 		Client();
 		~Client();
 
-		std::shared_ptr<ClientConnectInterface> CreateShortConnection(const std::string& key, const std::string& ip, int port);
+		std::shared_ptr<ClientConnect> CreateShortConnection(const std::string& key, const std::string& ip, int port);
 
-		std::shared_ptr<ClientConnectInterface> CreateLongConnection(const std::string& key, const std::string& ip, int port);
+		std::shared_ptr<ClientConnect> CreateLongConnection(const std::string& key, const std::string& ip, int port);
 
-		std::shared_ptr<ClientConnectInterface> CreateTemporaryConnection();
+		std::shared_ptr<ClientConnect> CreateTemporaryConnection();
 
 	private:
-		std::shared_ptr<ClientConnectInterface> CreateConnectionInternal(bool keepalive, const std::string& ip, int port);
+		std::shared_ptr<ClientConnect> CreateConnectionInternal(bool keepalive, const std::string& ip, int port);
 
 	private:
 		std::shared_mutex shared_mutex_;
-		std::map<std::string, std::shared_ptr<ClientConnectInterface>> connection_pool_;
+		std::map<std::string, std::shared_ptr<ClientConnect>> connection_pool_;
 	};
 }

@@ -164,7 +164,7 @@ bool ClientConnectStream::Request(void* buffer, unsigned int length,
 		if (buffer == nullptr || length == 0)
 		{
 			break;
-		}
+		} 
 
 		if (!connected_)
 		{
@@ -191,10 +191,13 @@ void ClientConnectStream::DisConnect()
 {
 	context_.TryCancel();
 	stream_->WritesDone();
+
 	grpc::Status status = stream_->Finish();
 	if (!status.ok())
 	{
-		std::cout << "stream_->Finish() failed" << std::endl;
+		std::cout << "stream_->Finish() failed, code:" << status.error_code() 
+			<< ", msg:" << status.error_message() 
+			<< ", detail:" << status.error_details() << std::endl;
 	}
 
 	exit_ = true;

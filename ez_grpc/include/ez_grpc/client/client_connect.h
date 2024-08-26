@@ -6,11 +6,11 @@
 
 namespace ez_grpc {
 
-	class ClientConnectInterface : public ConnectInterface
+	class ClientConnect : public Connect
 	{
 	public:
-		ClientConnectInterface() = default;
-		virtual ~ClientConnectInterface() = default;
+		ClientConnect() = default;
+		virtual ~ClientConnect() = default;
 
 		virtual bool Request(void* buffer, unsigned int length,
 			void** out_buffer = nullptr, unsigned int* out_length = nullptr) = 0;

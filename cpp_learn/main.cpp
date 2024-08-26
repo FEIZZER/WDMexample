@@ -9,11 +9,7 @@
 #include <array>
 #include <fstream>
 #include "stl/template.h"
-#include "stl/map.h"
-#include "stl/std_string.h"
-#include <mutex>         //unique_lock
-#include <shared_mutex>  //shared_mutex shared_lock
-#include "stl/TestClass.h"
+
 
 
 void run()
@@ -24,15 +20,11 @@ void run()
 
 int main()
 {
-	auto thread = std::thread(run);
+	int a = 0x123456;
 
-	std::cout << "main" << std::endl;
+	std::cout << "a:" << a << std::endl;
 
-	Sleep(2000);
-
-	thread.join();
-
-	std::cout << "main exit" << std::endl;
+	MessageBoxA(NULL, "this is secret, not read it", "warning", NULL);
 
 	return 0;
 }
