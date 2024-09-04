@@ -1,7 +1,6 @@
 #include "service.h"
 
 #include "grpc++/grpc++.h"
-
 #include <memory>
 #include <string>
 

@@ -19,6 +19,7 @@ StreamServer::~StreamServer()
 
 void StreamServer::Shutdown()
 {
+	INFO_LOG("");
 	exit_ = true;
 	
 	INFO_LOG("thread_num_:{}", thread_num_);
@@ -26,7 +27,6 @@ void StreamServer::Shutdown()
 	{
 		threads_[i].join();
 		INFO_LOG("thread: {} has exited", i);
-		std::cout << "thread has exited" << i << std::endl;
 	}
 
 	for (auto it : connect_pool_)
@@ -93,14 +93,7 @@ bool StreamServer::Init()
 
 bool StreamServer::Start(const std::string& addr, int thread_nums, int max_connect)
 {
-	if (async_service_ != nullptr) Shutdown();
-	async_service_ = new Base::AsyncService();
-	if (async_service_ == nullptr) return false;
-
-	grpc::ServerBuilder builder;
-	builder.AddListeningPort(addr, grpc::InsecureServerCredentials());
-	builder.RegisterService(async_service_);
-
+	return StartInternal(addr, false, 3);
 }
 
 bool StreamServer::StartInternal(const std::string& addr, bool limit, int thread_num)
@@ -116,10 +109,12 @@ bool StreamServer::StartInternal(const std::string& addr, bool limit, int thread
 	for (int i = 0; i < thread_num_; i++)
 	{
 		cqs_.push_back(builder.AddCompletionQueue());
-
+		threads_.push_back(std::thread(&StreamServer::DrawFromCq, this, cqs_[i].get()));
 	}
 
-	return true;
+	server_ = builder.BuildAndStart();
+
+	return server_ != nullptr;
 }
 
 bool StreamServer::RunWithLimit(int thread_nums)
@@ -162,16 +157,21 @@ void StreamServer::DrawFromCq(grpc::ServerCompletionQueue* cq)
 		if (status == grpc::CompletionQueue::GOT_EVENT)
 		{
 			auto connect_key = std::to_string((uintptr_t)tag);
+			INFO_LOG("get event, tag:{}", connect_key);
 			auto connect = GetConnect(connect_key);
 			if (connect == nullptr)
 			{
-				
+				ERROR_LOG("cannot find connect in map");
+				continue;
 			}
 
 			auto connect_status = connect->Proceed();
 			if (connect_status == EZCode::Connect_Get_Connected)
 			{
 				NewConnect(cq);
+			}
+			else if (connect_status == EZCode::Connect_Work_Success)
+			{
 			}
 			else if (connect_status == EZCode::Connect_Disconnected)
 			{
@@ -193,6 +193,8 @@ void StreamServer::DrawFromCqWithOneConnect(grpc::ServerCompletionQueue* cq)
 {
 
 }
+
+
 
 
 void StreamServer::NewConnect(grpc::ServerCompletionQueue* cq)

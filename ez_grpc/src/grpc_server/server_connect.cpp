@@ -22,12 +22,14 @@ ServerConnectImpl::ServerConnectImpl(Base::AsyncService* async_service, grpc::Se
 
 EZCode ServerConnectImpl::Proceed()
 {
+	EZCode eRet = EZCode::Connect_Work_Success;
+
 	// get connected
 	if (connect_status_ == Status::Created)
 	{
 		INFO_LOG("obj_ptr:{} connect_name:{} get connected", (uintptr_t)this, connect_name_);
 		connect_status_ = Status::Connected;
-		return EZCode::Connect_Get_Connected;
+		eRet = EZCode::Connect_Get_Connected;
 	}
 
 	if (context_.IsCancelled())
@@ -45,10 +47,10 @@ EZCode ServerConnectImpl::Proceed()
 	stream_.Read(&request_, this);
 
 	auto value = request_.buffer().c_str();
-	
+	INFO_LOG("get request:{}", value);
 	request_.Clear();
 
-	return EZCode::Connect_Work_Success;
+	return eRet;
 }
 
 
@@ -63,7 +65,7 @@ bool ServerConnectImpl::ReplyData(void* buffer, int length)
 	BaseReply reply;
 	reply.set_length(length);
 	reply.set_buffer(buffer, length);
-	stream_.Write(reply, this);
+	stream_.Write(reply, 0);
 
 	return true;
 }
@@ -72,7 +74,7 @@ bool ServerConnectImpl::ReplyData(void* buffer, int length)
 
 void ServerConnectImpl::DisConnect()
 {
-	if (connected_)
+	if (connect_status_ == Status::Connected)
 	{
 		std::cout << (ULONG_PTR)this << ": start server disconnect" << std::endl;
 		stream_.Finish(grpc::Status::OK, this);

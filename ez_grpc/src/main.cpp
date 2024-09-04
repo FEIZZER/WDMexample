@@ -2,6 +2,7 @@
 #include "grpc_server/stream_server.h"
 #include "ez_grpc/client/client.h"
 #include <iostream>
+#include "flog.h"
 
 void Block()
 {
@@ -36,6 +37,7 @@ ez_grpc::ez_request_handler test_handler = [](void* buffer, int length, void** o
 int main(int args, char* argv[])
 {
 
+	LOG_INIT("1", "C:\\Users\\Hillstone\\Desktop\\log.txt");
 	std::string cmdline;
 	if (args <= 1)
 	{
@@ -53,27 +55,25 @@ int main(int args, char* argv[])
 	ez_grpc::Client client;
 	if (cmdline == "server")
 	{
-
-		/*if (!server.BuildServer(8800, test_handler))
-		{
-			std::cout << "build server failed";
-		}*/
-
 		if (!stream_server.Init())
 		{
 			std::cout << "build server failed" << std::endl;
 		}
-
 	}
 	else if (cmdline == "client")
 	{
 		void* reply_buffer = nullptr;
 		unsigned int reply_length = 0;
 		// client.CreateShortConnection("test_connect", "127.0.0.1:", 8800)->Request((void*)"hahaha", 6, &reply_buffer, &reply_length);
-		if (!client.CreateLongConnection("test_connect", "127.0.0.1:", 8800)->Request((void*)"hahaha", 6))
+		/*if (!client.CreateLongConnection("test_connect", "127.0.0.1:", 8800)->Request((void*)"hahaha", 6))
 		{
 			std::cout << "request failed" << std::endl;
-		}
+		}*/
+		auto connect = client.CreateLongConnection("test_connect", "127.0.0.1:", 8800);
+
+		connect->Request((void*)"request1", 8);
+		connect->Request((void*)"request2", 8);
+
 
 		/*for (int i = 0; i < 10000; i++)
 		{

@@ -1,4 +1,5 @@
 #include "client_connect_internal.h"
+#include "flog.h"
 
 #include <grpcpp/grpcpp.h>
 
@@ -176,7 +177,7 @@ bool ClientConnectStream::Request(void* buffer, unsigned int length,
 		request.set_buffer(buffer, length);
 		if (!stream_->Write(request))
 		{
-			// log, stream_ has closed
+			ERROR_LOG("stream_->Write failed");
 			break;
 		}
 
@@ -217,6 +218,9 @@ void ClientConnectStream::HandleReply()
 			std::cout << "stream_->Read failed" << std::endl;
 			break;
 		}
+
+		auto strReply = std::string(reply.buffer().c_str(), 0, 8);
+		std::cout << "reply:" << strReply << std::endl;
 
 	} while (!exit_);
 
