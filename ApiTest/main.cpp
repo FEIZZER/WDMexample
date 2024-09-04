@@ -9,38 +9,38 @@
 #include <shlobj_core.h>
 #pragma comment(lib, "version.lib")
 
-VOID GetMainThreadId(ULONG processId)
+ULONG GetMainThreadId(ULONG processId)
 {
 	ULONG mainThread = 0;
 	UINT64 maxTime = MAXUINT64;
-    HANDLE threadSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, NULL);
-    THREADENTRY32 threadEntry;
-    threadEntry.dwSize = sizeof(THREADENTRY32);
+	HANDLE threadSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, NULL);
+	THREADENTRY32 threadEntry;
+	threadEntry.dwSize = sizeof(THREADENTRY32);
 
-    if (!Thread32First(threadSnapshot, &threadEntry))
-    {
-        return;
-    }
+	if (!Thread32First(threadSnapshot, &threadEntry))
+	{
+		return 1;
+	}
 
-    do {
-        if (threadEntry.th32OwnerProcessID == processId)
-        {
-            HANDLE hThread = OpenThread(THREAD_QUERY_INFORMATION, FALSE, threadEntry.th32ThreadID);
-            if (hThread == NULL)
-            {
-                std::cout << "OpenThread failed:" << GetLastError() << std::endl;
-                continue;
-            }
+	do {
+		if (threadEntry.th32OwnerProcessID == processId)
+		{
+			HANDLE hThread = OpenThread(THREAD_QUERY_INFORMATION, FALSE, threadEntry.th32ThreadID);
+			if (hThread == NULL)
+			{
+				std::cout << "OpenThread failed:" << GetLastError() << std::endl;
+				continue;
+			}
 
-            FILETIME createTime = { };
-            FILETIME exitTime = { };
-            FILETIME kernelTime = { };
-            FILETIME userTime = { };
-            if (!GetThreadTimes(hThread, &createTime, &exitTime, &kernelTime, &userTime))
-            {
-                std::cout << "GetThreadTimes failed:" << GetLastError() << std::endl;
-                continue;
-            }
+			FILETIME createTime = { };
+			FILETIME exitTime = { };
+			FILETIME kernelTime = { };
+			FILETIME userTime = { };
+			if (!GetThreadTimes(hThread, &createTime, &exitTime, &kernelTime, &userTime))
+			{
+				std::cout << "GetThreadTimes failed:" << GetLastError() << std::endl;
+				continue;
+			}
 
 			if (*(PUINT64)&createTime && *(PUINT64)&createTime < maxTime)
 			{
@@ -48,10 +48,11 @@ VOID GetMainThreadId(ULONG processId)
 				maxTime = *(PUINT64)&createTime;
 			}
 
-            std::cout << "createTime:" << createTime.dwHighDateTime << createTime.dwLowDateTime << std::endl;
-        }
-    } while (Thread32Next(threadSnapshot, &threadEntry));
-	std::cout << "mainThreadId:" << mainThread << std::endl;
+			std::cout << "createTime:" << createTime.dwHighDateTime << createTime.dwLowDateTime << std::endl;
+		}
+	} while (Thread32Next(threadSnapshot, &threadEntry));
+
+	return mainThread;
 }
 
 BOOL AddRegKey()
@@ -307,36 +308,80 @@ typedef struct INFO_ {
 
 }INFO, *PINFO;
 
+#include "oleacc.h"
+
+bool EnumIAccessible(IAccessible* pAcc)
+{
+	long nCnt, nOutCnt = 0;
+	pAcc->get_accChildCount(&nCnt);
+	
+	VARIANT varFlag = {}; VariantInit(&varFlag); varFlag.vt = VT_I4; 
+	LPVARIANT var_arr = nullptr;
+	IAccessible* pConChild = nullptr;
+	var_arr = (LPVARIANT)malloc(nCnt * sizeof(VARIANT));
+	AccessibleChildren(pAcc, 0, nCnt, var_arr, &nOutCnt);
+	std::cout << "========childCnt:" << nCnt << ", " << nOutCnt << "============" << std::endl;
+	for (int i = 0; i < nOutCnt; i++)
+	{
+		if (var_arr[i].vt != VT_DISPATCH)
+		{
+			std::cout << "val_type:" << var_arr[i].vt << std::endl;
+			continue;
+		}
+
+		var_arr[i].pdispVal->QueryInterface(IID_IAccessible, (void**)&pConChild);
+
+		if (pConChild != nullptr)
+		{
+			BSTR ptext = NULL;
+			pConChild->get_accName(varFlag, &ptext);
+			if (ptext != nullptr)
+			{
+				std::wcout << L"Name:" << ptext << std::endl;
+			}
+			EnumIAccessible(pConChild);
+		}
+	}
+	return true;
+}
+
 BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM lParam)
 {
 	DWORD dwProcessId;
 	GetWindowThreadProcessId(hWnd, &dwProcessId);
-	PINFO pInfo = (PINFO)lParam;
-	if (dwProcessId == pInfo->dwProcessId)
-	{
-		std::cout << "In Target Process" << std::endl;
-		CHAR szClassName[128];
-		CHAR szCaption[128];
-		GetClassNameA(hWnd, szClassName, 128);
-		GetWindowTextA(hWnd, szCaption, 128);
-		std::cout << "ClassName:" << (char*)szClassName << ", Caption:" << (char*)szCaption << std::endl;
-		/*if (NULL != pInfo->lpClassName && _tcslen(pInfo->lpClassName) > 0)
-		{
-			TCHAR szClassName[128] = _T("");
-			GetClassName(hWnd, szClassName, 128);
-			if (0 != _tcscmp(szClassName, pInfo->lpClassName))
-				return TRUE;
-		}
 
-		if (NULL != pInfo->lpCaption && _tcslen(pInfo->lpCaption) > 0)
+	char clazz1[MAX_PATH] = { 0 };
+	GetClassNameA(hWnd, clazz1, MAX_PATH);
+	std::string className = "Chrome_WidgetWin_1";
+
+	
+
+
+	if (dwProcessId == (DWORD)lParam)
+	{
+		char title[MAX_PATH] = { 0 };
+		GetWindowTextA(hWnd, title, MAX_PATH);
+		std::cout << (uintptr_t)hWnd << ", title: " << title << std::endl;
+
+		char clazz[MAX_PATH] = { 0 };
+		GetClassNameA(hWnd, clazz, MAX_PATH);
+		std::cout << (uintptr_t)hWnd << ", clazz: " << clazz << std::endl;
+
+		if (false)
 		{
-			TCHAR szCaption[128] = _T("");
-			GetWindowText(hWnd, szCaption, 128);
-			if (0 != _tcscmp(szCaption, pInfo->lpCaption))
-				return TRUE;
-		}*/
-		// return FALSE;
+			IAccessible* pAccessible = nullptr;
+			LRESULT res = AccessibleObjectFromWindow(hWnd, 0, IID_IAccessible, (void**)&pAccessible);
+			if (res != S_OK)
+			{
+				std::cout << "AccessibleObjectFromWindow failed: " << GetLastError() << std::endl;
+			}
+			else
+			{
+				EnumIAccessible(pAccessible);
+			}
+		}
 	}
+	
 	return TRUE;
 }
 
@@ -525,7 +570,14 @@ bool WriteFileData(IN const std::string& strFilePathUtf8, IN const std::string& 
 }
 
 #include "UIAutomationClient.h"
-int main()
+
+
+
+#include "shellapi.h"
+
+int main(int args, char* argv[])
 {
-	GetMainThreadId(15976);
+	wchar_t buffer[MAX_PATH];
+	SHGetSpecialFolderPath(0, buffer, CSIDL_APPDATA, false);
+	std::wcout << buffer << std::endl;
 }

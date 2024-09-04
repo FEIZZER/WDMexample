@@ -1,5 +1,5 @@
 #pragma once
 
 
-ULONG_PTR SetHook(HANDLE);
-BOOL UnHook(ULONG_PTR);
+uintptr_t SetHook(ULONG);
+bool UnHook(uintptr_t);

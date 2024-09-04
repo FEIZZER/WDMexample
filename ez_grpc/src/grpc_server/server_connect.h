@@ -17,7 +17,7 @@ namespace ez_grpc {
 
 		ServerConnectImpl(Base::AsyncService* async_service, grpc::ServerCompletionQueue* cq);
 
-		EZCode Proceed();
+		EZCode Proceed(BaseRequest& reuqest);
 
 		void DisConnect();
 

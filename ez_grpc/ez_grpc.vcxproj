@@ -23,7 +23,7 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{773782ff-4647-4deb-b5f4-980c7dd6d4a7}</ProjectGuid>
     <RootNamespace>ezgrpc</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -92,7 +92,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\abseil\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\cares\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\grpc\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\protobuf\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\re2\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\zlib\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\spdlog\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(CUSTOM_LIB_DIR)\sources\spdlog\include;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\abseil\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\cares\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\grpc\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\protobuf\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\re2\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\zlib\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\spdlog\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -109,7 +109,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\abseil\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\cares\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\grpc\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\protobuf\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\re2\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\zlib\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\spdlog\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(CUSTOM_LIB_DIR)\sources\spdlog\include;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\abseil\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\cares\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\grpc\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\protobuf\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\re2\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\zlib\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\spdlog\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -127,7 +127,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\abseil\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\cares\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\grpc\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\protobuf\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\re2\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\zlib\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\spdlog\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(CUSTOM_LIB_DIR)\sources\spdlog\include;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\abseil\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\cares\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\grpc\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\protobuf\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\re2\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\zlib\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\spdlog\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,7 +144,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\abseil\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\cares\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\grpc\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\protobuf\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\re2\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\zlib\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\spdlog\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(CUSTOM_LIB_DIR)\sources\spdlog\include;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\abseil\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\cares\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\grpc\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\protobuf\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\re2\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\zlib\include\;$(CUSTOM_LIB_DIR)\lib\$(PlatformShortName)\spdlog\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -157,6 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\common\subscriber.cpp" />
     <ClCompile Include="src\grpc_client\client.cpp" />
     <ClCompile Include="src\grpc_client\client_connect_internal.cpp" />
     <ClCompile Include="src\grpc_server\service.cpp" />
@@ -168,12 +169,17 @@
     <ClCompile Include="src\proto\base.pb.cc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Common\ThreadPool.hpp" />
     <ClInclude Include="include\ez_grpc\client\client.h" />
     <ClInclude Include="include\ez_grpc\client\client_connect.h" />
     <ClInclude Include="include\ez_grpc\common\connect.h" />
+    <ClInclude Include="include\ez_grpc\common\handler.h" />
     <ClInclude Include="include\ez_grpc\common\status.h" />
+    <ClInclude Include="include\ez_grpc\common\subscriber.h" />
     <ClInclude Include="include\ez_grpc\server\server.h" />
     <ClInclude Include="include\ez_grpc\server\server_connect.h" />
+    <ClInclude Include="src\common\flog.h" />
+    <ClInclude Include="src\common\subscriber.h" />
     <ClInclude Include="src\grpc_client\client_connect_internal.h" />
     <ClInclude Include="src\grpc_server\service.h" />
     <ClInclude Include="src\grpc_server\server.h" />

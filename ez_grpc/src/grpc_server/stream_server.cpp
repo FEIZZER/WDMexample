@@ -157,7 +157,6 @@ void StreamServer::DrawFromCq(grpc::ServerCompletionQueue* cq)
 		if (status == grpc::CompletionQueue::GOT_EVENT)
 		{
 			auto connect_key = std::to_string((uintptr_t)tag);
-			INFO_LOG("get event, tag:{}", connect_key);
 			auto connect = GetConnect(connect_key);
 			if (connect == nullptr)
 			{
@@ -165,13 +164,15 @@ void StreamServer::DrawFromCq(grpc::ServerCompletionQueue* cq)
 				continue;
 			}
 
-			auto connect_status = connect->Proceed();
+			BaseRequest reuqest;
+			auto connect_status = connect->Proceed(reuqest);
 			if (connect_status == EZCode::Connect_Get_Connected)
 			{
 				NewConnect(cq);
 			}
 			else if (connect_status == EZCode::Connect_Work_Success)
 			{
+
 			}
 			else if (connect_status == EZCode::Connect_Disconnected)
 			{

@@ -31,6 +31,12 @@
     <Filter Include="头文件\common">
       <UniqueIdentifier>{272c1db1-d1fa-42d6-b9c9-75a781762157}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\common">
+      <UniqueIdentifier>{98a7cae2-4612-4f2d-92a7-3add078abdab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\utils">
+      <UniqueIdentifier>{0e7b4b74-8099-4667-8789-0b48dc50358e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -59,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="src\grpc_server\stream_server.cpp">
       <Filter>源文件\grpc_server</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\subscriber.cpp">
+      <Filter>源文件\common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +109,21 @@
     </ClInclude>
     <ClInclude Include="include\ez_grpc\common\status.h">
       <Filter>头文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ez_grpc\common\handler.h">
+      <Filter>头文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ez_grpc\common\subscriber.h">
+      <Filter>头文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\flog.h">
+      <Filter>源文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\subscriber.h">
+      <Filter>源文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\ThreadPool.hpp">
+      <Filter>源文件\utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

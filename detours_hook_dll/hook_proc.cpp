@@ -1,87 +1,85 @@
 #include <Windows.h>
-#include <stdio.h>
+#include <TlHelp32.h>
+
+#include <iostream>
 #include <list>
 #include <fstream>
-#include <TlHelp32.h>
+
 #include "hook_proc.h"
 
 extern HMODULE gDllModule;
 HHOOK gHookProc;
 
-LRESULT MyHookProc(
+LRESULT WINAPI MyHookProc(
     _In_ int nCode,
     _In_ WPARAM wParam,
     _In_ LPARAM lParam)
 {
-
-    std::fstream fileStream;
-    fileStream.open("C:\\Users\\DELL\\Desktop\\hook_log.txt", std::ios::out | std::ios::app);
-
-
-    PMSLLHOOKSTRUCT extraInfo = (PMSLLHOOKSTRUCT)lParam;
-    switch (wParam)
-    {
-    case WM_MOUSEMOVE:  // 鼠标移动
-        break;
-
-    default:
-        fileStream << "pid hooked msg: " << GetCurrentProcessId();
-        fileStream << ", nCode: " << nCode << " ,wParam" << wParam;
-        fileStream << ", lParam->mouseData: " << extraInfo->mouseData <<
-            ", pos:" << extraInfo->pt.x << "," << extraInfo->pt.y << std::endl;
-        break;
-    }
-
-
-
-    fileStream.close();
-
     return CallNextHookEx(gHookProc, nCode, wParam, lParam);
 }
 
-std::list<ULONG> GetSpecialThreadId(ULONG processId)
+
+ULONG GetMainThreadId(ULONG processId)
 {
-    std::list<ULONG> res{};
-    HANDLE threadSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, NULL);
-    THREADENTRY32 threadEntry;
-    threadEntry.dwSize = sizeof(THREADENTRY32);
+	ULONG mainThread = 0;
+	UINT64 maxTime = MAXUINT64;
+	HANDLE threadSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, NULL);
+	THREADENTRY32 threadEntry;
+	threadEntry.dwSize = sizeof(THREADENTRY32);
 
-    if (!Thread32First(threadSnapshot, &threadEntry))
-    {
-        return res;
-    }
+	if (!Thread32First(threadSnapshot, &threadEntry))
+	{
+		return 0;
+	}
 
-    do {
-        if (threadEntry.th32OwnerProcessID == processId)
-        {
-            res.push_back(threadEntry.th32ThreadID);
-        }
-    } while (Thread32Next(threadSnapshot, &threadEntry));
+	do {
+		if (threadEntry.th32OwnerProcessID == processId)
+		{
+			HANDLE hThread = OpenThread(THREAD_QUERY_INFORMATION, FALSE, threadEntry.th32ThreadID);
+			if (hThread == NULL)
+			{
+				std::cout << "OpenThread failed:" << GetLastError() << std::endl;
+				continue;
+			}
 
-    return res;
+			FILETIME createTime = { };
+			FILETIME exitTime = { };
+			FILETIME kernelTime = { };
+			FILETIME userTime = { };
+			if (!GetThreadTimes(hThread, &createTime, &exitTime, &kernelTime, &userTime))
+			{
+				std::cout << "GetThreadTimes failed:" << GetLastError() << std::endl;
+				continue;
+			}
+
+			if (*(PUINT64)&createTime && *(PUINT64)&createTime < maxTime)
+			{
+				mainThread = threadEntry.th32ThreadID;
+				maxTime = *(PUINT64)&createTime;
+			}
+		}
+	} while (Thread32Next(threadSnapshot, &threadEntry));
+
+	return mainThread;
 }
 
-ULONG_PTR SetHook(HANDLE targetProcessId)
+uintptr_t SetHook(ULONG targetProcessId)
 {
-    std::list<ULONG> threadId2Hook = GetSpecialThreadId(HandleToULong(targetProcessId));
-
-    HHOOK proc_addr = NULL;
-    for (auto threadId : threadId2Hook)
-    {
-        // 只要注入一个线程, 该进程就注入成功了
-        proc_addr = SetWindowsHookExW(WH_MOUSE, MyHookProc, gDllModule, threadId);
-        if (proc_addr != NULL)
-        {
-            gHookProc = proc_addr;
-            printf("hook processId:%d, threadId:%d, pro_addr:%p \n", HandleToULong(targetProcessId), threadId, proc_addr);
-            break;
-        }
-        printf("SetWindowsHookExW failed:%x\n", GetLastError());
-    }
-    return (ULONG_PTR)proc_addr;
+	ULONG threadId = GetMainThreadId((ULONG)targetProcessId);
+	if (threadId == 0)
+	{
+		std::cout << "GetMainThreadId failed" << std::endl;
+		return 0;
+	}
+    auto proc_addr = SetWindowsHookExW(WH_MOUSE, MyHookProc, gDllModule, threadId);
+	if (proc_addr == nullptr)
+	{
+		std::cout << "SetWindowsHookExW failed: " << GetLastError() << std::endl;
+	}
+	return (uintptr_t)proc_addr;
 }
 
-BOOL UnHook(ULONG_PTR proc_addr)
+bool UnHook(uintptr_t proc_addr)
 {
-    return UnhookWindowsHookEx((HHOOK)proc_addr);
+	return UnhookWindowsHookEx((HHOOK)proc_addr);
 }

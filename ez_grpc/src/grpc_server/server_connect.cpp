@@ -20,7 +20,7 @@ ServerConnectImpl::ServerConnectImpl(Base::AsyncService* async_service, grpc::Se
 
 
 
-EZCode ServerConnectImpl::Proceed()
+EZCode ServerConnectImpl::Proceed(BaseRequest& request)
 {
 	EZCode eRet = EZCode::Connect_Work_Success;
 
@@ -44,11 +44,7 @@ EZCode ServerConnectImpl::Proceed()
 		return EZCode::Connect_Disconnected;
 	}
 
-	stream_.Read(&request_, this);
-
-	auto value = request_.buffer().c_str();
-	INFO_LOG("get request:{}", value);
-	request_.Clear();
+	stream_.Read(&request, this);
 
 	return eRet;
 }
