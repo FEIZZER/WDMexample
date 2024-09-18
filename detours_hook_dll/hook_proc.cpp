@@ -79,7 +79,10 @@ uintptr_t SetHook(ULONG targetProcessId)
 	return (uintptr_t)proc_addr;
 }
 
+#include <iostream>
 bool UnHook(uintptr_t proc_addr)
 {
-	return UnhookWindowsHookEx((HHOOK)proc_addr);
+	BOOL bRet = UnhookWindowsHookEx((HHOOK)proc_addr);
+	std::cout << "unhook err:" << GetLastError() << ", bRet:" << bRet << std::endl;
+	return bRet;
 }
