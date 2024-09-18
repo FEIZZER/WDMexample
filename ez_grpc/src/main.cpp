@@ -59,6 +59,12 @@ int main(int args, char* argv[])
 		{
 			std::cout << "build server failed" << std::endl;
 		}
+		Block();
+		auto connect = stream_server.GetFirstConnect();
+		if (connect != nullptr)
+		{
+			connect->Write((void*)"reply_test", sizeof("reply_test"));
+		}
 	}
 	else if (cmdline == "client")
 	{

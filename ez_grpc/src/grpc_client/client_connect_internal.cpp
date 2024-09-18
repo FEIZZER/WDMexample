@@ -128,6 +128,8 @@ ClientConnectStream::ClientConnectStream(const std::string& ip, int target_port)
 		return;
 	}
 
+	context_.AddMetadata("connect_name", "");
+
 	stream_ = stub_->StreamTransmit(&context_);
 	if (stream_ == nullptr)
 	{

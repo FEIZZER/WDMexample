@@ -25,6 +25,8 @@ namespace ez_grpc {
 
 		std::shared_ptr<ServerConnectImpl> GetConnect(const std::string& key);
 
+		std::shared_ptr<ServerConnectImpl> GetFirstConnect();
+
 		bool DeleteConnect(const std::string& key);
 
 	private:

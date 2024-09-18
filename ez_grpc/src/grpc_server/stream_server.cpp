@@ -157,6 +157,7 @@ void StreamServer::DrawFromCq(grpc::ServerCompletionQueue* cq)
 		if (status == grpc::CompletionQueue::GOT_EVENT)
 		{
 			auto connect_key = std::to_string((uintptr_t)tag);
+			INFO_LOG("IN GOT_EVENT, tag:{}", (uintptr_t)tag);
 			auto connect = GetConnect(connect_key);
 			if (connect == nullptr)
 			{
@@ -164,21 +165,26 @@ void StreamServer::DrawFromCq(grpc::ServerCompletionQueue* cq)
 				continue;
 			}
 
-			BaseRequest reuqest;
-			auto connect_status = connect->Proceed(reuqest);
+			BaseRequest request;
+			auto connect_status = connect->Proceed(request);
 			if (connect_status == EZCode::Connect_Get_Connected)
 			{
-				NewConnect(cq);
+				// NewConnect(cq);
 			}
 			else if (connect_status == EZCode::Connect_Work_Success)
 			{
-
+				INFO_LOG("outter len:{} read:{}", request.length(), (char*)request.buffer().c_str());
 			}
 			else if (connect_status == EZCode::Connect_Disconnected)
 			{
+				INFO_LOG("disconnect");
 				if (!DeleteConnect(connect_key))
 				{
-
+					ERROR_LOG("delete connect failed, connect_key:{}", connect_key);
+				}
+				else
+				{
+					INFO_LOG("delete connect success, connect_key:{}", connect_key);
 				}
 			}
 		}
@@ -224,6 +230,16 @@ std::shared_ptr<ServerConnectImpl> StreamServer::GetConnect(const std::string& k
 		return nullptr;
 	}
 	return iter->second;
+}
+
+std::shared_ptr<ServerConnectImpl> StreamServer::GetFirstConnect()
+{
+	
+	std::shared_lock<std::shared_mutex> lock(shared_mutex_);
+
+	INFO_LOG("map cnt:{}", connect_pool_.size());
+
+	return connect_pool_.empty() ? nullptr : connect_pool_.begin()->second;
 }
 
 

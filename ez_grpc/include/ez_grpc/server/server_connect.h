@@ -11,9 +11,9 @@ namespace ez_grpc {
 		ServerConnect() = default;
 		virtual ~ServerConnect() = default;
 
-		/*virtual bool Read() = 0;
+		/*virtual bool Read() = 0;*/
 
-		virtual bool Write() = 0;*/
+		virtual bool Write(void* buffer, int length) = 0;
 
 		// virtual bool IsConnected() = 0
 

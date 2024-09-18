@@ -21,7 +21,7 @@ namespace ez_grpc {
 
 		void DisConnect();
 
-		bool ReplyData(void* buffer, int length);
+		bool Write(void* buffer, int length);
 
 	private:
 		enum class Status {

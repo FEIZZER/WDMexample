@@ -24,6 +24,11 @@ EZCode ServerConnectImpl::Proceed(BaseRequest& request)
 {
 	EZCode eRet = EZCode::Connect_Work_Success;
 
+	if (connect_status_ == Status::DisConnected)
+	{
+		return EZCode::Connect_Disconnected;
+	}
+
 	// get connected
 	if (connect_status_ == Status::Created)
 	{
@@ -36,24 +41,29 @@ EZCode ServerConnectImpl::Proceed(BaseRequest& request)
 	{
 		INFO_LOG("obj_ptr:{} connect_name:{} have be disconnected from client", (uintptr_t)this, connect_name_);
 		connect_status_ = Status::DisConnected;
-		return EZCode::Connect_Disconnected;
+		return EZCode::Connect_Work_Success;
 	}
 
-	if (connect_status_ == Status::DisConnected)
-	{
-		return EZCode::Connect_Disconnected;
-	}
+	
+	stream_.Read(&request_, this);
 
-	stream_.Read(&request, this);
+	request = std::move(request_);
+
+	INFO_LOG("after read:{}", (char*)request_.buffer().c_str());
 
 	return eRet;
 }
 
 
 
-bool ServerConnectImpl::ReplyData(void* buffer, int length)
+bool ServerConnectImpl::Write(void* buffer, int length)
 {
 	if (buffer == nullptr || length == 0)
+	{
+		return false;
+	}
+
+	if (connect_status_ != Status::Connected)
 	{
 		return false;
 	}
