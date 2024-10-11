@@ -128,7 +128,7 @@ ClientConnectStream::ClientConnectStream(const std::string& ip, int target_port)
 		return;
 	}
 
-	context_.AddMetadata("connect_name", "");
+	context_.AddMetadata("client_connect_uid", "default_" + std::to_string((uintptr_t)this));
 
 	stream_ = stub_->StreamTransmit(&context_);
 	if (stream_ == nullptr)

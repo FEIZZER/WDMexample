@@ -32,7 +32,6 @@ EZCode ServerConnectImpl::Proceed(BaseRequest& request)
 	// get connected
 	if (connect_status_ == Status::Created)
 	{
-		INFO_LOG("obj_ptr:{} connect_name:{} get connected", (uintptr_t)this, client_connect_uid_);
 		connect_status_ = Status::Connected;
 		auto client_metadata = context_.client_metadata();
 		auto uid = client_metadata.find("client_connect_uid");
@@ -42,7 +41,8 @@ EZCode ServerConnectImpl::Proceed(BaseRequest& request)
 		}
 		else
 		{
-			client_connect_uid_ = uid->second.data();
+			client_connect_uid_ = std::string(uid->second.data(), uid->second.length());
+			INFO_LOG("obj_ptr:{} connect_name:{} get connected", (uintptr_t)this, client_connect_uid_);
 		}
 		eRet = EZCode::Connect_Get_Connected;
 	}
