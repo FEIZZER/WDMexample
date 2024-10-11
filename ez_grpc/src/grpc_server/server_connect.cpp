@@ -13,7 +13,7 @@ ServerConnectImpl::ServerConnectImpl(Base::AsyncService* async_service, grpc::Se
 {
 	cq_ = cq;
 	async_service_ = async_service;
-
+	// context_.AddInitialMetadata("server_connect_uid", std::to_string((uintptr_t)this));
 	context_.AsyncNotifyWhenDone(this);
 	async_service_->RequestStreamTransmit(&context_, &stream_, cq_, cq_, this);
 }
@@ -32,25 +32,29 @@ EZCode ServerConnectImpl::Proceed(BaseRequest& request)
 	// get connected
 	if (connect_status_ == Status::Created)
 	{
-		INFO_LOG("obj_ptr:{} connect_name:{} get connected", (uintptr_t)this, connect_name_);
+		INFO_LOG("obj_ptr:{} connect_name:{} get connected", (uintptr_t)this, client_connect_uid_);
 		connect_status_ = Status::Connected;
+		auto client_metadata = context_.client_metadata();
+		auto uid = client_metadata.find("client_connect_uid");
+		if (uid == client_metadata.end())
+		{
+			// error
+		}
+		else
+		{
+			client_connect_uid_ = uid->second.data();
+		}
 		eRet = EZCode::Connect_Get_Connected;
 	}
 
 	if (context_.IsCancelled())
 	{
-		INFO_LOG("obj_ptr:{} connect_name:{} have be disconnected from client", (uintptr_t)this, connect_name_);
+		INFO_LOG("obj_ptr:{} connect_name:{} have be disconnected from client", (uintptr_t)this, client_connect_uid_);
 		connect_status_ = Status::DisConnected;
 		return EZCode::Connect_Work_Success;
 	}
-
-	
 	stream_.Read(&request_, this);
-
 	request = std::move(request_);
-
-	INFO_LOG("after read:{}", (char*)request_.buffer().c_str());
-
 	return eRet;
 }
 

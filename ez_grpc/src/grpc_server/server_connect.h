@@ -32,7 +32,7 @@ namespace ez_grpc {
 
 	private:
 		ServerConnectImpl::Status connect_status_;
-		std::string connect_name_;
+		std::string client_connect_uid_;
 
 		Base::AsyncService* async_service_;
 		grpc::ServerCompletionQueue* cq_;

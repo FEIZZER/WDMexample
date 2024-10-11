@@ -169,7 +169,7 @@ void StreamServer::DrawFromCq(grpc::ServerCompletionQueue* cq)
 			auto connect_status = connect->Proceed(request);
 			if (connect_status == EZCode::Connect_Get_Connected)
 			{
-				// NewConnect(cq);
+				NewConnect(cq);
 			}
 			else if (connect_status == EZCode::Connect_Work_Success)
 			{
