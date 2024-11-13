@@ -5,6 +5,7 @@
 #include <list>
 #include <fstream>
 
+#include "flog.h"
 #include "hook_proc.h"
 
 extern HMODULE gDllModule;
@@ -15,7 +16,7 @@ LRESULT WINAPI MyHookProc(
     _In_ WPARAM wParam,
     _In_ LPARAM lParam)
 {
-    return CallNextHookEx(gHookProc, nCode, wParam, lParam);
+    return CallNextHookEx(NULL, nCode, wParam, lParam);
 }
 
 
@@ -76,6 +77,24 @@ uintptr_t SetHook(ULONG targetProcessId)
 	{
 		std::cout << "SetWindowsHookExW failed: " << GetLastError() << std::endl;
 	}
+
+	if (!SetWindowsHookExW(WH_KEYBOARD, MyHookProc, gDllModule, threadId))
+	{
+		std::cout << "hook WH_KEYBOARD failed: " << GetLastError() << std::endl;
+	}
+	if (!SetWindowsHookExW(WH_GETMESSAGE, MyHookProc, gDllModule, threadId))
+	{
+		std::cout << "hook WH_GETMESSAGE failed: " << GetLastError() << std::endl;
+	}
+	if (!SetWindowsHookExW(WH_CALLWNDPROC, MyHookProc, gDllModule, threadId))
+	{
+		std::cout << "hook WH_CALLWNDPROC failed: " << GetLastError() << std::endl;
+	}
+	if (!SetWindowsHookExW(WH_CALLWNDPROCRET, MyHookProc, gDllModule, threadId))
+	{
+		std::cout << "hook WH_CALLWNDPROCRET failed: " << GetLastError() << std::endl;
+	}
+
 	return (uintptr_t)proc_addr;
 }
 

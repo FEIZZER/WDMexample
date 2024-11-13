@@ -26,7 +26,9 @@ public:
 		// todo
 		try
 		{
-			fspdlog::getInstance()->f_file_logger = spdlog::rotating_logger_mt<spdlog::synchronous_factory>(logName, logFilePath, 1024 * 1024 * 5, 3);
+			// fspdlog::getInstance()->f_file_logger = spdlog::rotating_logger_mt<spdlog::synchronous_factory>(logName, logFilePath, 1024 * 1024 * 5, 3);
+			fspdlog::getInstance()->f_file_logger = 
+				spdlog::rotating_logger_mt<spdlog::async_factory>(logName, logFilePath, 1024 * 1024 * 5, 3);
 		}
 		catch (...)
 		{
@@ -44,6 +46,7 @@ public:
 
 	static bool uninitLog()
 	{
+		// spdlog::shutdown();
 		spdlog::drop_all();
 		fspdlog::getInstance()->f_file_logger.reset();
 		return true;

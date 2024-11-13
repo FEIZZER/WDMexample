@@ -574,10 +574,102 @@ bool WriteFileData(IN const std::string& strFilePathUtf8, IN const std::string& 
 
 
 #include "shellapi.h"
+#include "psapi.h"
 
-int main(int args, char* argv[])
+BOOL __stdcall GetWindowHandle(HWND hWnd, LPARAM lParam)
 {
-	wchar_t buffer[MAX_PATH];
-	SHGetSpecialFolderPath(0, buffer, CSIDL_APPDATA, false);
-	std::wcout << buffer << std::endl;
+	DWORD dwProcessId;
+	GetWindowThreadProcessId(hWnd, &dwProcessId);
+
+	HANDLE hProcess = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, FALSE, dwProcessId);
+
+	char file_path[MAX_PATH] = { 0 };
+	GetProcessImageFileNameA(hProcess, file_path, MAX_PATH);
+
+	std::string strFilePath = file_path;
+	if (strFilePath.empty())
+	{
+		return TRUE;
+	}
+	std::string strFileName = strFilePath.substr(strFilePath.find_last_of("\\") + 1, strFilePath.length());
+	if (strFileName != (char*)lParam)
+	{
+		return TRUE;
+	}
+
+	std::cout << "fileName: " << strFileName << ", ";
+
+	char text[MAX_PATH] = { 0 };
+	GetWindowTextA(hWnd, text, MAX_PATH);
+	
+	char className[MAX_PATH] = { 0 };
+	GetClassNameA(hWnd, className, MAX_PATH);
+
+	std::cout << "title: " << text << ", class: " << className << std::endl;
+
+	return TRUE;
+}
+
+
+//int main(int args, char* argv[])
+//{
+//	if (args < 2)
+//	{
+//		return 1;
+//	}
+//
+//	char* exe_name = argv[1];
+//	std::cout << "exe_name:" << exe_name << std::endl;
+//	EnumWindows(GetWindowHandle, (LPARAM)exe_name);
+//}
+
+#define EASY_CALL(proc, ...) proc##_1 == 0 ? proc(__VA_ARGS__) : proc##_1(__VA_ARGS__);
+
+int add(int a, int b)
+{
+	printf("add");
+	return a + b;
+}
+
+int minus(int a, int b)
+{
+	printf("minus");
+	return a - b;
+}
+
+using add_type = int (*)(int, int);
+
+int main()
+{
+	std::map<int, int> map_ =
+	{
+		{1, 1},
+		{2, 2},
+		{3, 3},
+		{4, 4},
+		{5, 5},
+		{6, 6}
+	};
+
+	for (auto node : map_)
+	{
+		if (node.first == 2)
+		{
+			map_.erase(node.first);
+		}
+	}
+
+	for (auto iter = map_.begin(); iter != map_.end(); iter++)
+	{
+		if (iter->first == 3)
+		{
+			auto next = map_.erase(iter);
+			printf("next:%d  %d\n", next->first, (next.)->second);
+		}
+	}
+
+	for (auto node : map_)
+	{
+		printf("%d ", node.first);
+	}
 }

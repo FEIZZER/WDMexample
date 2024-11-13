@@ -1,3 +1,5 @@
+
+#define CINTERFACE
 #include "stl/auto_ptr.h"
 #include "BaseClass.h"
 #include <string>
@@ -59,6 +61,14 @@ public:
 	virtual void fun1() {
 		std::cout << "A1::fun\n";
 	}
+
+	void printValue()
+	{
+		printf("value: %d", value);
+	}
+	
+protected:
+	const int value = 1;
 };
 class A {
 public:
@@ -74,38 +84,50 @@ public:
 	void fun() {
 		std::cout << "B::fun, num:" << num << std::endl;
 	}
+	const int value = 2;
 private:
 	int num;
 };
 
-void new_func(B* b)
-{
-	std::cout << "you have be hooked" << std::endl;
-}
+
+typedef struct ApiInfo_ {
+	std::string	dll_name;				// api所在模块的名字
+	std::string proc_name;				// api的导出名
+	uintptr_t	origin_ptr_ptr;			// 存放原api函数地址的变量的地址
+	uintptr_t	target_ptr;				// api目标函数的地址
+	bool			com_api;					// 该api是否是com接口的成员函数
+} ApiInfo, *PApiInfo;
+
+typedef struct HookAppSwitch_ {
+	char	appId[10];
+	bool	bFileAccess;
+	bool	bIMChat;
+}HookAppSwitch, *PHookAppSwitch;
+
+typedef enum Hook_Status_ {
+	Status_None = 0,	
+	Status_Injected,				// 注入
+	Status_Hooked,					// 注入后收到注册
+	Status_UnInjected,				// 反注入
+	Status_Max,
+}Hook_Status;
+
+typedef struct HookedProcess_ {
+	unsigned long	nPid;			// 进程id
+	unsigned long	nPort;			// 进程通信port
+	uintptr_t		hhook;			// SetWindowsHookExW 注入后返回的句柄， 反注入时使用
+	char			appId[10];		// appid
+	Hook_Status		status;			// 管控进程的状态
+	bool			bFileAccess;	// 文件访问的开关
+	bool			bIMChat;		// IM聊天的开关
+}HookedProcess,*PHookedProcess;
 
 int main()
 {
-	A* pObj[2] = { new A, new B };
-
-	B* b = new B();
-
-	uintptr_t vtb_addr = *(uintptr_t*)b;
-	uintptr_t func_addr = *(uintptr_t*)vtb_addr;
-	using func_type = void (*) (B* b);
-
-	func_type pfunc = (func_type)func_addr;
-	// b->fun();
-	pfunc(b);
-	std::cout << "vtb_addr, this: " << *(uintptr_t*)b << ", next: " << *((uintptr_t*)b + 1) << std::endl;
-
-	std::cout << "func_addr, this_value:" << *((uintptr_t*)vtb_addr) << ", next_value:" << *((uintptr_t*)vtb_addr + 1) << std::endl;
-
-	DWORD oldAttribute;
-	VirtualProtect((void*)vtb_addr, sizeof(uintptr_t), PAGE_READWRITE, &oldAttribute);
-
-	*(uintptr_t*)vtb_addr = (uintptr_t)new_func;
-	VirtualProtect((void*)vtb_addr, sizeof(uintptr_t), oldAttribute, &oldAttribute);
-
-
-	b->fun();
+	char filepath[MAX_PATH];
+	auto nRet = GetModuleFileNameA(NULL, filepath, MAX_PATH);
+	
+	printf("nRet:%d, filepath:%s \n", nRet, filepath);
+	GetLastError
+	std::cout << std::string(filepath, 0, nRet);
 }

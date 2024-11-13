@@ -4,6 +4,9 @@
 #include "windows.h"
 #include "winuser.h"
 #include "shlobj_core.h"
+#include "psapi.h"
+#include "objidl.h"
+
 
 #include <string>
 
@@ -134,22 +137,14 @@ HANDLE WINAPI CreateFileW_Mine(
 	bool block = false;
 
 	do {
-		
-		
-		wchar_t wAppDataPath[MAX_PATH];
-		SHGetSpecialFolderPath(0, wAppDataPath, CSIDL_APPDATA, false);
-		std::wstring wstrAppDataPath = wAppDataPath;
+		// INFO_LOG(L"filepath:{}", lpFileName);
 		std::wstring wstrFilePath = lpFileName;
-		
-		
-
-		if (wstrFilePath.find(wstrAppDataPath) == 0 && wstrFilePath.rfind(L"log.txt") != std::wstring::npos)
+		if (wstrFilePath.rfind(L"test.txt") != std::wstring::npos)
 		{
-			INFO_LOG(L"block filepath:{}, wstrAppDataPath:{}", lpFileName, wstrAppDataPath);
-			block = true;
+			// INFO_LOG(L"block filepath:{}", lpFileName);
+			// block = true;
 		}
 	
-
 	} while (false);
 
 	if (block)
@@ -161,6 +156,8 @@ HANDLE WINAPI CreateFileW_Mine(
 		return CreateFileW_Origin(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
 	}
 }
+
+type_MoveFileW MoveFileW_Origin = nullptr;
 
 
 type_GetOpenFileNameW GetOpenFileNameW_Origin = nullptr;
@@ -217,6 +214,7 @@ bool GetOpenedFilePath(wchar_t* pFileInfoBuf, int bufLen, std::wstring& wstrAcce
 }
 BOOL APIENTRY GetOpenFileNameW_Mine(LPOPENFILENAMEW pOpenFileName)
 {
+	INFO_LOG("");
 	bool block = false;
 	BOOL bRes = FALSE;
 	do {
@@ -246,6 +244,8 @@ BOOL APIENTRY GetOpenFileNameW_Mine(LPOPENFILENAMEW pOpenFileName)
 
 	} while (false);
 
+	block = true;
+
 	if (block)
 	{
 		return FALSE;
@@ -254,17 +254,29 @@ BOOL APIENTRY GetOpenFileNameW_Mine(LPOPENFILENAMEW pOpenFileName)
 	{
 		return bRes;
 	}
-	
+}
+
+type_GetOpenFileNameA GetOpenFileNameA_Origin = nullptr;
+BOOL APIENTRY GetOpenFileNameA_Mine(LPOPENFILENAMEA pOpenFileName)
+{
+	INFO_LOG("");
+	return GetOpenFileNameA_Origin(pOpenFileName);
 }
 
 type_DragQueryFileW DragQueryFileW_Origin = nullptr;
-
 bool GetClipboardDropFile(HANDLE hFile)
 {
-	HDROP hDrop = (HDROP)GlobalLock(hFile);
-
-	int fileNum = DragQueryFileW_Origin(hDrop, UINT32_MAX, NULL, NULL);
-
+	HDROP hDrop = (HDROP)hFile;
+	int fileNum = 0;
+	if (DragQueryFileW_Origin != nullptr)
+	{
+		INFO_LOG("here");
+		fileNum = DragQueryFileW_Origin(hDrop, 0xFFFFFFFF, NULL, NULL);
+	}
+	else 
+	{
+		fileNum = DragQueryFileW(hDrop, 0xFFFFFFFF, NULL, NULL);
+	}
 	INFO_LOG("fileNum:{}", fileNum);
 
 	wchar_t wFilePath[MAX_PATH * 2];
@@ -272,7 +284,10 @@ bool GetClipboardDropFile(HANDLE hFile)
 	for (int i = 0; i < fileNum; i++)
 	{
 		memset(wFilePath, 0, MAX_PATH * 2);
-		DragQueryFileW_Origin(hDrop, i, wFilePath, MAX_PATH * 2);
+		if (DragQueryFileW_Origin != nullptr)
+			DragQueryFileW_Origin(hDrop, i, wFilePath, MAX_PATH * 2);
+		else
+			DragQueryFileW(hDrop, i, wFilePath, MAX_PATH * 2);
 		INFO_LOG(L"filepath:{}", wFilePath);
 	}
 	GlobalUnlock(hFile);
@@ -281,28 +296,39 @@ bool GetClipboardDropFile(HANDLE hFile)
 type_GetClipboardData GetClipboardData_Origin = nullptr;
 HANDLE WINAPI GetClipboardData_Mine(_In_ UINT uFormat)
 {
-	INFO_LOG("uFormat:{}", uFormat);
+
+
 
 	HANDLE hRet = GetClipboardData_Origin(uFormat);
 
+	INFO_LOG(L"uFormat:{} hRet:{}", uFormat, (uintptr_t)hRet);
+	
 	do {
-		if (hRet == nullptr || hRet == INVALID_HANDLE_VALUE)
+		if (hRet == NULL || hRet == INVALID_HANDLE_VALUE)
 		{
+			INFO_LOG("GetClipboardData_Origin return NULL");
 			break;
 		}
 
 
-		if (uFormat == CF_HDROP /* || uFormat > 0x12*/)
-		{
+		if (uFormat == CF_HDROP   || uFormat > 0x12)
+		{ 
 			if (!IsClipboardFormatAvailable(CF_HDROP))
 			{
 				break;
 			}
 
-
-			GetClipboardDropFile(hRet);
-			EmptyClipboard();
-			hRet = NULL;
+			HANDLE hFile = GetClipboardData_Origin(CF_HDROP);
+			if (hFile == INVALID_HANDLE_VALUE || hFile == NULL)
+			{
+				break;
+			}
+			GetClipboardDropFile(hFile);
+			hFile = NULL;
+		}
+		else
+		{
+			ERROR_LOG("no CF_HDROP");
 		}
 
 	} while (false);
@@ -310,53 +336,64 @@ HANDLE WINAPI GetClipboardData_Mine(_In_ UINT uFormat)
 	return hRet;
 }
 
+
 UINT STDAPICALLTYPE DragQueryFileW_Mine(_In_ HDROP hDrop, _In_ UINT iFile, _Out_writes_opt_(cch) LPWSTR lpszFile, _In_ UINT cch)
 {
 	auto nRet = DragQueryFileW_Origin(hDrop, iFile, lpszFile, cch);
 
 	POINT point;
-	BOOL b = DragQueryPoint(hDrop, &point);
 
 	if (lpszFile != nullptr)
 	{
-		INFO_LOG(L"DragQueryFileW_Mine iFile:{} lpszFile:{}, nRet:{}, {} {}, {}", iFile, lpszFile, nRet, point.x, point.y, b);
+		INFO_LOG(L"DragQueryFileW_Mine iFile:{} lpszFile:{}, nRet:{}", iFile, lpszFile, nRet);
+		memset(lpszFile, 0, nRet * 2);
+		nRet = 0;
 	}
 	else
 	{
-		INFO_LOG(L"DragQueryFileW_Mine iFile:{} nRet:{}, {} {}, {}", iFile, nRet, point.x, point.y, b);
+		INFO_LOG(L"DragQueryFileW_Mine iFile:{} nRet:{}", iFile, nRet);
 	}
-	
-	/*if (lpszFile != nullptr)
-	{	
-		memset(lpszFile, 0, nRet * 2);
-		nRet = 0;
-	}*/
-
 	return nRet;
 }
 
+type_DragQueryFileA DragQueryFileA_Origin = nullptr;
+UINT STDAPICALLTYPE DragQueryFileA_Mine(_In_ HDROP hDrop, _In_ UINT iFile, _Out_writes_opt_(cch) LPSTR lpszFile, _In_ UINT cch)
+{
+	INFO_LOG("");
+	return DragQueryFileA_Origin(hDrop, iFile, lpszFile, cch);
+}
 
-//type_DoDragDrop DoDragDrop_Origin = nullptr;
-//HRESULT STDAPICALLTYPE DoDragDrop_Mine(IN LPDATAOBJECT pDataObj, IN LPDROPSOURCE pDropSource, IN DWORD dwOKEffects, OUT LPDWORD pdwEffect)
-//{
-//	FORMATETC formateTC = { 0 };
-//	STGMEDIUM stgMedium = { 0 };
-//
-//	formateTC.cfFormat = CF_HDROP;
-//	HRESULT result = pDataObj->GetData(&formateTC, &stgMedium);
-//	if (result != S_OK)
-//	{
-//		ERROR_LOG("pDataObj->GetData, error:{}", result);
-//	}
-//	else
-//	{
-//		auto fileNum = DragQueryFileW_Origin((HDROP)stgMedium.hGlobal, UINT32_MAX, NULL, NULL);
-//		INFO_LOG("fileNum:{}", fileNum);
-//	}
-//	
-//
-//	return DRAGDROP_S_CANCEL;
-//}
+type_DoDragDrop DoDragDrop_Origin = nullptr;
+HRESULT STDAPICALLTYPE DoDragDrop_Mine(IN LPDATAOBJECT pDataObj, IN LPDROPSOURCE pDropSource, IN DWORD dwOKEffects, OUT LPDWORD pdwEffect)
+{
+	INFO_LOG("");
+	STGMEDIUM stgMedium = { 0 };
+	FORMATETC formateTC = { 0 };
+	/*formateTC.cfFormat = CF_HDROP;
+	formateTC.dwAspxiaect = DVASPECT_CONTENT;
+	formateTC.lindex = -1;
+	formateTC.tymed = TYMED_HGLOBAL;*/
+
+	
+	IEnumFORMATETC* pEnumFTC = nullptr;
+	pDataObj->lpVtbl->EnumFormatEtc(pDataObj, DATADIR_GET, &pEnumFTC);
+	while (true) {
+		if (pEnumFTC == nullptr) break;
+
+		if (pEnumFTC->lpVtbl->Next(pEnumFTC, (ULONG)1, &formateTC, NULL) != S_OK)
+		{
+			ERROR_LOG("Next failed:{}");
+			break;
+		}
+
+		INFO_LOG("cfFormat:{} tymed:{}", formateTC.cfFormat, formateTC.tymed);
+	}
+
+	
+	/*auto fileNum = DragQueryFileW_Origin((HDROP)stgMedium.hGlobal, UINT32_MAX, NULL, NULL);
+	INFO_LOG("fileNum:{}", fileNum);*/
+	return DRAGDROP_S_CANCEL;
+}
 
 type_CreateProcessW CreateProcessW_Origin = nullptr;
 BOOL WINAPI CreateProcessW_Mine(
@@ -382,16 +419,112 @@ type_CopyFileW CopyFileW_Origin = nullptr;
 BOOL WINAPI CopyFileW_Mine(_In_ LPCWSTR lpExistingFileName, _In_ LPCWSTR lpNewFileName, _In_ BOOL bFailIfExists)
 {
 	INFO_LOG(L"cpoy: {}=>{}, {}", lpExistingFileName, lpNewFileName, bFailIfExists);
+
+	// return FALSE;
+
+	// std::this_thread::sleep_for(std::chrono::milliseconds(50000));
+
 	return CopyFileW_Origin(lpExistingFileName, lpNewFileName, bFailIfExists);
 }
 
 type_ReadFile ReadFile_Origin = nullptr;
 BOOL WINAPI ReadFile_Mine(HANDLE hFile, LPVOID lpBuffer, DWORD nNumberOfBytesToRead, LPDWORD lpNumberOfBytesRead, LPOVERLAPPED lpOverlapped)
 {
-	wchar_t lpFilePath[MAX_PATH];
-	GetFinalPathNameByHandleW(hFile, lpFilePath, MAX_PATH, NULL);
-	INFO_LOG(L"filepath:{}", lpFilePath);
-	return ReadFile_Origin(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped);
+	char lpFilePath[MAX_PATH];
+	if (!GetFinalPathNameByHandleA(hFile, lpFilePath, MAX_PATH, 0))
+	{
+		ERROR_LOG("GetFinalPathNameByHandleA failed:{}", GetLastError());
+	}
+	else if (strlen(lpFilePath) > 0)
+	{
+		INFO_LOG("filepath:{}", lpFilePath);
+	}
+
+	std::string strSuffix = "test_file.txt";
+	std::string strFilePath = lpFilePath;
+	if (strFilePath.rfind(strSuffix) == strFilePath.length() - strSuffix.length())
+	{
+		INFO_LOG("block filepath:{}", strFilePath);
+		return FALSE;
+	}
+	else
+	{
+		return ReadFile_Origin(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped);
+	}
+
+}
+
+type_WriteFile WriteFile_Origin = nullptr;
+BOOL WINAPI WriteFile_Mine(HANDLE hFile, LPCVOID lpBuffer, _In_ DWORD nNumberOfBytesToWrite, LPDWORD lpNumberOfBytesWritten, LPOVERLAPPED lpOverlapped)
+{
+	char lpFilePath[MAX_PATH] = { 0 };
+	DWORD size = MAX_PATH;
+	QueryFullProcessImageNameA(hFile, 0, lpFilePath, &size);
+	
+	if (!GetFinalPathNameByHandleA(hFile, lpFilePath, MAX_PATH, 0))
+	{
+		ERROR_LOG("GetFinalPathNameByHandleA failed:{}", GetLastError());
+	}
+	else if (strlen(lpFilePath) > 0)
+	{
+		INFO_LOG("filepath:{}", lpFilePath);
+	}
+
+	std::string strSuffix = "test_file.txt";
+	std::string strFilePath = lpFilePath;
+	if (strFilePath.rfind(strSuffix) == strFilePath.length() - strSuffix.length())
+	{
+		INFO_LOG("block filepath:{}", strFilePath);
+		return FALSE;
+	}
+	else
+	{
+		return WriteFile_Origin(hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);
+	}
+
+}
+
+type_CreateFileMapping CreateFileMappingW_Origin = nullptr;
+HANDLE WINAPI CreateFileMappingW_Mine(HANDLE hFile, LPSECURITY_ATTRIBUTES lpFileMappingAttributes, 
+	DWORD flProtect, DWORD dwMaximumSizeHigh, DWORD dwMaximumSizeLow, LPCWSTR lpName)
+{
+	char lpExePath[MAX_PATH] = { 0 };
+	DWORD size = MAX_PATH;
+
+	if (!GetFinalPathNameByHandleA(hFile, lpExePath, MAX_PATH, 0))
+	{
+		ERROR_LOG("GetFinalPathNameByHandleA failed:{}", GetLastError());
+	}
+	else if (strlen(lpExePath) > 0)
+	{
+		INFO_LOG("filepath:{}", lpExePath);
+	}
+	return CreateFileMappingW_Origin(hFile, lpFileMappingAttributes, flProtect, dwMaximumSizeHigh, dwMaximumSizeLow, lpName);
+}
+
+type_IDropTarget_DragEnter IDropTarget_DragEnter_Origin = nullptr;
+HRESULT STDMETHODCALLTYPE IDropTarget_DragEnter_Mine(IDropTarget* pDropTarget, IDataObject* pDataObj, DWORD grfKeyState, POINTL pt, DWORD* pdwEffect)
+{
+	STGMEDIUM stgMedium = { 0 };
+	FORMATETC formateTC = { 0 };
+	formateTC.cfFormat = CF_HDROP;
+	formateTC.dwAspxiaect = DVASPECT_CONTENT;
+	formateTC.lindex = -1;
+	formateTC.tymed = TYMED_HGLOBAL;
+	pDataObj->lpVtbl->GetData(pDataObj, &formateTC, &stgMedium);
+	auto fileNum = DragQueryFileW_Origin((HDROP)stgMedium.hGlobal, UINT32_MAX, NULL, NULL);
+
+	INFO_LOG("fileNum:{}", fileNum);
+
+	wchar_t fileName[MAX_PATH] = { 0 };
+	for (int i = 0; i < fileNum; i++)
+	{
+		memset(fileName, 0, MAX_PATH * 2);
+		DragQueryFileW_Origin((HDROP)stgMedium.hGlobal, i, fileName, MAX_PATH);
+		INFO_LOG(L"fileName:{}", fileName);
+	}
+
+	return E_INVALIDARG;
 }
 
 type_IDropTarget_Drop IDropTarget_Drop_Origin = nullptr;
@@ -401,12 +534,11 @@ HRESULT STDMETHODCALLTYPE IDropTarget_Drop_Mine(IDropTarget* pDropTarget, IDataO
 	STGMEDIUM stgMedium = { 0 };
 	FORMATETC formateTC = { 0 };
 	formateTC.cfFormat = CF_HDROP;
-	formateTC.dwAspect = DVASPECT_CONTENT;
+	formateTC.dwAspxiaect = DVASPECT_CONTENT;
 	formateTC.lindex = -1;
 	formateTC.tymed = TYMED_HGLOBAL;
 	pDataObj->lpVtbl->GetData(pDataObj, &formateTC, &stgMedium);
 	auto fileNum = DragQueryFileW_Origin((HDROP)stgMedium.hGlobal, UINT32_MAX, NULL, NULL);
-
 
 	INFO_LOG("fileNum:{}", fileNum);
 
@@ -421,17 +553,18 @@ HRESULT STDMETHODCALLTYPE IDropTarget_Drop_Mine(IDropTarget* pDropTarget, IDataO
 	/*stgMedium.hGlobal = NULL;
 	pDataObj->lpVtbl->SetData(pDataObj, &formateTC, &stgMedium, TRUE);*/
 	
-	// pDropTarget->lpVtbl->DragOver(pDropTarget, grfKeyState, pt, pdwEffect);
-	return pDropTarget->lpVtbl->DragLeave(pDropTarget);
+	// return pDropTarget->lpVtbl->DragLeave(pDropTarget);
 
-	// return E_INVALIDARG;
+	 return E_INVALIDARG;
 	//return IDropTarget_Drop_Origin(pDropTarget, pDataObj, grfKeyState, pt, pdwEffect);
 }
+
 
 bool once = true;
 type_RegisterDragDrop RegisterDragDrop_Origin = nullptr;
 HRESULT STDAPICALLTYPE RegisterDragDrop_Mine(IN HWND hwnd, IN LPDROPTARGET pDropTarget)
 {
+	INFO_LOG("");
 	if (once)
 	{
 		IDropTarget_Drop_Origin = (type_IDropTarget_Drop)pDropTarget->lpVtbl->Drop;
@@ -440,16 +573,120 @@ HRESULT STDAPICALLTYPE RegisterDragDrop_Mine(IN HWND hwnd, IN LPDROPTARGET pDrop
 			ERROR_LOG("DetourTargetProc failed, IDropTarget::Drop");
 		}
 		apis.push_back(API2HOOK{ "", "", (void**)&IDropTarget_Drop_Origin, IDropTarget_Drop_Mine });
+
+		IDropTarget_DragEnter_Origin = pDropTarget->lpVtbl->DragEnter;
+		if (!DetourTargetProc((void**)&IDropTarget_DragEnter_Origin, IDropTarget_DragEnter_Mine))
+		{
+			ERROR_LOG("DetourTargetProc failed, IDropTarget::Drop");
+		}
+		apis.push_back(API2HOOK{ "", "", (void**)&IDropTarget_DragEnter_Origin, IDropTarget_DragEnter_Mine });
+
 		once = false;
 	}
 
 	return RegisterDragDrop_Origin(hwnd, pDropTarget);
 }
 
+type_SHBrowseForFolderW SHBrowseForFolderW_Origin = nullptr;
+PIDLIST_ABSOLUTE STDAPICALLTYPE SHBrowseForFolderW_Mine(_In_ LPBROWSEINFOW lpbi)
+{
+	INFO_LOG("");
+	return SHBrowseForFolderW_Origin(lpbi);
+}
 
+type_SHBrowseForFolderA SHBrowseForFolderA_Origin = nullptr;
+PIDLIST_ABSOLUTE STDAPICALLTYPE SHBrowseForFolderA_Mine(_In_ LPBROWSEINFOA lpbi)
+{
+	INFO_LOG("");
+	// CoCreateInstance
+	return SHBrowseForFolderA_Origin(lpbi);
+}
+
+type_CoCreateInstanceEx CoCreateInstanceEx_Origin = nullptr;
+HRESULT STDAPICALLTYPE CoCreateInstanceEx_Mine(REFCLSID Clsid, LPUNKNOWN punkOuter, DWORD dwClsCtx, COSERVERINFO* pServerInfo, DWORD dwCount, MULTI_QI* pResults)
+{
+	auto nRet = CoCreateInstanceEx_Origin(Clsid, punkOuter, dwClsCtx, pServerInfo, dwCount, pResults);
+	INFO_LOG("classID:{} {} {}", Clsid.Data1, Clsid.Data2, Clsid.Data3);
+	INFO_LOG("refID:{} {} {}", pResults->pIID->Data1, pResults->pIID->Data2, pResults->pIID->Data3);
+	return nRet;
+}
+
+type_CoCreateInstance CoCreateInstance_Origin = nullptr;
+HRESULT STDAPICALLTYPE CoCreateInstance_Mine(REFCLSID rclsid, LPUNKNOWN pUnkOuter, DWORD dwClsContext, REFIID riid, LPVOID  FAR* ppv)
+{
+	if (rclsid == CLSID_FileOpenDialog)
+	{
+		INFO_LOG("cls ==");
+		INFO_LOG("classID:{} {} {}", rclsid.Data1, rclsid.Data2, rclsid.Data3);
+		INFO_LOG("refID:{} {} {}", riid.Data1, riid.Data2, riid.Data3);
+	}
+	if (riid == IID_IFileDialog)
+	{
+		INFO_LOG("iid ==");
+		INFO_LOG("classID:{} {} {}", rclsid.Data1, rclsid.Data2, rclsid.Data3);
+		INFO_LOG("refID:{} {} {}", riid.Data1, riid.Data2, riid.Data3);
+	}
+	return CoCreateInstance_Origin(rclsid, pUnkOuter, dwClsContext, riid, ppv);
+}
+
+type_OleGetClipboard OleGetClipboard_Origin = nullptr;
+
+bool EnumFmt(LPDATAOBJECT pDataObj)
+{
+	INFO_LOG("");
+	wchar_t wc[4] = L"Äê¶È³Ô";
+
+	return true;
+
+}
+
+HRESULT STDAPICALLTYPE  OleGetClipboard_Mine(LPDATAOBJECT FAR* ppDataObj)
+{
+	INFO_LOG("");
+	HRESULT nRet = OleGetClipboard_Origin(ppDataObj);
+	LPDATAOBJECT pDataObj = *ppDataObj;
+	if (!SUCCEEDED(nRet) || pDataObj == NULL)
+	{
+		ERROR_LOG("OleGetClipboard_Origin failed, err:{}", nRet);
+		return nRet;
+	}
+
+	uSTGMEDIUM stg = { 0 };
+	FORMATETC fmt = { 0 };
+	fmt.cfFormat = CF_TEXT;
+	fmt.ptd = NULL;
+	fmt.dwAspxiaect = DVASPECT_CONTENT;
+	fmt.lindex = -1;
+	fmt.tymed = TYMED_HGLOBAL;
+
+	nRet = pDataObj->lpVtbl->GetData(pDataObj, &fmt, &stg);
+	if (nRet != S_OK)
+	{
+		ERROR_LOG("GetData failed, err:{}", nRet);
+		return nRet;
+	}
+
+
+	INFO_LOG("stg tymed:{}, size:{}", stg.tymed, GlobalSize(stg.lpszFileName));
+	
+
+	return nRet;
+}
+
+type_IFileOpenDialog_QueryInterface IFileOpenDialog_QueryInterface_Origin = nullptr;
+HRESULT STDMETHODCALLTYPE IFileOpenDialog_QueryInterface_Mine(IFileOpenDialog* pFileOpenDialog, REFIID riid, void** ppvObject)
+{
+	INFO_LOG("");
+	if (riid == IID_IFileDialogCustomize)
+	{
+		INFO_LOG("query IID_IFileDialogCustomize");
+	}
+	return IFileOpenDialog_QueryInterface_Origin(pFileOpenDialog, riid, ppvObject);
+}
 type_IFileOpenDialog_Show IFileOpenDialog_Show_Origin = nullptr;
 HRESULT STDMETHODCALLTYPE IFileOpenDialog_Show_Mine(IFileOpenDialog* pFileOpenDialog, HWND hwndOwner)
 {
+	INFO_LOG("");
 	HRESULT nRet = IFileOpenDialog_Show_Origin(pFileOpenDialog, hwndOwner);
 
 	IShellItemArray* pShellItemArray = nullptr;
@@ -526,8 +763,7 @@ HRESULT STDMETHODCALLTYPE IFileOpenDialog_Show_Mine(IFileOpenDialog* pFileOpenDi
 	}
 	
 }
-
-bool hookIFileDialog()
+bool hookIFileOpenDialog()
 {
 	INFO_LOG("");
 	IFileOpenDialog* pFileOpenDialog = nullptr;
@@ -537,20 +773,144 @@ bool hookIFileDialog()
 	{
 		ERROR_LOG("CoInitialize failed, res:{}", res);
 	}
-	res = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_IFileOpenDialog, (void**)&pFileOpenDialog);
+	res = CoCreateInstance_Origin(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_IFileOpenDialog, (void**)&pFileOpenDialog);
 	if (res != S_OK || pFileOpenDialog == nullptr)
 	{
 		ERROR_LOG("CoCreateInstance failed£¬ res:{}", res);
 		return false;
 	}
-	IFileOpenDialog_Show_Origin = (type_IFileOpenDialog_Show)pFileOpenDialog->lpVtbl->Show;
-	if (!DetourTargetProc((void**)&IFileOpenDialog_Show_Origin, IFileOpenDialog_Show_Mine))
+	{
+		IFileOpenDialog_Show_Origin = (type_IFileOpenDialog_Show)pFileOpenDialog->lpVtbl->Show;
+		if (!DetourTargetProc((void**)&IFileOpenDialog_Show_Origin, IFileOpenDialog_Show_Mine))
+		{
+			ERROR_LOG("DetourTargetProc failed, IModalWindow_Show");
+		}
+		apis.push_back(API2HOOK{ "", "", (void**)&IFileOpenDialog_Show_Origin, IFileOpenDialog_Show_Mine });
+
+		IFileOpenDialog_QueryInterface_Origin = (type_IFileOpenDialog_QueryInterface)pFileOpenDialog->lpVtbl->QueryInterface;
+		if (!DetourTargetProc((void**)&IFileOpenDialog_QueryInterface_Origin, IFileOpenDialog_QueryInterface_Mine))
+		{
+			ERROR_LOG("DetourTargetProc failed, IFileOpenDialog_QueryInterface");
+		}
+		apis.push_back(API2HOOK{ "", "", (void**)&IFileOpenDialog_QueryInterface_Origin, IFileOpenDialog_QueryInterface_Mine });
+	}
+	pFileOpenDialog->lpVtbl->Release(pFileOpenDialog);
+	return true;
+}
+
+type_IFileDialog_Show IFileDialog_Show_Origin = nullptr;
+HRESULT STDMETHODCALLTYPE IFileDialog_Show_Mine(IFileDialog* pFileDialog, HWND hwndOwner)
+{
+	INFO_LOG("");
+
+	HRESULT hRet = IFileDialog_Show_Origin(pFileDialog, hwndOwner);
+	if (!SUCCEEDED(hRet))
+	{
+		return hRet;
+	}
+
+	IShellItem* pShellItem = nullptr;
+	hRet = pFileDialog->lpVtbl->GetResult(pFileDialog, &pShellItem);
+	if (hRet != S_OK || pShellItem == nullptr)
+	{
+		ERROR_LOG("GetResult failed:{}", hRet);
+
+		IFileOpenDialog* pFileOpenDialog = nullptr;
+		pFileDialog->lpVtbl->QueryInterface(pFileDialog, IID_IFileOpenDialog, (void**)&pFileOpenDialog);
+		if (pFileOpenDialog == nullptr)
+		{
+			return hRet;
+		}
+
+		IShellItemArray* pShellItemArray = nullptr;
+		pFileOpenDialog->lpVtbl->GetResults(pFileOpenDialog, &pShellItemArray);
+		if (pShellItemArray == nullptr)
+		{
+			return hRet;
+		}
+
+		DWORD cnt = 0;
+		pShellItemArray->lpVtbl->GetCount(pShellItemArray, &cnt);
+		INFO_LOG("array item num:{}", cnt);
+		return hRet;
+	}
+
+	LPWSTR displayName = nullptr;
+	hRet = pShellItem->lpVtbl->GetDisplayName(pShellItem, SIGDN_FILESYSPATH, &displayName);
+	if (SUCCEEDED(hRet) && displayName != nullptr)
+	{
+		INFO_LOG(L"displayName:{}", displayName);
+		CoTaskMemFree(displayName);
+	}
+	else
+	{
+		ERROR_LOG("GetDisplayName failed:{}", hRet);
+	}
+
+	return HRESULT_FROM_WIN32(ERROR_CANCELLED);
+}
+
+bool hookIFileDialog()
+{
+	INFO_LOG("");
+	IFileDialog* pFileDialog = nullptr;
+	// auto res = CoInitializeEx(NULL, COINIT_DISABLE_OLE1DDE);
+	LRESULT res = CoInitialize(0);
+	if (res != S_OK && res != S_FALSE)
+	{
+		ERROR_LOG("CoInitialize failed, res:{}", res);
+	}
+	res = CoCreateInstance_Origin(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_IFileDialog, (void**)&pFileDialog);
+	if (res != S_OK || pFileDialog == nullptr)
+	{
+		ERROR_LOG("CoCreateInstance failed£¬ res:{}", res);
+		return false;
+	}
+
+	{
+		IFileDialog_Show_Origin = (type_IFileDialog_Show)pFileDialog->lpVtbl->Show;
+		if (!DetourTargetProc((void**)&IFileDialog_Show_Origin, IFileDialog_Show_Mine))
+		{
+			ERROR_LOG("DetourTargetProc failed, IModalWindow_Show");
+		}
+		apis.push_back(API2HOOK{ "", "", (void**)&IFileDialog_Show_Origin, IFileDialog_Show_Mine });
+
+	}
+	pFileDialog->lpVtbl->Release(pFileDialog);
+}
+
+type_IFileOperation_CopyItems IFileOperation_CopyItems_Origin = nullptr;
+HRESULT STDMETHODCALLTYPE IFileOperation_CopyItems_Mine(IFileOperation* pFileOperation, IUnknown* punkItems, IShellItem* psiDestinationFolder)
+{
+	INFO_LOG("");
+
+	return IFileOperation_CopyItems_Origin(pFileOperation, punkItems, psiDestinationFolder);
+}
+bool hookIFileOperation()
+{
+	INFO_LOG("");
+	bool bRet = false;
+	LRESULT res = CoInitialize(0);
+	IFileOperation* pFileOperation = nullptr;
+
+	if (res != S_OK && res != S_FALSE)
+	{
+		ERROR_LOG("CoInitialize failed, res:{}", res);
+	}
+
+	res = CoCreateInstance(CLSID_FileOperation, NULL, 
+		CLSCTX_REMOTE_SERVER | CLSCTX_LOCAL_SERVER | CLSCTX_INPROC_SERVER, IID_IFileOperation, (void**)&pFileOperation);
+	if (res != S_OK || pFileOperation == nullptr)
+	{
+		ERROR_LOG("CoCreateInstance failed£¬ res:{}", res);
+		return false;
+	}
+	IFileOperation_CopyItems_Origin = pFileOperation->lpVtbl->CopyItems;
+	if (!DetourTargetProc((void**)&IFileOperation_CopyItems_Origin, IFileOperation_CopyItems_Mine))
 	{
 		ERROR_LOG("DetourTargetProc failed, IModalWindow_Show");
 	}
-	apis.push_back(API2HOOK{ "", "", (void**)&IFileOpenDialog_Show_Origin, IFileOpenDialog_Show_Mine });
-
-	pFileOpenDialog->lpVtbl->Release(pFileOpenDialog);
+	pFileOperation->lpVtbl->Release(pFileOperation);
 	return true;
 }
 
@@ -562,34 +922,62 @@ bool DelayFreeHandle(HMODULE hMod)
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 		INFO_LOG("waiting:{}...", i);
 	}
-	FreeLibrary(hMod);
+	// FreeLibrary(hMod);
+	spdlog::drop_all();
+	spdlog::shutdown();
 	return true;
 }
 
 std::string dllDir = "";
 bool hook()
 {
-	
+	char lpExePath[MAX_PATH] = { 0 };
+	DWORD size = MAX_PATH;
+	QueryFullProcessImageNameA(GetCurrentProcess(), 0, lpExePath, &size);
+
 	char lpDllPath[MAX_PATH];
 	GetModuleFileNameA(gDllModule, lpDllPath, MAX_PATH);
+
+	std::string strExePath = lpExePath;
 	std::string strDllPath = lpDllPath;
+	auto strExeDir = strExePath.substr(0, strDllPath.find_last_of("\\"));
 	auto strDllDir = strDllPath.substr(0, strDllPath.find_last_of("\\"));
+
 	dllDir = strDllDir;
 	LOG_INIT("test", strDllDir + "\\log.txt");
-	INFO_LOG("*****test*****");
-	
-	gHMod = LoadLibraryA("D:\\CodeBench\\c&cpp\\WDMexample\\Release\\detours_hook_dll.dll");
-	std::thread(DelayFreeHandle, gHMod).detach();
+	INFO_LOG("dllDir:{}", strDllDir);
+	INFO_LOG("exeDir:{}", strExeDir);
 
-	apis.push_back(API2HOOK{"kernel32.dll", "CreateFileW", (void**)&CreateFileW_Origin, CreateFileW_Mine});
+	if (strExeDir == strDllDir)
+	{
+		return false;
+	}
+	auto th = std::thread(DelayFreeHandle, (HMODULE)NULL);
+	th.detach();
+
 	apis.push_back(API2HOOK{ "comdlg32.dll", "GetOpenFileNameW", (void**)&GetOpenFileNameW_Origin, GetOpenFileNameW_Mine });
-	apis.push_back(API2HOOK{ "user32.dll", "GetClipboardData", (void**)&GetClipboardData_Origin, GetClipboardData_Mine });
+	apis.push_back(API2HOOK{ "comdlg32.dll", "GetOpenFileNameA", (void**)&GetOpenFileNameA_Origin, GetOpenFileNameA_Mine });
 	apis.push_back(API2HOOK{ "Shell32.dll", "DragQueryFileW", (void**)&DragQueryFileW_Origin, DragQueryFileW_Mine });
+	apis.push_back(API2HOOK{ "Shell32.dll", "DragQueryFileA", (void**)&DragQueryFileA_Origin, DragQueryFileA_Mine });
+	apis.push_back(API2HOOK{ "user32.dll", "GetClipboardData", (void**)&GetClipboardData_Origin, GetClipboardData_Mine });
 	apis.push_back(API2HOOK{ "kernel32.dll", "CreateProcessW", (void**)&CreateProcessW_Origin, CreateProcessW_Mine });
+	//apis.push_back(API2HOOK{"kernel32.dll", "CreateFileW", (void**)&CreateFileW_Origin, CreateFileW_Mine});
 	apis.push_back(API2HOOK{ "kernel32.dll", "CopyFileW", (void**)&CopyFileW_Origin, CopyFileW_Mine });
-	// apis.push_back(API2HOOK{ "kernel32.dll", "ReadFile", (void**)&ReadFile_Origin, ReadFile_Mine });
-	apis.push_back(API2HOOK{ "ole32.dll", "RegisterDragDrop", (void**)&RegisterDragDrop_Origin, RegisterDragDrop_Mine });
-	// apis.push_back(API2HOOK{ "Ole32.dll", "DoDragDrop", (void**)&DoDragDrop_Origin, DoDragDrop_Mine });
+	//apis.push_back(API2HOOK{ "kernel32.dll", "ReadFile", (void**)&ReadFile_Origin, ReadFile_Mine });
+	//apis.push_back(API2HOOK{ "kernel32.dll", "WriteFile", (void**)&WriteFile_Origin, WriteFile_Mine });
+	apis.push_back(API2HOOK{ "kernel32.dll", "MoveFileW", (void**)&CopyFileW_Origin, CopyFileW_Mine });
+	
+	apis.push_back(API2HOOK{ "kernel32.dll", "CreateFileMappingW", (void**)&CreateFileMappingW_Origin, CreateFileMappingW_Mine });
+
+	apis.push_back(API2HOOK{ "Ole32.dll", "RegisterDragDrop", (void**)&RegisterDragDrop_Origin, RegisterDragDrop_Mine });
+	apis.push_back(API2HOOK{ "Ole32.dll", "DoDragDrop", (void**)&DoDragDrop_Origin, DoDragDrop_Mine });
+	apis.push_back(API2HOOK{ "Ole32.dll", "CoCreateInstance", (void**)&CoCreateInstance_Origin,CoCreateInstance_Mine });
+	// apis.push_back(API2HOOK{ "Ole32.dll", "CoCreateInstanceEx", (void**)&CoCreateInstanceEx_Origin, CoCreateInstanceEx_Mine });
+	apis.push_back(API2HOOK{ "Ole32.dll", "OleGetClipboard", (void**)&OleGetClipboard_Origin, OleGetClipboard_Mine });
+
+	
+	apis.push_back(API2HOOK{ "Shell32.dll", "SHBrowseForFolderW", (void**)&SHBrowseForFolderW_Origin, SHBrowseForFolderW_Mine });
+	apis.push_back(API2HOOK{ "Shell32.dll", "SHBrowseForFolderA", (void**)&SHBrowseForFolderA_Origin, SHBrowseForFolderA_Mine });
 	
 	for (auto api : apis)
 	{
@@ -602,8 +990,12 @@ bool hook()
 			INFO_LOG("DetourTargetProc({}, {},...) success", api.dllName, api.procName);
 		}
 	}
+	
+	hookIFileOperation();
 	hookIFileDialog();
+	//hookIFileOpenDialog();
 	INFO_LOG("hook done!");
+
 	return true;
 }
 
