@@ -24,17 +24,23 @@ void work(WorkMsg& msg)
 	printf("work done");
 }
 
+bool test_task(int a, int b)
+{
+	return true;
+}
 
+#include "ez_thread_pool/thread_pool_task.hpp"
 int main()
 {
 	// template class ez_thread_pool<int, void(*)(int&)>;
 	ez_thread_pool<WorkMsg, decltype(&work)> tp(work);
-
-
 	for (int i = 0; i < 20; i++)
 	{
 		tp.post_work_item({ 10 + i });
 	}
+
+	ez_thread_pool_task tp_t;
+	tp_t.post_work_task(test_task, 1, 2);
 
 	return 0;
 }

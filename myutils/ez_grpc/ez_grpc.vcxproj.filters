@@ -13,5 +13,107 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="源文件\grpc_client">
+      <UniqueIdentifier>{013a5e7d-8bcb-4299-b5e1-f1c2775b1c74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\grpc_server">
+      <UniqueIdentifier>{23c17fa5-9c9f-49cd-bd86-d5080426932d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\proto">
+      <UniqueIdentifier>{7665ac16-46b6-441b-9668-58fedba7084e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\client">
+      <UniqueIdentifier>{ba8aaafe-c0a4-4c1d-9d17-c50402c5f220}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\server">
+      <UniqueIdentifier>{b436683c-8f67-4c31-b025-1dff98b939c2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="grpc_client\client.cpp">
+      <Filter>源文件\grpc_client</Filter>
+    </ClCompile>
+    <ClCompile Include="grpc_client\client_connect_internal.cpp">
+      <Filter>源文件\grpc_client</Filter>
+    </ClCompile>
+    <ClCompile Include="grpc_server\server.cpp">
+      <Filter>源文件\grpc_server</Filter>
+    </ClCompile>
+    <ClCompile Include="grpc_server\server_connect.cpp">
+      <Filter>源文件\grpc_server</Filter>
+    </ClCompile>
+    <ClCompile Include="grpc_server\service.cpp">
+      <Filter>源文件\grpc_server</Filter>
+    </ClCompile>
+    <ClCompile Include="grpc_server\stream_server.cpp">
+      <Filter>源文件\grpc_server</Filter>
+    </ClCompile>
+    <ClCompile Include="proto\base.grpc.pb.cc">
+      <Filter>源文件\proto</Filter>
+    </ClCompile>
+    <ClCompile Include="proto\base.pb.cc">
+      <Filter>源文件\proto</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="grpc_client\client.h">
+      <Filter>源文件\grpc_client</Filter>
+    </ClInclude>
+    <ClInclude Include="grpc_client\client_connect_internal.h">
+      <Filter>源文件\grpc_client</Filter>
+    </ClInclude>
+    <ClInclude Include="grpc_server\server.h">
+      <Filter>源文件\grpc_server</Filter>
+    </ClInclude>
+    <ClInclude Include="grpc_server\server_connect.h">
+      <Filter>源文件\grpc_server</Filter>
+    </ClInclude>
+    <ClInclude Include="grpc_server\service.h">
+      <Filter>源文件\grpc_server</Filter>
+    </ClInclude>
+    <ClInclude Include="grpc_server\stream_server.h">
+      <Filter>源文件\grpc_server</Filter>
+    </ClInclude>
+    <ClInclude Include="proto\base.grpc.pb.h">
+      <Filter>源文件\proto</Filter>
+    </ClInclude>
+    <ClInclude Include="proto\base.pb.h">
+      <Filter>源文件\proto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ez_grpc\connect.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ez_grpc\handler.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ez_grpc\status.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ez_grpc\subscriber.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ez_grpc\client\client.h">
+      <Filter>头文件\client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ez_grpc\client\client_connect.h">
+      <Filter>头文件\client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ez_grpc\server\server.h">
+      <Filter>头文件\server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ez_grpc\server\server_connect.h">
+      <Filter>头文件\server</Filter>
+    </ClInclude>
+    <ClInclude Include="grpc_server\server.hpp">
+      <Filter>源文件\grpc_server</Filter>
+    </ClInclude>
+    <ClInclude Include="grpc_server\server_connect.hpp">
+      <Filter>源文件\grpc_server</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="proto\base.proto">
+      <Filter>源文件\proto</Filter>
+    </None>
   </ItemGroup>
 </Project>

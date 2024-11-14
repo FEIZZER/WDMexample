@@ -3,6 +3,9 @@
 
 #include <vector>
 #include <thread>
+#include <future>
+#include <functional>
+#include <type_traits>
 
 template<typename T, typename F, 
 typename = typename std::enable_if_t<std::is_same_v<F, void(*)(T&)>> >
@@ -11,6 +14,7 @@ class ez_thread_pool
 public:
 	using item_type = T;
 	using function_type = F;
+	using task_type = std::function<void()>;
 
 	ez_thread_pool() = delete;
 	~ez_thread_pool()
@@ -58,6 +62,12 @@ public:
 		return queue_.push_back(item);
 	}
 
+	template<typename Task>
+	bool post_work_task(Task& f) // -> std::future<decltype(f(args...))>
+	{
+		return true;
+	}
+
 private:
 	void worker_loop() 
 	{
@@ -80,6 +90,7 @@ private:
 private:
 	std::atomic_bool			exit_ = false;
 	ez_queue<item_type>			queue_;
+	// ez_queue<>
 	function_type				func_ = nullptr;
 	std::vector<std::thread>	threads_;
 };
