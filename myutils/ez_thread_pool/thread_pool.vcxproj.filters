@@ -23,5 +23,8 @@
     <ClInclude Include="..\include\ez_thread_pool\ez_thread_pool.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\ez_thread_pool\ez_thread_pool.hpp">
+      <Filter>源文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
 #pragma once
+// deprecated,  use ez_thread_pool.hpp instead
 #include "ez_queue/ez_queue.h"
 
 #include <vector>
@@ -62,8 +63,8 @@ public:
 		return queue_.push_back(item);
 	}
 
-	template<typename Task>
-	bool post_work_task(Task& f) // -> std::future<decltype(f(args...))>
+	template<typename F>
+	bool post_work_task(F& f) // -> std::future<decltype(f(args...))>
 	{
 		return true;
 	}

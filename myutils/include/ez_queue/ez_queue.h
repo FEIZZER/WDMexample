@@ -25,6 +25,20 @@ public:
 		queue_.push(item);
 		return true;
 	}
+
+	bool push_back(T&& item)
+	{
+		std::unique_lock<std::shared_mutex> lock(mutex_);
+
+		if (queue_.size() >= max_size_)
+		{
+			return false;
+		}
+		queue_.push(item);
+		return true;
+
+	}
+
 	bool pop_front(T& item)
 	{
 		std::unique_lock<std::shared_mutex> lock(mutex_);
