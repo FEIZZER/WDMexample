@@ -6,7 +6,7 @@
 
 namespace ez_grpc {
 
-	class ServerConnectImpl : public ServerConnect
+	class ServerConnectImpl : public sever_connect
 	{
 
 	public:

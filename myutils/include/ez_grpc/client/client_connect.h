@@ -1,16 +1,16 @@
 #pragma once
-#include "ez_grpc/common/connect.h"
+#include "ez_grpc/connect.h"
 
 #include <memory>
 
 
 namespace ez_grpc {
 
-	class ClientConnect : public Connect
+	class client_connect : public connect
 	{
 	public:
-		ClientConnect() = default;
-		virtual ~ClientConnect() = default;
+		client_connect() = default;
+		virtual ~client_connect() = default;
 
 		virtual bool Request(void* buffer, unsigned int length,
 			void** out_buffer = nullptr, unsigned int* out_length = nullptr) = 0;

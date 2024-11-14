@@ -1,15 +1,14 @@
 #pragma once
-#include "ez_grpc/common/connect.h"
+#include "ez_grpc/connect.h"
 
-#include <memory>
 
 namespace ez_grpc {
 
-	class ServerConnect : public Connect
+	class sever_connect : public connect
 	{
 	public:
-		ServerConnect() = default;
-		virtual ~ServerConnect() = default;
+		sever_connect() = default;
+		virtual ~sever_connect() = default;
 
 		/*virtual bool Read() = 0;*/
 
@@ -18,6 +17,8 @@ namespace ez_grpc {
 		// virtual bool IsConnected() = 0
 
 		virtual void DisConnect() = 0;
+
+	public:
 
 	private:
 
