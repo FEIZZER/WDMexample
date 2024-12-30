@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+message Package{
+	int32 version = 1;
+	bytes buffer = 2;
+	int32 length = 3;
+
+}
+
+
+service Communication
+{
+	rpc UnaryCommunicate (Package) returns (Package){}
+	
+	rpc ClientStreamCommunicate (stream Package) returns (Package) {}
+	
+	rpc ServerStreamCommunicate (Package) returns (stream Package) {}
+	
+	rpc BidirectionStreamCommunicate (stream Package) returns (stream Package) {}
+}

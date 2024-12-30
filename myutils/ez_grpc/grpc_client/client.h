@@ -1,26 +1,11 @@
-#include "base.grpc.pb.h"
+#pragma once
 
-#include <string>
-#include <memory>
-#include <map>
+class client
+{
+public:
+	client();
+	~client();
 
-#include <grpcpp/grpcpp.h>
+private:
 
-
-namespace ez_grpc {
-
-	class Client
-	{
-	public:
-		Client() = default;
-		virtual ~Client() = default;
-
-		bool CreateConnect();
-
-	private:
-		bool CreateConnectInternal(const std::string& key, );
-
-	private:
-
-	};
-}
+};

@@ -22,6 +22,9 @@
     <Filter Include="utils\ez_thread_pool">
       <UniqueIdentifier>{1693d80f-67fb-439d-ab09-74cd9100519c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="utils\ez_msg_queue">
+      <UniqueIdentifier>{9363d5f2-1e15-4e6b-bdd4-0e35813c5487}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -32,6 +35,12 @@
     </ClCompile>
     <ClCompile Include="..\ez_thread_pool\ez_thread_pool.cpp">
       <Filter>utils\ez_thread_pool</Filter>
+    </ClCompile>
+    <ClCompile Include="mailsolt_test.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ez_msg_queue\ez_msg_queue.cpp">
+      <Filter>utils\ez_msg_queue</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

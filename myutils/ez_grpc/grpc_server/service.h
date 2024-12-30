@@ -1,21 +1,93 @@
 #pragma once
-#include "base.grpc.pb.h"
+#include "proto/ez.pb.h"
+#include "proto/ez.grpc.pb.h"
 
+#include <grpcpp/grpcpp.h>
 
-namespace ez_grpc 
+#include "ez_log/ez_log.hpp"
+
+using namespace grpc;
+
+class UnaryService final : public Communication::CallbackService
 {
-	using ez_request_handler = void (*)(void* buffer, int length, void** out_buffer, int* out_length);
+public:
+    ServerUnaryReactor* UnaryCommunicate(CallbackServerContext* context, const Package* request, Package* response) override
+    {
 
-	class BasicServiceImpl final : public Base::Service
-	{
-	public:
-		BasicServiceImpl(ez_request_handler handler);
-		virtual ~BasicServiceImpl() = default;
+    }
+private:
 
-		grpc::Status BaseTransmit(grpc::ServerContext* context, const ::BaseRequest* request, BaseReply* response) override;
+};
 
-	private:
-		ez_request_handler handler_;
-	};
 
-}
+class ClientStreamService final : public Communication::CallbackService
+{
+public:
+    ServerReadReactor<Package>* ClientStreamCommunicate(CallbackServerContext* context, Package* response) override 
+    {
+        class Recorder: public grpc::ServerReadReactor<Package>
+        {
+        public:
+            Recorder()
+            {
+                StartRead(&request_);
+            }
+            ~Recorder() {}
+
+            void OnReadDone(bool ok) override 
+            {
+                if (ok)
+                {
+                    const char* buffer = request_.buffer().c_str();
+                    auto buffer_len = request_.length();
+                    INFO("read data len:{} buffer:{}", buffer_len, buffer);
+                    request_.Clear();
+                    StartRead(&request_);
+                }
+                else
+                {
+                    INFO("read data not ok");
+                    Finish(grpc::Status::OK);
+                }
+            }
+
+            void OnDone() override {
+                INFO("");
+                delete this;
+            }
+
+            void OnCancel() override {
+                INFO("");
+            }
+
+
+        private:
+            Package request_;
+        };
+
+        return new Recorder();
+    }
+};
+
+
+class ServerStreamService final : public Communication::CallbackService
+{
+public:
+    ServerWriteReactor<Package>* ServerStreamCommunicate(CallbackServerContext* context, const Package* request) override
+    {
+        return nullptr;
+    }
+
+private:
+
+};
+
+
+class BidirectionStreamService final : public Communication::CallbackService
+{
+public:              
+    ServerBidiReactor< ::Package, ::Package>* BidirectionStreamCommunicate(CallbackServerContext* context) override
+    {
+        return nullptr;
+    }
+};

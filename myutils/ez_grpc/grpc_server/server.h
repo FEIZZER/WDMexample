@@ -1,34 +1,23 @@
-#include "service.h"
-
-#include "grpc++/grpc++.h"
-#include <memory>
+#pragma once
 #include <string>
+#include <memory>
+
+#include "service.h"
 
 namespace ez_grpc {
 
-	class Server
-	{
-	public:
-		Server();
-		virtual ~Server();
+class server
+{
+public:
+	/*server();
+	~server();*/
 
-		int BuildServer(ez_request_handler handler);
+	bool start_server(const std::string& ip, unsigned int port, std::shared_ptr<ServerCredentials>);
 
-		bool BuildServer(const int port, ez_request_handler handler);
+private:
+	std::unique_ptr<grpc::Server> grpc_server_;
+	ClientStreamService client_stream_service_;
+};
 
-		bool BuildServer(const std::string& ip, const int port);
 
-		bool BuildServer(const std::string& ip, const std::string& port);
-
-	private:
-
-		bool BuildServerInternal(const std::string& addr_uri, int& selected_port, ez_request_handler handler);
-
-	private:
-
-		int local_port_;
-
-		BasicServiceImpl* basic_service_;
-		std::unique_ptr<grpc::Server> server_;
-	};
 }

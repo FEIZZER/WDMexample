@@ -19,67 +19,17 @@
     <Filter Include="源文件\grpc_server">
       <UniqueIdentifier>{23c17fa5-9c9f-49cd-bd86-d5080426932d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\proto">
-      <UniqueIdentifier>{7665ac16-46b6-441b-9668-58fedba7084e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="头文件\client">
       <UniqueIdentifier>{ba8aaafe-c0a4-4c1d-9d17-c50402c5f220}</UniqueIdentifier>
     </Filter>
     <Filter Include="头文件\server">
       <UniqueIdentifier>{b436683c-8f67-4c31-b025-1dff98b939c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="proto">
+      <UniqueIdentifier>{c758d926-7c8d-4608-ac13-90c141481a95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="grpc_client\client.cpp">
-      <Filter>源文件\grpc_client</Filter>
-    </ClCompile>
-    <ClCompile Include="grpc_client\client_connect_internal.cpp">
-      <Filter>源文件\grpc_client</Filter>
-    </ClCompile>
-    <ClCompile Include="grpc_server\server.cpp">
-      <Filter>源文件\grpc_server</Filter>
-    </ClCompile>
-    <ClCompile Include="grpc_server\server_connect.cpp">
-      <Filter>源文件\grpc_server</Filter>
-    </ClCompile>
-    <ClCompile Include="grpc_server\service.cpp">
-      <Filter>源文件\grpc_server</Filter>
-    </ClCompile>
-    <ClCompile Include="grpc_server\stream_server.cpp">
-      <Filter>源文件\grpc_server</Filter>
-    </ClCompile>
-    <ClCompile Include="proto\base.grpc.pb.cc">
-      <Filter>源文件\proto</Filter>
-    </ClCompile>
-    <ClCompile Include="proto\base.pb.cc">
-      <Filter>源文件\proto</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="grpc_client\client.h">
-      <Filter>源文件\grpc_client</Filter>
-    </ClInclude>
-    <ClInclude Include="grpc_client\client_connect_internal.h">
-      <Filter>源文件\grpc_client</Filter>
-    </ClInclude>
-    <ClInclude Include="grpc_server\server.h">
-      <Filter>源文件\grpc_server</Filter>
-    </ClInclude>
-    <ClInclude Include="grpc_server\server_connect.h">
-      <Filter>源文件\grpc_server</Filter>
-    </ClInclude>
-    <ClInclude Include="grpc_server\service.h">
-      <Filter>源文件\grpc_server</Filter>
-    </ClInclude>
-    <ClInclude Include="grpc_server\stream_server.h">
-      <Filter>源文件\grpc_server</Filter>
-    </ClInclude>
-    <ClInclude Include="proto\base.grpc.pb.h">
-      <Filter>源文件\proto</Filter>
-    </ClInclude>
-    <ClInclude Include="proto\base.pb.h">
-      <Filter>源文件\proto</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\ez_grpc\connect.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -104,16 +54,56 @@
     <ClInclude Include="..\include\ez_grpc\server\server_connect.h">
       <Filter>头文件\server</Filter>
     </ClInclude>
-    <ClInclude Include="grpc_server\server.hpp">
-      <Filter>源文件\grpc_server</Filter>
+    <ClInclude Include="proto\ez.grpc.pb.h">
+      <Filter>proto</Filter>
     </ClInclude>
-    <ClInclude Include="grpc_server\server_connect.hpp">
-      <Filter>源文件\grpc_server</Filter>
+    <ClInclude Include="proto\ez.pb.h">
+      <Filter>proto</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="proto\base.proto">
-      <Filter>源文件\proto</Filter>
+    <ClCompile Include="grpc_server\server.cpp">
+      <Filter>源文件\grpc_server</Filter>
+    </ClCompile>
+    <ClCompile Include="grpc_server\service.cpp">
+      <Filter>源文件\grpc_server</Filter>
+    </ClCompile>
+    <ClCompile Include="grpc_client\client.cpp">
+      <Filter>源文件\grpc_client</Filter>
+    </ClCompile>
+    <ClCompile Include="grpc_client\client_connect_base.cpp">
+      <Filter>源文件\grpc_client</Filter>
+    </ClCompile>
+    <ClCompile Include="grpc_client\client_connect_write_stream.cpp">
+      <Filter>源文件\grpc_client</Filter>
+    </ClCompile>
+    <ClCompile Include="grpc_client\client_connect_read_stream.cpp">
+      <Filter>源文件\grpc_client</Filter>
+    </ClCompile>
+    <ClCompile Include="grpc_client\client_connect_read_write_stream.cpp">
+      <Filter>源文件\grpc_client</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="proto\ez.pb.cc">
+      <Filter>proto</Filter>
+    </ClCompile>
+    <ClCompile Include="proto\ez.grpc.pb.cc">
+      <Filter>proto</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="proto\ez.proto">
+      <Filter>proto</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ez_grpc.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
