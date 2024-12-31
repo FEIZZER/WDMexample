@@ -45,4 +45,5 @@ bool client_connect_base::Request(const Package& request, Package& response)
 {
 	grpc::ClientContext context;
 	stub_->async()->UnaryCommunicate(&context, &request, &response, test);
+	return true;
 }

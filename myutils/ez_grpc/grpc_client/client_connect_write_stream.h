@@ -11,11 +11,13 @@ public:
 	client_connect_write_stream(const std::string& ip, unsigned long port);
 	~client_connect_write_stream();
 
-	bool Request(const Package& request, Package& response) override;
+    bool Request(const Package& request, Package& response) override {
+        return true;
+    };
 
     bool request(const void* buffer, unsigned int buffer_len, void** out_buffer = nullptr, unsigned int* out_len = nullptr);
 
-    void disconnect();
+    void disconnect() {};
 
 public:
     void OnWriteDone(bool ok) override;
