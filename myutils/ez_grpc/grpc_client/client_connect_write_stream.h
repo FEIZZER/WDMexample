@@ -1,8 +1,8 @@
 #pragma once
 #include "client_connect_base.h"
-#include "ez_queue/ez_queue.h"
+#include "ez/queue.hpp"
 
-namespace ez_grpc {
+namespace ez {
 
 class client_connect_write_stream : public client_connect_base, public grpc::ClientWriteReactor<Package>
 {
@@ -17,33 +17,30 @@ public:
 
     bool request(const void* buffer, unsigned int buffer_len, void** out_buffer = nullptr, unsigned int* out_len = nullptr);
 
-    void disconnect() {};
+    void disconnect();
 
 public:
+    void OnReadInitialMetadataDone(bool ok) override;
+    void OnWritesDoneDone(bool ok) override;
     void OnWriteDone(bool ok) override;
     void OnDone(const grpc::Status& s) override;
     
+
     // Status Await(RouteSummary* stats);
 private:
-    void NextWrite() {
-        if (exit_.load()) {
-            StartWritesDone();
-            return; 
-        }
+    void write_loop();
 
-        request_.Clear();
-        while (!queue_.pop_front(request_)) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(500));
-        }
-
-        StartWrite(&request_);
-    }
 private:
+    std::string         ip_;
+    unsigned long       port_;
+    std::string         target_addr_;
+
     std::atomic_bool    exit_;
     Package             request_;
     Package             response_;
-	ez_queue<Package>   queue_;
+	queue<Package>      queue_;
     grpc::ClientContext client_context_;
+    std::thread         write_thread_;
 };
 
 }

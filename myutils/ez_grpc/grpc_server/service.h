@@ -4,8 +4,9 @@
 
 #include <grpcpp/grpcpp.h>
 
-#include "ez_log/ez_log.hpp"
+#include "ez/log.hpp"
 
+using namespace ez;
 using namespace grpc;
 
 class UnaryService final : public Communication::CallbackService
@@ -40,24 +41,24 @@ public:
                 {
                     const char* buffer = request_.buffer().c_str();
                     auto buffer_len = request_.length();
-                    INFO("read data len:{} buffer:{}", buffer_len, buffer);
+                    EZ_INFO("read data len:{} buffer:{}", buffer_len, buffer);
                     request_.Clear();
                     StartRead(&request_);
                 }
                 else
                 {
-                    INFO("read data not ok");
+                    EZ_INFO("read data not ok");
                     Finish(grpc::Status::OK);
                 }
             }
 
             void OnDone() override {
-                INFO("");
+                EZ_INFO("");
                 delete this;
             }
 
             void OnCancel() override {
-                INFO("");
+                EZ_INFO("");
             }
 
 

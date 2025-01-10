@@ -4,7 +4,7 @@
 
 #include "service.h"
 
-namespace ez_grpc {
+namespace ez {
 
 class server
 {

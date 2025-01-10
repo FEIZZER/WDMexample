@@ -12,8 +12,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ez_utils", "ez_utils", "{160E17D6-59A6-40F0-90CE-7836CB0068A5}"
 	ProjectSection(SolutionItems) = preProject
 		include\ez\log.hpp = include\ez\log.hpp
-		include\ez\map.hpp = include\ez\map.hpp
 		include\ez\queue.hpp = include\ez\queue.hpp
+		include\ez\safemap.hpp = include\ez\safemap.hpp
 		include\ez\signal.hpp = include\ez\signal.hpp
 		include\ez\thread_pool.hpp = include\ez\thread_pool.hpp
 		include\ez\thread_pool_task.hpp = include\ez\thread_pool_task.hpp

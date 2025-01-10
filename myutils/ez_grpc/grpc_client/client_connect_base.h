@@ -7,7 +7,7 @@
 #include "proto/ez.grpc.pb.h"
 
 
-namespace ez_grpc {
+namespace ez {
 
 class client_connect_base
 {
@@ -26,7 +26,6 @@ protected:
 	unsigned long		target_port_;
 	
 	std::unique_ptr<Communication::Stub> stub_;
-
 };
 
 }

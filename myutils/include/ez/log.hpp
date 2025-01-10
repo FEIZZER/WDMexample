@@ -39,7 +39,7 @@ public:
 			return false;
 
 		// 设置日志格式. 参数含义: [日志标识符] [日期] [日志级别] [进程号] [数据] [文件名:行号] 
-		fspdlog::getInstance()->f_file_logger->set_pattern("%n [%Y-%m-%d %H:%M:%S] [%l] [pid:%P] [funcName:%!] %v [%s:%#]");
+		fspdlog::getInstance()->f_file_logger->set_pattern("%n [%Y-%m-%d %H:%M:%S] [%l] [pid:%P] %v [funcName:%!] [%s:%#]");
 		fspdlog::getInstance()->f_file_logger->set_level(spdlog::level::trace);
 		fspdlog::getInstance()->f_file_logger->flush_on(spdlog::level::trace);
 		return true;
@@ -83,14 +83,14 @@ private:
 #define LOG_INIT(var1, var2)	ez::fspdlog::initLog(var1, var2);
 #define LOG_UNINIT()			ez::fspdlog::uninitLog();
 
-#define TRACE(...)			if (ez::fspdlog::getInstance()->f_file_logger != nullptr) SPDLOG_LOGGER_TRACE(fspdlog::getInstance()->f_file_logger, __VA_ARGS__)
+#define EZ_TRACE(...)			if (ez::fspdlog::getInstance()->f_file_logger != nullptr) SPDLOG_LOGGER_TRACE(fspdlog::getInstance()->f_file_logger, __VA_ARGS__)
 
-#define DEBUG(...)			if (ez::fspdlog::getInstance()->f_file_logger != nullptr) SPDLOG_LOGGER_DEBUG(fspdlog::getInstance()->f_file_logger, __VA_ARGS__)
+#define EZ_DEBUG(...)			if (ez::fspdlog::getInstance()->f_file_logger != nullptr) SPDLOG_LOGGER_DEBUG(fspdlog::getInstance()->f_file_logger, __VA_ARGS__)
 
-#define INFO(...)			if (ez::fspdlog::getInstance()->f_file_logger != nullptr) SPDLOG_LOGGER_INFO(fspdlog::getInstance()->f_file_logger, __VA_ARGS__)
+#define EZ_INFO(...)			if (ez::fspdlog::getInstance()->f_file_logger != nullptr) SPDLOG_LOGGER_INFO(fspdlog::getInstance()->f_file_logger, __VA_ARGS__)
 
-#define WARN(...)			if (ez::fspdlog::getInstance()->f_file_logger != nullptr) SPDLOG_LOGGER_WARN(fspdlog::getInstance()->f_file_logger, __VA_ARGS__)
+#define EZ_WARN(...)			if (ez::fspdlog::getInstance()->f_file_logger != nullptr) SPDLOG_LOGGER_WARN(fspdlog::getInstance()->f_file_logger, __VA_ARGS__)
 
-#define ERROR(...)			if (ez::fspdlog::getInstance()->f_file_logger != nullptr) SPDLOG_LOGGER_ERROR(fspdlog::getInstance()->f_file_logger, __VA_ARGS__)
+#define EZ_ERROR(...)			if (ez::fspdlog::getInstance()->f_file_logger != nullptr) SPDLOG_LOGGER_ERROR(fspdlog::getInstance()->f_file_logger, __VA_ARGS__)
 
-#define CRITICAL(...)		if (ez::fspdlog::getInstance()->f_file_logger != nullptr) SPDLOG_LOGGER_CRITICAL(fspdlog::getInstance()->f_file_logger, __VA_ARGS__)
+#define EZ_CRITICAL(...)		if (ez::fspdlog::getInstance()->f_file_logger != nullptr) SPDLOG_LOGGER_CRITICAL(fspdlog::getInstance()->f_file_logger, __VA_ARGS__)
