@@ -3,16 +3,18 @@
 #include <shared_mutex>
 #include <queue>
 
+namespace ez {
+
 template <typename T>
-class ez_queue
+class queue
 {
 public:
-	~ez_queue() = default;
-	explicit ez_queue(std::size_t max) : max_size_(max) {}
-	explicit ez_queue() : max_size_(1000) {}
+	~queue() = default;
+	explicit queue(std::size_t max) : max_size_(max) {}
+	explicit queue() : max_size_(1000) {}
 
-	ez_queue(const ez_queue&) = delete;
-	ez_queue& operator=(const ez_queue&) = delete;
+	queue(const queue&) = delete;
+	queue& operator=(const queue&) = delete;
 
 	bool push_back(const T& item)
 	{
@@ -84,4 +86,6 @@ private:
 	mutable std::shared_mutex	mutex_;
 	std::queue<T>				queue_;
 };
+
+}
 

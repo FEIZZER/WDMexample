@@ -639,37 +639,11 @@ int minus(int a, int b)
 
 using add_type = int (*)(int, int);
 
+template <typename T>
+extern int test_typename(T value);
+
+
 int main()
 {
-	std::map<int, int> map_ =
-	{
-		{1, 1},
-		{2, 2},
-		{3, 3},
-		{4, 4},
-		{5, 5},
-		{6, 6}
-	};
-
-	for (auto node : map_)
-	{
-		if (node.first == 2)
-		{
-			map_.erase(node.first);
-		}
-	}
-
-	for (auto iter = map_.begin(); iter != map_.end(); iter++)
-	{
-		if (iter->first == 3)
-		{
-			auto next = map_.erase(iter);
-			printf("next:%d  %d\n", next->first, (next.)->second);
-		}
-	}
-
-	for (auto node : map_)
-	{
-		printf("%d ", node.first);
-	}
+	test_typename(1);
 }

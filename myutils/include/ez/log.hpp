@@ -8,6 +8,7 @@
 
 #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
 
+namespace ez {
 class fspdlog {
 public:
 
@@ -27,7 +28,7 @@ public:
 		try
 		{
 			// fspdlog::getInstance()->f_file_logger = spdlog::rotating_logger_mt<spdlog::synchronous_factory>(logName, logFilePath, 1024 * 1024 * 5, 3);
-			fspdlog::getInstance()->f_file_logger = 
+			fspdlog::getInstance()->f_file_logger =
 				spdlog::rotating_logger_mt<spdlog::async_factory>(logName, logFilePath, 1024 * 1024 * 5, 3);
 		}
 		catch (...)
@@ -77,18 +78,19 @@ public:
 private:
 	std::string f_file_path;
 };
+}
 
-#define LOG_INIT(var1, var2)	fspdlog::initLog(var1, var2);
-#define LOG_UNINIT()			fspdlog::uninitLog();
+#define LOG_INIT(var1, var2)	ez::fspdlog::initLog(var1, var2);
+#define LOG_UNINIT()			ez::fspdlog::uninitLog();
 
-#define TRACE(...)			if (fspdlog::getInstance()->f_file_logger != nullptr) SPDLOG_LOGGER_TRACE(fspdlog::getInstance()->f_file_logger, __VA_ARGS__)
+#define TRACE(...)			if (ez::fspdlog::getInstance()->f_file_logger != nullptr) SPDLOG_LOGGER_TRACE(fspdlog::getInstance()->f_file_logger, __VA_ARGS__)
 
-#define DEBUG(...)			if (fspdlog::getInstance()->f_file_logger != nullptr) SPDLOG_LOGGER_DEBUG(fspdlog::getInstance()->f_file_logger, __VA_ARGS__)
+#define DEBUG(...)			if (ez::fspdlog::getInstance()->f_file_logger != nullptr) SPDLOG_LOGGER_DEBUG(fspdlog::getInstance()->f_file_logger, __VA_ARGS__)
 
-#define INFO(...)			if (fspdlog::getInstance()->f_file_logger != nullptr) SPDLOG_LOGGER_INFO(fspdlog::getInstance()->f_file_logger, __VA_ARGS__)
+#define INFO(...)			if (ez::fspdlog::getInstance()->f_file_logger != nullptr) SPDLOG_LOGGER_INFO(fspdlog::getInstance()->f_file_logger, __VA_ARGS__)
 
-#define WARN(...)			if (fspdlog::getInstance()->f_file_logger != nullptr) SPDLOG_LOGGER_WARN(fspdlog::getInstance()->f_file_logger, __VA_ARGS__)
+#define WARN(...)			if (ez::fspdlog::getInstance()->f_file_logger != nullptr) SPDLOG_LOGGER_WARN(fspdlog::getInstance()->f_file_logger, __VA_ARGS__)
 
-#define ERROR(...)			if (fspdlog::getInstance()->f_file_logger != nullptr) SPDLOG_LOGGER_ERROR(fspdlog::getInstance()->f_file_logger, __VA_ARGS__)
+#define ERROR(...)			if (ez::fspdlog::getInstance()->f_file_logger != nullptr) SPDLOG_LOGGER_ERROR(fspdlog::getInstance()->f_file_logger, __VA_ARGS__)
 
-#define CRITICAL(...)		if (fspdlog::getInstance()->f_file_logger != nullptr) SPDLOG_LOGGER_CRITICAL(fspdlog::getInstance()->f_file_logger, __VA_ARGS__)
+#define CRITICAL(...)		if (ez::fspdlog::getInstance()->f_file_logger != nullptr) SPDLOG_LOGGER_CRITICAL(fspdlog::getInstance()->f_file_logger, __VA_ARGS__)

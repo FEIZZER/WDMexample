@@ -1,5 +1,5 @@
 #pragma once
-#include "ez_queue/ez_queue.h"
+#include "queue.hpp"
 
 #include <vector>
 #include <thread>
@@ -7,16 +7,17 @@
 #include <functional>
 #include <type_traits>
 
+namespace ez {
 
-class ez_thread_pool
+class thread_pool
 {
 public:
 	using task_type = std::function<void()>;
 
-	~ez_thread_pool()
+	~thread_pool()
 	{
 		try {
-			ez_thread_pool::shutdown();
+			thread_pool::shutdown();
 			for (auto& thread : threads_)
 			{
 				thread.join();
@@ -27,7 +28,7 @@ public:
 		}
 	}
 
-	explicit ez_thread_pool(std::size_t max_item, std::size_t thread_num)
+	explicit thread_pool(std::size_t max_item, std::size_t thread_num)
 		: queue_(max_item)
 	{
 		if (thread_num <= 0 || thread_num >= 1000)
@@ -42,8 +43,8 @@ public:
 			});
 		}
 	}
-	explicit ez_thread_pool(std::size_t max_item) : ez_thread_pool(max_item, 10) {}
-	explicit ez_thread_pool() : ez_thread_pool(1000) {}
+	explicit thread_pool(std::size_t max_item) : thread_pool(max_item, 10) {}
+	explicit thread_pool() : thread_pool(1000) {}
 
 	void shutdown()
 	{
@@ -85,7 +86,9 @@ private:
 private:
 	std::atomic_bool			exit_ = false;
 
-	ez_queue<task_type>			queue_;
+	queue<task_type>			queue_;
 
 	std::vector<std::thread>	threads_;
 };
+
+}
