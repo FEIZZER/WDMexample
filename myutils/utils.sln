@@ -17,6 +17,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ez_msg_queue", "ez_msg_queu
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ez_log", "ez_log\ez_log.vcxproj", "{2AABD736-9B2D-4A82-AD3F-35887835B29D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ez_utils", "ez_utils", "{160E17D6-59A6-40F0-90CE-7836CB0068A5}"
+	ProjectSection(SolutionItems) = preProject
+		include\ez_log\ez_log.hpp = include\ez_log\ez_log.hpp
+		include\ez_map\ez_map.hpp = include\ez_map\ez_map.hpp
+		include\ez_signal\signal.hpp = include\ez_signal\signal.hpp
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
