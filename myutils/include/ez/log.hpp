@@ -39,7 +39,7 @@ public:
 			return false;
 
 		// 设置日志格式. 参数含义: [日志标识符] [日期] [日志级别] [进程号] [数据] [文件名:行号] 
-		fspdlog::getInstance()->f_file_logger->set_pattern("%n [%Y-%m-%d %H:%M:%S] [%l] [pid:%P] %v [funcName:%!] [%s:%#]");
+		fspdlog::getInstance()->f_file_logger->set_pattern("%n [%Y-%m-%d %H:%M:%S] [pid:%P] [%l] %v [funcName:%!] [%s:%#]");
 		fspdlog::getInstance()->f_file_logger->set_level(spdlog::level::trace);
 		fspdlog::getInstance()->f_file_logger->flush_on(spdlog::level::trace);
 		return true;
