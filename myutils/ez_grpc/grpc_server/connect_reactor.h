@@ -19,10 +19,13 @@ public:
 	connect_reactor();
 	virtual ~connect_reactor();
 
-	void set_status(reactor_status& status);
+	// void set_status(reactor_status& status);
 	reactor_status get_status();
 
 protected:
+	std::string							connect_name;
+	std::map<std::string, std::string>	metadata_;
+
 	reactor_status		status_;
 	std::shared_mutex	status_mutex_;
 };

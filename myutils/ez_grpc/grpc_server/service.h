@@ -54,6 +54,7 @@ private:
     }
 
     void clean() {
+        EZ_INFO("start thread to clean useless connection");
         while (true) {
             if (exit_signal_.wait_for(std::chrono::seconds(5))) {
                 break;
@@ -66,6 +67,7 @@ private:
                 }
             }
         }
+        EZ_INFO("clean thread exit...");
     }
 };
 

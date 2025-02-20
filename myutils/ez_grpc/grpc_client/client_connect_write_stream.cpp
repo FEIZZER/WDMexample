@@ -81,13 +81,13 @@ void client_connect_write_stream::OnWriteDone(bool ok) {
 		disconnect();
 	}
 }
+
 void client_connect_write_stream::OnDone(const grpc::Status& status) {
 	EZ_INFO("");
 }
 
 void client_connect_write_stream::OnWritesDoneDone(bool ok) {
 }
-
 
 void client_connect_write_stream::OnReadInitialMetadataDone(bool ok) {
 	if (ok){

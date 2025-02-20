@@ -20,6 +20,7 @@ void client_stream_reactor::OnReadDone(bool ok) {
         const char* buffer = request_.buffer().c_str();
         auto buffer_len = request_.length();
 
+
         request_.Clear();
         StartRead(&request_);
     }
@@ -33,14 +34,14 @@ void client_stream_reactor::OnReadDone(bool ok) {
 }
 
 void client_stream_reactor::OnDone() {
-    EZ_INFO("delete reactor:{}", (uintptr_t)this);
-    delete this;
+    std::lock_guard<std::shared_mutex> status_lock(status_mutex_);
+    status_ = reactor_status::done;
 }
 
 void client_stream_reactor::disconnect() {
-    std::lock_guard<std::mutex> status_lock(status_mutex_);
-    if (finished_.load()) {
+    std::lock_guard<std::shared_mutex> status_lock(status_mutex_);
+    if (status_ != reactor_status::done && status_ != reactor_status::finished) {
+        status_ = reactor_status::finished;
         Finish(grpc::Status::OK);
-        finished_.store(true);
     }
 }
