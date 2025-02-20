@@ -179,7 +179,9 @@
     <ClCompile Include="grpc_client\client_connect_read_stream.cpp" />
     <ClCompile Include="grpc_client\client_connect_read_write_stream.cpp" />
     <ClCompile Include="grpc_client\client_connect_write_stream.cpp" />
+    <ClCompile Include="grpc_server\client_stream_reactor.cpp" />
     <ClCompile Include="grpc_server\server.cpp" />
+    <ClCompile Include="grpc_server\connect_reactor.cpp" />
     <ClCompile Include="grpc_server\service.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="proto\ez.grpc.pb.cc" />

@@ -95,6 +95,12 @@
     <ClCompile Include="proto\ez.grpc.pb.cc">
       <Filter>proto</Filter>
     </ClCompile>
+    <ClCompile Include="grpc_server\client_stream_reactor.cpp">
+      <Filter>源文件\grpc_server</Filter>
+    </ClCompile>
+    <ClCompile Include="grpc_server\connect_reactor.cpp">
+      <Filter>源文件\grpc_server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="proto\ez.proto">

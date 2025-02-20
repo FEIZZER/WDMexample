@@ -14,7 +14,7 @@ class client_connect_base
 public:
 	client_connect_base(unsigned long port);
 	client_connect_base(const std::string& ip, unsigned long port);
-	~client_connect_base();
+	virtual ~client_connect_base();
 
 	bool is_connected();
 
