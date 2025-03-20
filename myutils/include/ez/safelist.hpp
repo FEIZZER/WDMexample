@@ -49,7 +49,7 @@ public:
 		if (list_.empty()) {
 			return false;
 		}
-		item = list_.back();
+		item = std::move(list_.back());
 		list_.pop_back();
 		return true;
 	}
@@ -63,6 +63,7 @@ public:
 		list_.pop_front();
 		return true;
 	}
+
 
 	bool empty(){
 		read_lock lock(shared_mutex_);

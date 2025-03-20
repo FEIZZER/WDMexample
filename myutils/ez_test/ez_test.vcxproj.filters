@@ -36,9 +36,6 @@
     <ClCompile Include="..\ez_thread_pool\ez_thread_pool.cpp">
       <Filter>utils\ez_thread_pool</Filter>
     </ClCompile>
-    <ClCompile Include="mailsolt_test.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="..\ez_msg_queue\ez_msg_queue.cpp">
       <Filter>utils\ez_msg_queue</Filter>
     </ClCompile>

@@ -1,34 +1,32 @@
 #pragma once
 
 #define SPDLOG_WCHAR_TO_UTF8_SUPPORT
-
+#include <string>
 #include "spdlog/spdlog.h"
 #include "spdlog/async.h"
 #include "spdlog/sinks/rotating_file_sink.h"
-
 #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
+
+using namespace std;
 
 class fspdlog {
 public:
-
 	fspdlog(void) {}
 	~fspdlog(void) {}
 
-	static fspdlog* getInstance()
-	{
+	static fspdlog* getInstance() {
 		static fspdlog f_log;
 		return &f_log;
 	}
 
-	static bool initLog(const std::string& logName, const std::string& logFilePath)
-	{
+	static bool initLog(const std::string& logName, const std::string& logFilePath) {
 		// 不能使用 异步日志async_factory, 会导致UnHookWindows后, hook_dll无法被IM进程卸载
 		// todo
 		try
 		{
-			// fspdlog::getInstance()->f_file_logger = spdlog::rotating_logger_mt<spdlog::synchronous_factory>(logName, logFilePath, 1024 * 1024 * 5, 3);
-			fspdlog::getInstance()->f_file_logger = 
-				spdlog::rotating_logger_mt<spdlog::async_factory>(logName, logFilePath, 1024 * 1024 * 5, 3);
+			fspdlog::getInstance()->f_file_logger = spdlog::rotating_logger_mt<spdlog::synchronous_factory>(logName, logFilePath, 1024 * 1024 * 5, 3);
+			/*fspdlog::getInstance()->f_file_logger = 
+				spdlog::rotating_logger_mt<spdlog::async_factory>(logName, logFilePath, 1024 * 1024 * 5, 3);*/
 		}
 		catch (...)
 		{

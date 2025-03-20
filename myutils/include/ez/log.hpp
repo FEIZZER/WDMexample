@@ -23,13 +23,10 @@ public:
 
 	static bool initLog(const std::string& logName, const std::string& logFilePath)
 	{
-		// 不能使用 异步日志async_factory, 会导致UnHookWindows后, hook_dll无法被IM进程卸载
-		// todo
 		try
 		{
-			// fspdlog::getInstance()->f_file_logger = spdlog::rotating_logger_mt<spdlog::synchronous_factory>(logName, logFilePath, 1024 * 1024 * 5, 3);
 			fspdlog::getInstance()->f_file_logger =
-				spdlog::rotating_logger_mt<spdlog::async_factory>(logName, logFilePath, 1024 * 1024 * 5, 3);
+				spdlog::rotating_logger_mt<spdlog::synchronous_factory>(logName, logFilePath, 1024 * 1024 * 5, 3);
 		}
 		catch (...)
 		{

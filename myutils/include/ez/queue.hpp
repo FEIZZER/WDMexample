@@ -10,8 +10,8 @@ class queue
 {
 public:
 	~queue() = default;
-	explicit queue(std::size_t max) : max_size_(max) {}
 	explicit queue() : max_size_(1000) {}
+	explicit queue(std::size_t max) : max_size_(max) {}
 
 	queue(const queue&) = delete;
 	queue& operator=(const queue&) = delete;
@@ -76,6 +76,12 @@ public:
 	bool empty()
 	{
 		return queue_.empty();
+	}
+
+	std::size_t size()
+	{
+		std::unique_lock<std::shared_mutex> lock(mutex_);
+		return queue_.size();
 	}
 
 private:

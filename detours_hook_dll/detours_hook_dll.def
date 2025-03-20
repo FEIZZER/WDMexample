@@ -1,6 +1,1 @@
-LIBRARY detours_hook_dll
 
-EXPORTS
-
-SetHook
-UnHook
